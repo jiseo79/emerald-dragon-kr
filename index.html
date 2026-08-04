@@ -18,6 +18,15 @@
 <body class="landing-page">
   <div class="scanlines" aria-hidden="true"></div>
 
+  <!-- 게임 부팅 스플래시와 같은 화면. 6초 뒤 자동으로, 누르면 바로 넘어간다.
+       #board 같은 주소로 바로 들어온 사람은 볼 이유가 없으므로 건너뛴다. -->
+  <div id="boot" role="button" tabindex="0" aria-label="건너뛰기">
+    <div class="crt">
+      <div class="screen"><div class="ttl">Emerald Dragon</div><div class="r1">  1989 원작 Glodia</div><div class="r2">  1994 PCE Alfa System</div><div class="r3">  2025 영문 Supper/cccmar/Oddoai</div><div class="r4">  2026 한글 TopperJI/Mars-Drive</div></div>
+      <div class="skip">아무 곳이나 누르면 넘어갑니다</div>
+    </div>
+  </div>
+
   <header class="site-header">
     <a class="brand" href="#top" data-project-link>
       <span class="brand-mark">ED</span>
@@ -823,6 +832,48 @@
   </footer>
 
   <script>
+
+    /* ══════════════ 부팅 스플래시 ══════════════
+       게임과 같다 — 6초, 또는 누르면 노랑으로 바뀌며 넘어간다.
+       주소에 해시가 있으면(#board 등) 그 탭을 보러 온 것이므로 건너뛴다.
+       움직임을 싫어하는 사용자도 건너뛴다. */
+    (() => {
+      const boot = document.getElementById('boot');
+      if (!boot) return;
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let done = false, timer;
+
+      const off = () => {
+        boot.classList.add('gone');
+        setTimeout(() => boot.remove(), 550);
+      };
+      const handover = (pressed) => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        if (pressed && !reduce) { boot.classList.add('ack'); setTimeout(off, 220); }
+        else off();
+      };
+
+      if (reduce || location.hash) { boot.remove(); done = true; return; }
+
+      // 안전장치: 애니메이션이 돌지 않는 환경(백그라운드 탭 등)에서 글자가
+      // opacity 0 에 갇히면 검은 화면만 6초 보인다. 1.6초 뒤(마지막 줄 delay 1.15s +
+      // duration 0.5s) 아직 투명하면 애니메이션을 걷어내고 그냥 보여 준다.
+      setTimeout(() => {
+        boot.querySelectorAll('.screen > *').forEach(el => {
+          if (parseFloat(getComputedStyle(el).opacity) < 0.9) el.style.animation = 'none';
+        });
+      }, 1700);
+
+      timer = setTimeout(() => handover(false), 6000);
+      boot.addEventListener('click', () => handover(true));
+      boot.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handover(true); }
+      });
+      addEventListener('keydown', (e) => { if (!done && e.key !== 'Tab') handover(true); });
+    })();
+
     /* ══════════════ 스크롤 · 탭 ══════════════ */
     (() => {
       const root = document.documentElement;

@@ -3386,3 +3386,100 @@ body::after {
   .page-tabs .tab[aria-selected="true"] { animation: none; transition: color 180ms ease; }
   .page-tabs .tab:hover { transform: none; }
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   부팅 스플래시 — 게임 화면을 그대로 옮긴 것
+   ────────────────────────────────────────────────────────────────────
+   실기에서 디스크가 부팅할 때 나오는 연혁 화면과 같은 내용·같은 배치다.
+   글자를 왼쪽으로 조금 들여쓴 것도 실기와 맞춘 것이다 (BAT 32칸에서
+   최장 줄이 30칸이라 여백 1칸이 남는다).
+   ════════════════════════════════════════════════════════════════════ */
+#boot {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #020705;
+  cursor: pointer;
+}
+#boot.gone {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.crt {
+  position: relative;
+  width: min(86vw, 720px);
+  aspect-ratio: 8 / 7;          /* PC Engine 화면비 */
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 0 0 1px #16241d, 0 40px 120px -30px rgba(84, 245, 139, 0.18);
+}
+/* 주사선 */
+.crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom,
+    rgba(0, 0, 0, 0.34) 0 1px, transparent 1px 3px);
+}
+/* 브라운관 가장자리 어둠 */
+.crt::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(120% 120% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55));
+}
+
+.crt .screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 8%;
+  color: #6de89a;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: clamp(9px, 1.72vw, 15px);
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  white-space: pre;
+}
+.crt .screen .ttl {
+  margin-bottom: 1.9em;
+  padding-right: 8%;
+  text-align: center;
+}
+
+/* 누르면 노랑으로 한 번 반응하고 넘어간다 */
+#boot.ack .screen { color: var(--gold); }
+
+.crt .skip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6%;
+  z-index: 3;
+  text-align: center;
+  color: #5a6b60;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+}
+
+/* 한 줄씩 떠오른다 — 게임에서 연혁이 차례로 뜨는 것과 같게.
+   ⚠ fill-mode 를 both 로 두면 애니메이션이 돌지 않는 환경(탭이 백그라운드에
+     있거나 렌더러가 멈춘 경우)에서 opacity 0 에 갇혀 글자가 영영 안 보인다.
+     기본값을 1 로 두고 backwards 만 쓴다 — 안 돌면 그냥 즉시 보인다. */
+@keyframes boot-in { from { opacity: 0 } to { opacity: 1 } }
+.crt .screen > * { opacity: 1; animation: boot-in 0.5s ease backwards; }
+.crt .screen .ttl { animation-delay: 0.15s; }
+.crt .screen .r1  { animation-delay: 0.55s; }
+.crt .screen .r2  { animation-delay: 0.75s; }
+.crt .screen .r3  { animation-delay: 0.95s; }
+.crt .screen .r4  { animation-delay: 1.15s; }
