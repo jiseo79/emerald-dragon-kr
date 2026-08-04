@@ -304,13 +304,34 @@ function known(file, src) {
       </dl>
       <p style="margin:18px 0 0">
         <button class="btn primary" id="go">패치 적용하기</button>
-        <a class="btn" href="${src.xdelta.file}">xdelta 로 직접 하기</a>
+        <a class="btn" id="xd" href="index.html#patch">xdelta 로 직접 하기</a>
       </p>
       <p style="margin-top:12px; font-size:13px; color:var(--dim)">
-        xdelta 를 쓰신다면 <code>${src.xdelta.file.split('/').pop()}</code> 를 받으세요.
+        xdelta 를 쓰신다면 배포 페이지의 <b>${src.chain}</b> 항목,
+        <code>${src.xdelta.file.split('/').pop()}</code> 입니다.
       </p>
     </div>`);
   $('#go').onclick = () => apply(file, src);
+
+  /* xdelta 는 GitHub Releases 에 있다 — manifest 의 상대 경로로 두면 404 다.
+     links.json 의 주소를 받아 '바로 받기' 로 바꾼다. 판별이 끝나 어느 파일인지
+     이미 아는 상태이므로, 목록으로 보내 다시 고르게 하지 않는다.
+     주소가 비어 있으면 배포 페이지의 xdelta 탭으로 보낸다 (지금 링크 그대로). */
+  var xd = $('#xd');
+  fetch('links.json', {cache: 'no-cache'})
+    .then(r => r.ok ? r.json() : null)
+    .then(cfg => {
+      var e = cfg && cfg.downloads && cfg.downloads['xdelta-' + src.id];
+      if (!e || !e.url) return;
+      xd.href = e.url;
+      xd.textContent = 'xdelta 받기 (' + (e.size || '') + ')';
+      xd.setAttribute('rel', 'noopener noreferrer');
+      xd.removeAttribute('target');
+      if (BEACON) xd.addEventListener('click', function () {
+        BEACON({type: 'download', mode: 'xdelta-' + src.id});
+      });
+    })
+    .catch(() => { /* 못 받으면 배포 페이지 링크가 그대로 남는다 */ });
 }
 
 // ── 모르는 판 ──────────────────────────────────────────────

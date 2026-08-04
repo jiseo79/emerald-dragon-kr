@@ -32,7 +32,8 @@
    },
    "xdelta": {
     "file": "xdelta/emdr-ko-v0.6-rev1.xdelta"
-   }
+   },
+   "chain": "A · Rev 1"
   },
   {
    "id": "rev0",
@@ -52,7 +53,8 @@
    },
    "xdelta": {
     "file": "xdelta/emdr-ko-v0.6-rev0.xdelta"
-   }
+   },
+   "chain": "B · 초판"
   }
  ],
  "voice": null,
