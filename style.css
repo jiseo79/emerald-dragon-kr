@@ -3483,3 +3483,162 @@ body::after {
 .crt .screen .r2  { animation-delay: 0.75s; }
 .crt .screen .r3  { animation-delay: 0.95s; }
 .crt .screen .r4  { animation-delay: 1.15s; }
+
+/* ════════════════════════════════════════════════════════════════════
+   푸터 — 이스 IV 와 같은 구성
+   브랜드(로고+표기) · 이동 링크 · 만든 사람들, 그리고 배경에 큰 상호.
+   ════════════════════════════════════════════════════════════════════ */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+  padding: 0;
+  border-top: 1px solid rgba(84, 245, 139, 0.28);
+  background: #060d0a;
+}
+
+/* 배경에 깔리는 큰 상호 — 장식이라 화면 낭독기에는 잡히지 않는다 */
+.site-footer::before {
+  content: "MARS–DRIVE";
+  position: absolute;
+  right: -0.02em;
+  bottom: -0.3em;
+  font: 800 clamp(4rem, 15vw, 12rem)/1 inherit;
+  letter-spacing: -0.06em;
+  color: rgba(84, 245, 139, 0.045);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.site-footer .wrap {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 64px 6vw 68px;
+}
+
+.ftop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* ── 브랜드 ── */
+.fbrand {
+  display: grid;
+  grid-template-columns: 72px auto;
+  column-gap: 18px;
+  align-items: center;
+}
+.fbrand img {
+  grid-row: 1 / 4;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(241, 236, 220, 0.22), 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.fbrand .mark {
+  align-self: end;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--cream);
+}
+.fbrand .mark i { font-style: normal; color: var(--emerald); }
+.fbrand small {
+  align-self: start;
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+.fbrand .contact a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); }
+.fbrand .contact a:hover { color: var(--emerald); border-bottom-color: var(--emerald); }
+
+/* ── 이동 링크 ── */
+.flinks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  font-size: 0.88rem;
+}
+.flinks button,
+.flinks a {
+  appearance: none;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.flinks button:hover,
+.flinks a:hover { color: var(--emerald); border-bottom-color: var(--emerald); }
+
+/* ── 만든 사람들 ── */
+.fcredits { min-width: min(100%, 19rem); }
+.fcredits .lab {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--emerald);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.fcredits ul { list-style: none; margin: 0; padding: 0; }
+.fcredits li {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 2.1;
+  word-break: keep-all;
+}
+.fcredits li span {
+  display: inline-block;
+  width: 3.4em;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 11.5px;
+  opacity: 0.75;
+}
+.fcredits li b { color: var(--cream); font-weight: 600; }
+.fcredits li small { color: var(--muted); opacity: 0.8; }
+
+/* ── 아래쪽 고지 ── */
+.site-footer .legal,
+.site-footer .source-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.85;
+  max-width: 78ch;
+  word-break: keep-all;
+}
+.site-footer .legal {
+  margin-top: 44px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.site-footer .legal b { color: var(--cream); }
+.site-footer .source-note { margin-top: 14px; font-size: 0.75rem; opacity: 0.8; }
+.site-footer a { color: var(--muted); }
+.site-footer .legal a,
+.site-footer .source-note a { color: var(--emerald); text-decoration: none; border-bottom: 1px solid rgba(84,245,139,.35); }
+
+@media (max-width: 760px) {
+  .site-footer .wrap { padding: 48px 5vw 54px; }
+  .ftop { gap: 32px; }
+  .fbrand { grid-template-columns: 56px auto; column-gap: 14px; }
+  .fbrand img { width: 56px; height: 56px; }
+}
