@@ -16,9 +16,9 @@
   ],
   "version": "v0.6",
   "board": {
-    "url": ""
+    "url": "https://topperji.com/koPatch-ED/board/api.php"
   },
-  "stats_api": "",
+  "stats_api": "https://topperji.com/koPatch-ED/api.php",
   "video": {
     "youtube_id": "TGvVaI1FcRA"
   },
