@@ -1379,12 +1379,14 @@
             var T = d.totals || {}, g = function(k){ return T[k] || 0; };
             // ⚠ unique_visitors 는 '오늘' 값이다 — 서버가 uniq 표에서 어제 것을 지운다.
             //   누적과 나란히 두면 오해하므로 라벨에 기간을 밝힌다.
+            // 이 사이트를 쓰는 길은 둘이다 — 웹 패처로 바로 하거나, 파일을 받아 가거나.
+            // 그 둘이 나란히 보여야 어느 쪽이 얼마나 쓰이는지 읽힌다.
             [['오늘 방문자', d.unique_visitors || 0, false],
              ['누적 방문자', g('visit_unique'), false],
              ['전체 방문', g('visit'), true],
              ['패처 열기', g('open_patcher'), true],
-             ['원본 판별', g('detect_total'), true],
-             ['패치 완료', g('patch_total'), false]
+             ['웹 패처로 패치', g('patch_total'), false],
+             ['파일 받아감', g('dl_total'), false]
             ].forEach(function(c){
               var k = el('div', 'kpi' + (c[2] ? ' q' : ''));
               k.appendChild(el('b', null, c[1].toLocaleString()));
@@ -1398,10 +1400,11 @@
               if (k.indexOf('detect_') === 0 && k !== 'detect_total') de.push([LABEL[k] || k, T[k]]);
             });
             var byCount = function(a, b){ return b[1] - a[1]; };
-            bars('어느 판을 갖고 계신가', de.sort(byCount),
+            bars('웹 패처가 알아본 원본', de.sort(byCount),
                  '"모르는 덤프" 가 쌓이면 아직 알려지지 않은 판이 돌고 있다는 뜻입니다.');
-            bars('웹 패처로 패치한 횟수', pa.sort(byCount));
-            bars('파일 내려받기', dl.sort(byCount));
+            bars('웹 패처로 패치 — 어느 판에서', pa.sort(byCount));
+            bars('파일 받아감 — 무엇을', dl.sort(byCount),
+                 'xdelta 로 직접 하시는 분과 시스템 카드만 받아 가시는 분이 여기 잡힙니다.');
           })
           .catch(function(e){
             msg.hidden = false;
