@@ -1,0 +1,65 @@
+{
+ "format": "emdr-webpatch-1",
+ "version": "v0.6",
+ "game": "Emerald Dragon (PC Engine Super CD-ROM²)",
+ "geometry": {
+  "raw_sector": 2352,
+  "cooked_sector": 2048,
+  "data_track_lba": 3596,
+  "data_track_sectors": 49304
+ },
+ "result": {
+  "cooked_sha256": "1a8931113be780c8b5c24eb9680523829f127e509a39914ed74376937bef5f57",
+  "raw_size": 774506544,
+  "raw_sha256": "640e45ebab1806e8091f0e33100762830005a82e2ba31fbae7177d6bb5064e3b"
+ },
+ "sources": [
+  {
+   "id": "rev1",
+   "label": "Emerald Dragon (Japan) (Rev 1)",
+   "input": {
+    "size": 774506544,
+    "crc32": "e623b691",
+    "md5": "bacc4b20e23921686b320cce35c70af3",
+    "sha1": "4911ae9da102aaab15f696ae19e30b07a154752b",
+    "sha256": "b8da49dd4a695dc8282330a55efd7b56146c21bf350d61f9e94c778c07271df9"
+   },
+   "patch": {
+    "file": "patch/emdr-ko-v0.6-rev1.bin.gz",
+    "sectors": 1775,
+    "gz_size": 1627016,
+    "sha256": "4edd45e992e9923b75df801c38b645055c6421b4b5810336659b3c44c3dc6040"
+   },
+   "xdelta": {
+    "file": "xdelta/emdr-ko-v0.6-rev1.xdelta"
+   }
+  },
+  {
+   "id": "rev0",
+   "label": "Emerald Dragon (Japan)",
+   "input": {
+    "size": 774506544,
+    "crc32": "d21402df",
+    "md5": "f29b3d85ca2c1771fb2477a743714483",
+    "sha1": "16efb994053fc00dc9fd0727c160fdc9f445915e",
+    "sha256": "0c7edf216fe9bede1714a0ba065054c8f405db24e709317fa9b26d7202f83954"
+   },
+   "patch": {
+    "file": "patch/emdr-ko-v0.6-rev0.bin.gz",
+    "sectors": 2122,
+    "gz_size": 2076589,
+    "sha256": "fd0984258774f8d34719afc2a3fd3628a4ba3696485cb00ad13ff4668ad3b35a"
+   },
+   "xdelta": {
+    "file": "xdelta/emdr-ko-v0.6-rev0.xdelta"
+   }
+  }
+ ],
+ "voice": null,
+ "syscard": {
+  "file": "syscard/syscard3_KO.pce",
+  "size": 262144,
+  "sha256": "3417e86f94686d4afc31a06fca75f9e88cf89b2a61fd7ffa5fe297e030f83a49",
+  "note": "에메랄드 드래곤 + 이스 IV 한글 글꼴이 함께 들어 있다."
+ }
+}

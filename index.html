@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07110d">
+  <title>에메랄드 드래곤 — PC Engine 한국어 패치</title>
+  <meta name="description" content="PC Engine Super CD-ROM²용 에메랄드 드래곤 한국어 팬 패치. 원작에서 음성만 나오던 컷신에 스프라이트 한국어 자막을 구현했습니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="에메랄드 드래곤 — PC Engine 한국어 패치">
+  <meta property="og:description" content="1994년 PC Engine 판 에메랄드 드래곤 한글화. 대사·메뉴·컷신 자막까지 한국어로 옮겼습니다.">
+  <meta property="og:image" content="img/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="img/shot-title.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="landing-page">
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" data-project-link>
+      <span class="brand-mark">ED</span>
+      <span><b>EMERALD DRAGON</b><small>KOREAN FAN PATCH</small></span>
+    </a>
+
+    <nav class="main-nav" aria-label="주요 메뉴">
+      <a href="#film" data-project-link>영상</a>
+      <a href="#extras" data-project-link>기능</a>
+      <a href="#" data-tab="patch">패치하기</a>
+    </nav>
+
+    <div class="page-tabs" role="tablist" aria-label="페이지 보기">
+      <button type="button" role="tab" aria-selected="true" data-tab="project">에메랄드 드래곤 한글화</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="patch">패치하기</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="release">릴리스</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="devlog">제작일지</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="board">버그 신고<span class="tab-badge" id="board-badge" hidden></span></button>
+      <button type="button" role="tab" aria-selected="false" data-tab="stats">집계</button>
+      <button type="button" role="tab" aria-selected="false" data-tab="patches">한글패치 목록</button>
+    </div>
+  </header>
+
+  <main id="project-panel" data-panel="project">
+    <section class="hero" id="top">
+      <div class="hero-backdrop" aria-hidden="true"></div>
+      <div class="hero-noise" aria-hidden="true"></div>
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span>PC ENGINE</span><i></i><span>SUPER CD-ROM²</span></div>
+          <p class="status-line"><span class="status-dot"></span> 한국어 패치 v0.6</p>
+          <h1>에메랄드 드래곤<span>한글화</span></h1>
+          <p class="hero-description">1994년 PC Engine 판입니다. 대사·메뉴와 함께, <b>원작에서 음성만 나오던 컷신에 스프라이트 한국어 자막을 새로 구현했습니다.</b></p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="patcher.html" target="_blank" rel="noopener">웹 패처 실행 <span aria-hidden="true">→</span></a>
+            <a class="button button-ghost" href="https://youtu.be/TGvVaI1FcRA?si=ClScmMAbfK8t_jIm" target="_blank" rel="noreferrer">구동영상 보기 <span aria-hidden="true">↗</span></a>
+          </div>
+          <dl class="hero-facts">
+            <div><dt>LOCALIZATION</dt><dd>TOPPERJI</dd></div>
+            <div><dt>BASED ON</dt><dd>SUPPER · CCCMAR</dd></div>
+            <div><dt>LABEL</dt><dd>MARS–DRIVE</dd></div>
+            <div><dt>RELEASE</dt><dd>V0.6 · 2026</dd></div>
+          </dl>
+        </div>
+
+        <div class="hero-art reveal">
+          <div class="art-orbit" aria-hidden="true"></div>
+          <figure class="crt-card">
+            <div class="crt-label"><span>LOCALIZED SIGNAL</span><span>01 / 04</span></div>
+            <div class="crt-screen"><img src="img/shot-title.png" alt="에메랄드 드래곤 한국어 타이틀 화면"></div>
+            <figcaption><span>KOREAN TITLE SCREEN</span><span>PC ENGINE / PCE</span></figcaption>
+          </figure>
+          <p class="vertical-caption">ISH-BURN ARCHIVE · 2026</p>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#screens"><span>SCROLL TO DESCEND</span><i aria-hidden="true"></i></a>
+    </section>
+
+    <section class="signal-strip" aria-label="패치 특징">
+      <div><strong>01</strong><span>12,600여 항목 한국어화</span></div>
+      <div><strong>02</strong><span>음성 컷신 스프라이트 자막</span></div>
+      <div><strong>03</strong><span>브라우저 로컬 패치</span></div>
+      <div><strong>04</strong><span>초판·Rev 1 자동 판별</span></div>
+    </section>
+
+    <section class="showcase-section section" id="screens">
+      <div class="section-heading reveal">
+        <p class="section-index">01 / KOREAN EDITION</p>
+        <h2>게임 화면</h2>
+        <p>대사·메뉴·아이템·지명을 옮겼고, 원작에서 음성만 나오던 컷신에는 한국어 자막을 스프라이트로 띄웠습니다. 화면 폭과 스프라이트 한계 안에서 글자 수를 맞췄습니다.</p>
+      </div>
+      <div class="screenshot-grid reveal">
+        <figure class="screenshot-card screenshot-main"><img src="img/shot-cutscene.png" alt="한국어 컷신 자막"><figcaption><b>CUT SCENE</b><span>음성 위에 얹은 스프라이트 자막</span></figcaption></figure>
+        <figure class="screenshot-card"><img src="img/shot-shop.png" alt="한국어 상점 대화 장면"><figcaption><b>IN-GAME</b><span>대사와 화자 이름표</span></figcaption></figure>
+        <figure class="screenshot-card"><img src="img/shot-status.png" alt="한국어 장비·상태창"><figcaption><b>IN-GAME</b><span>장비와 상태창</span></figcaption></figure>
+      </div>
+    </section>
+
+    <section class="making-section section">
+      <div class="making-sticky reveal">
+        <p class="section-index">02 / TRANSLATION LOG</p>
+        <h2>진행 내용</h2>
+        <p>이 게임은 대사량이 여느 RPG와 비교가 안 되게 많습니다. 그런데 한국어로 옮기면 데이터가 원본보다 커지고, 들어갈 자리는 정해져 있습니다. 문장을 줄이고 압축을 짜내며 어떻게든 밀어 넣는 게 내내 일이었습니다.</p>
+        <button class="text-link" type="button" data-tab="devlog">제작일지 보기 <span aria-hidden="true">→</span></button>
+      </div>
+      <div class="process-list">
+        <article class="process-card reveal"><span>01</span><div><p>TEXT SYSTEM</p><h3>글꼴과 대사창</h3><p>12,600여 항목과 이름표 9,500여 행. 화면 폭에 맞추느라 문장을 계속 깎았습니다.</p></div></article>
+        <article class="process-card reveal"><span>02</span><div><p>VISUAL SCENE</p><h3>음성만 있던 컷신에 스프라이트 자막</h3><p>원작 컷신은 자막 없이 일본어 음성만 재생됩니다. 영문 패치가 만든 스프라이트 출력 구조를 이어받아 한국어 자막 35개 장면 505줄을 구현하고, 한 화면 2줄·240픽셀 안에 맞췄습니다.</p></div></article>
+        <article class="process-card reveal"><span>03</span><div><p>TEST PIPELINE</p><h3>초판과 Rev 1</h3><p>둘을 자동으로 가려냅니다. 어느 쪽에서 시작해도 결과가 같은지 왕복으로 확인했습니다.</p></div></article>
+      </div>
+    </section>
+
+    <section class="tools-section section" id="tools">
+      <div class="section-heading reveal">
+        <p class="section-index">03 / PRODUCTION TOOLS</p>
+        <h2>직접 만든 도구</h2>
+        <p>14,674줄을 눈으로 세는 건 불가능해서 도구를 먼저 만들었습니다. 음성 쪽도 같은 이유로 만들었는데, 그쪽은 쓰다가 멈춰 있습니다.</p>
+      </div>
+      <div class="tool-brief">
+        <article class="tool-brief-card reveal">
+          <span class="tool-brief-tag">사용 중</span>
+          <h3>번역·감수 툴</h3>
+          <p>고친 문장을 <b>게임 화면 그대로 미리 그려 줍니다.</b> 대사 종류마다 창 폭이 달라서
+            같은 문장도 어디 나오느냐에 따라 넘치고 안 넘치고가 갈립니다. 픽셀로 재서 한도를 넘는 것만 걸러 봅니다.</p>
+        </article>
+        <article class="tool-brief-card reveal">
+          <span class="tool-brief-tag tool-brief-hold">보류</span>
+          <h3>음성패치 툴</h3>
+          <p>컷신 음성 <b>335개</b>를 뽑아 원문·번역·화자·연기 메모를 정리하고 원본과 만든 음성을 나란히 듣는 도구입니다.
+            <b>더빙을 할지 정하지 못해 멈춰 뒀습니다.</b></p>
+        </article>
+      </div>
+      <p class="tools-foot reveal">두 도구의 화면과 왜 음성을 멈췄는지는 <button class="text-link" type="button" data-tab="devlog">제작일지 <span aria-hidden="true">→</span></button></p>
+    </section>
+
+    <section class="film-section section" id="film">
+      <div class="section-heading reveal">
+        <p class="section-index">04 / DEVELOPMENT FILM</p>
+        <h2>돌아가는 화면</h2>
+        <p>실기 화면에서 일반 대사와, 원래 음성만 나오던 컷신 위에 스프라이트 한국어 자막이 표시되는 모습을 확인할 수 있습니다.</p>
+      </div>
+      <div class="film-frame reveal">
+        <div class="film-meta"><span>REC ●</span><span>DEV LOG / AUG 2026</span></div>
+        <div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/TGvVaI1FcRA?rel=0" title="PC엔진 에메랄드 드래곤 한글화 구동 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe></div>
+        <div class="film-caption"><div><b>[PCE] 에메랄드 드래곤 한글화</b><span>일반 대사와 음성 컷신 스프라이트 자막 구동 화면</span></div><a href="https://youtu.be/TGvVaI1FcRA?si=ClScmMAbfK8t_jIm" target="_blank" rel="noreferrer">YOUTUBE에서 보기 <span aria-hidden="true">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="extras-section section" id="extras">
+      <div class="section-heading reveal">
+        <p class="section-index">05 / QUALITY OF LIFE</p>
+        <h2>안 끄고 둔 것들</h2>
+        <p>번역 확인용으로 단축 메뉴에 넣은 것들입니다. 다 끝나고 뺄까 하다 그냥 뒀습니다. <b>쓰지 않으면 없는 것과 같습니다.</b></p>
+      </div>
+      <div class="extras-grid">
+        <article class="extra-card reveal">
+          <span class="extra-flag extra-ours">추가한 것</span>
+          <h3>디버그 메뉴</h3>
+          <p>원판에 잠들어 있던 개발자용 화면입니다. 부를 방법이 없던 걸 메뉴에서 열 수 있게 했습니다. 이동·레벨·아이템이 다 됩니다.</p>
+          <p class="extra-note">화면이 원판 그대로라 <b>표시는 영문</b>입니다. 만든 게 아니라 깨운 것뿐입니다.</p>
+        </article>
+        <article class="extra-card reveal">
+          <span class="extra-flag extra-ours">추가한 것</span>
+          <h3>적 출현 끄기</h3>
+          <p>돌아다니면 알아서 전투가 붙는 게임인데, <b>켜면 걸리지 않습니다.</b> 지역을 훑으며 대사만 볼 때 쓰던 것인데, 레벨 안 올리고 이야기만 보고 싶을 때도 쓸 만합니다.</p>
+        </article>
+        <article class="extra-card reveal">
+          <span class="extra-flag extra-ours">추가한 것</span>
+          <h3>텔레포트</h3>
+          <p>가 본 곳으로 바로 갑니다.</p>
+        </article>
+      </div>
+      <p class="extras-foot reveal">셋 다 원래 없던 것을 단축 메뉴에 넣은 겁니다. 평범하게 진행하시면 마주칠 일이 없습니다.</p>
+    </section>
+
+    <section class="cta-section section" id="get">
+      <div class="section-heading reveal">
+        <p class="section-index">06 / GET THE PATCH</p>
+        <h2>패치 받기</h2>
+        <p>정품에서 뜬 원본이 필요합니다. 웹 패처는 파일을 서버로 보내지 않습니다. xdelta 쪽을 선호하시면 그것도 있습니다.</p>
+      </div>
+      <div class="cta-row reveal">
+        <button class="button button-primary" type="button" data-tab="patch">패치하기 <span aria-hidden="true">→</span></button>
+        <a class="button button-ghost" href="patcher.html" target="_blank" rel="noopener">웹 패처 바로 열기 <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="cta-note reveal"><b>시스템 카드도 같이 받으셔야 합니다.</b> 한글 글꼴이 CD 가 아니라 카드 안에 들어 있습니다.</p>
+    </section>
+
+    <section class="journal-section section" id="journal">
+      <div class="journal-card reveal">
+        <div class="journal-date"><span>2026</span><b>08.03</b></div>
+        <div class="journal-copy"><p class="section-index">07 / MAKER'S JOURNAL</p><blockquote>“무더운 여름,<br>또 하나의 한글화를 시작했다.”</blockquote><p>이스 IV에서 정리한 파이프라인을 다른 게임에도 적용할 수 있을까. 그 궁금증에서 시작된 첫 기록입니다.</p><a class="button button-primary" href="https://blog.naver.com/hyper1234/224366574643" target="_blank" rel="noreferrer">네이버 블로그에서 읽기 <span aria-hidden="true">↗</span></a></div>
+        <div class="journal-glyph" aria-hidden="true">龍</div>
+      </div>
+    </section>
+  </main>
+
+  <main class="patch-page" id="patch-panel" data-panel="patch" hidden>
+    <div class="library-hero">
+      <p class="section-index">GET THE PATCH</p>
+      <h1>패치하기</h1>
+      <p>둘 중 편한 쪽으로 하시면 됩니다. <b>결과물은 바이트까지 같습니다.</b></p>
+    </div>
+
+    <div class="subtabs" role="tablist" aria-label="패치 방법">
+      <button class="subtab" type="button" role="tab" aria-selected="true" data-subtab="web">
+        <span class="ic">⚡</span>
+        <span class="tx"><b>웹 패처로 바로 패치</b><small>설치 없이 브라우저에서 · 어느 판인지 알아서 판별합니다</small></span>
+      </button>
+      <button class="subtab" type="button" role="tab" aria-selected="false" data-subtab="xd">
+        <span class="ic">⤓</span>
+        <span class="tx"><b>xdelta 파일 받기</b><small>직접 적용하실 분 · 원본이 정확히 일치해야 합니다</small></span>
+      </button>
+    </div>
+
+    <!-- 웹 패처 -->
+    <div class="subpanel" data-subpanel="web">
+      <p class="lead">설치할 것이 없습니다. 브라우저에서 파일을 고르면 끝납니다.
+        <b>초판인지 Rev 1인지 몰라도 됩니다</b> — 넣으시면 알아서 가려냅니다.</p>
+      <p><a class="button button-primary" href="patcher.html" target="_blank" rel="noopener">웹 패처 열기 <span aria-hidden="true">↗</span></a></p>
+
+      <ol class="steps">
+        <li><b>원본 넣기</b> — <code>.bin</code> 파일 (보통 774 MB). 초판이든 Rev 1이든 상관없습니다</li>
+        <li><b>판별</b> — 크기와 CRC32 를 계산해 어느 판인지 알려 줍니다. <b>여기까지만 하고 나가셔도 됩니다</b></li>
+        <li><b>패치 실행</b> → <code>EmeraldDragon_KO.img</code> 를 저장합니다</li>
+        <li><b>시스템 카드 받기</b> — 안 넣으면 부팅할 때 안내 화면에서 멈춥니다</li>
+        <li><b><code>.cue</code> 받기</b> — 패치가 끝나면 같이 받으시면 됩니다. <b>고치실 것 없습니다</b></li>
+      </ol>
+
+      <div class="board-callout">
+        <span class="lab">파일은 서버로 가지 않습니다</span>
+        <p>브라우저 안에서만 읽고 씁니다. 개발자도구(<code>F12</code>)의 네트워크 탭을 켜 두고
+          패치해 보시면 직접 확인하실 수 있습니다. <b>계산한 CRC32 조차 보내지 않습니다.</b></p>
+      </div>
+
+      <div class="board-callout">
+        <span class="lab">모르는 판이 나오면</span>
+        <p>화면에 해시가 뜨고 복사 단추가 생깁니다. 그걸 <a href="#" data-tab="board">버그 신고</a>로
+          알려 주시면 그 판에 맞는 패치를 만들어 추가할 수 있습니다.</p>
+      </div>
+
+      <p class="hint"><b>크롬 · 엣지 · 웨일</b>을 권합니다. 774 MB 를 다루므로 메모리에 여유가 있는 편이 좋습니다.</p>
+    </div>
+
+    <!-- xdelta -->
+    <div class="subpanel" data-subpanel="xd" hidden>
+      <p class="lead"><b>원본이 바이트 단위로 정확히 일치해야</b> 적용됩니다.
+        립이 다르거나 트랙 구성이 다르면 xdelta3 가 거부합니다 — 그때는 웹 패처를 쓰세요.</p>
+      <p class="hint">적용: <code>xdelta3 -d -s &lt;원본&gt; &lt;패치.xdelta&gt; &lt;출력&gt;</code></p>
+      <p class="hint"><b><code>.cue</code> 는 아래 "결과" 칸에서 받으시면 됩니다.</b>
+        초판과 Rev 1 의 트랙 배치가 같아서 <b>어느 쪽으로 패치하셨든 이 하나면 됩니다.</b></p>
+
+      <div class="board-callout">
+        <span class="lab">어느 것을 받아야 할지 모르시면</span>
+        <p><a href="patcher.html" target="_blank" rel="noopener">웹 패처</a>에 파일을 넣어 보세요. <b>판별만 하고 받을 파일 이름을 알려 드립니다</b> —
+          패치까지 안 하셔도 됩니다. 명령어로 해시를 뽑는 것보다 빠릅니다.</p>
+      </div>
+
+      <div class="chainbox">
+        <div class="chainhead">
+          <span class="tag">A</span>
+          <span class="flow"><b>Emerald Dragon (Japan) (Rev 1)</b> <i>→</i> <b>한국어판</b></span>
+        </div>
+        <p class="chainnote">나중에 나온 판입니다. 슬롯머신 소지금 관련 수정이 들어 있습니다 —
+          초판과 <b>1.18%</b>만 다르고 실제 변경은 <b>8바이트</b>입니다.</p>
+        <div class="scroll">
+          <table class="chain">
+            <tbody>
+              <tr><td class="k">원본 크기</td><td class="mono">774,506,544 B</td></tr>
+              <tr><td class="k">원본 CRC32</td><td class="mono">e623b691</td></tr>
+              <tr><td class="k">원본 SHA256</td><td class="mono sm">b8da49dd4a695dc8282330a55efd7b56146c21bf350d61f9e94c778c07271df9</td></tr>
+              <tr><td class="k">받을 파일</td>
+                  <td><a class="dlname" href="#" data-dl="xdelta-rev1" aria-disabled="true">emdr-ko-v0.6-rev1.xdelta</a>
+                      <span class="n">495 KB</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chainbox">
+        <div class="chainhead">
+          <span class="tag">B</span>
+          <span class="flow"><b>Emerald Dragon (Japan) 초판</b> <i>→</i> <b>한국어판</b></span>
+        </div>
+        <p class="chainnote">처음 나온 판입니다. 영문 번역 패치는 Rev 1 전용이지만
+          <b>그건 빌드할 때 이야기</b>이고, 이미 만들어진 결과물을 적용하는 것은 별개라
+          초판용도 따로 만들었습니다.</p>
+        <div class="scroll">
+          <table class="chain">
+            <tbody>
+              <tr><td class="k">원본 크기</td><td class="mono">774,506,544 B</td></tr>
+              <tr><td class="k">원본 CRC32</td><td class="mono">d21402df</td></tr>
+              <tr><td class="k">원본 SHA256</td><td class="mono sm">0c7edf216fe9bede1714a0ba065054c8f405db24e709317fa9b26d7202f83954</td></tr>
+              <tr><td class="k">받을 파일</td>
+                  <td><a class="dlname" href="#" data-dl="xdelta-rev0" aria-disabled="true">emdr-ko-v0.6-rev0.xdelta</a>
+                      <span class="n">712 KB</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chainbox chainbox-out">
+        <div class="chainhead">
+          <span class="tag tag-ok">결과</span>
+          <span class="flow"><b>A 로 하든 B 로 하든 같은 파일이 나옵니다</b></span>
+        </div>
+        <p class="chainnote">왕복 검증을 마쳤습니다. 아래 해시가 다르면 원본이나 적용 과정에 문제가 있는 것입니다.</p>
+        <div class="scroll">
+          <table class="chain">
+            <tbody>
+              <tr><td class="k">크기</td><td class="mono">774,506,544 B</td></tr>
+              <tr><td class="k">SHA256</td><td class="mono sm">640e45ebab1806e8091f0e33100762830005a82e2ba31fbae7177d6bb5064e3b</td></tr>
+              <tr><td class="k">함께 받을 것</td>
+                  <td><a class="dlname" href="EmeraldDragon_KO.cue" download>EmeraldDragon_KO.cue</a>
+                      <span class="n">2.5 KB</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chainbox">
+        <div class="chainhead">
+          <span class="tag tag-must">필수</span>
+          <span class="flow"><b>한국어 시스템 카드</b></span>
+        </div>
+        <p class="chainnote">이미지만 패치하고 순정 카드로 실행하면 <b>부팅할 때 안내 화면에서 멈춥니다.</b>
+          한글 글꼴이 CD 가 아니라 시스템 카드 쪽에 들어가기 때문입니다.<br>
+          <b>순정 <code>syscard3.pce</code>(256 KB)에 적용하는 패치</b>입니다 — 카드 파일 자체는 배포하지 않습니다.
+          순정이 아니면 xdelta3 가 거부하므로, 카드가 맞는지도 이걸로 확인됩니다.</p>
+        <div class="scroll">
+          <table class="chain">
+            <tbody>
+              <tr><td class="k">원본</td><td class="mono">순정 syscard3.pce · 262,144 B</td></tr>
+              <tr><td class="k">원본 SHA256</td><td class="mono sm">e11527b3b96ce112a037138988ca72fd117a6b0779c2480d9e03eaebece3d9ce</td></tr>
+              <tr><td class="k">결과 SHA256</td><td class="mono sm">3417e86f94686d4afc31a06fca75f9e88cf89b2a61fd7ffa5fe297e030f83a49</td></tr>
+              <tr><td class="k">받을 파일</td>
+                  <td><a class="dlname" href="#" data-dl="syscard" aria-disabled="true">emdr-ko-v0.6-syscard.xdelta</a>
+                      <span class="n">30 KB</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="board-callout" style="margin-top:18px">
+          <span class="lab">이스 IV 한국어판을 이미 쓰고 계시면</span>
+          <p>이 카드 <b>하나로 두 게임이 다 됩니다.</b> 두 글꼴이 카드 안에서 겹치는 자리가 없습니다.
+            이스 IV 쪽 카드를 지우고 이걸 넣으셔도 됩니다.</p>
+        </div>
+      </div>
+
+      <p style="margin-top:26px"><a class="button button-ghost" href="xdelta/CHECKSUMS.txt" data-dl="checksums">CHECKSUMS.txt 전체 보기 <span aria-hidden="true">↗</span></a></p>
+    </div>
+
+    <!-- 두 방법 공통 -->
+    <div class="patch-common">
+      <h3 class="board-listhead">넣고 실행하기</h3>
+      <ol class="install-steps">
+        <li><span>01</span><div><b>한글 시스템 카드</b><p>웹 패처 <b>2단계</b>에서 순정 <code>syscard3.pce</code> 를 넣으면 한글 카드를 만들어 줍니다. 그 파일을 에뮬레이터 펌웨어 폴더에 <b><code>syscard3.pce</code> 라는 이름으로</b> 넣으세요. 레트로아크는 <code>system/</code> 폴더입니다.</p></div></li>
+        <li><span>02</span><div><b><code>.cue</code> 를 같은 폴더에</b><p>패처와 아래 목록에서 <b>바로 받으실 수 있습니다.</b> 트랙 배치가 이 파일에 들어 있어서 <b><code>.img</code> 를 직접 열면 소리가 안 납니다.</b> 이미지 이름을 바꾸시려면 <code>.cue</code> 첫 줄도 같이 바꿔 주세요.</p></div></li>
+        <li><span>03</span><div><b>실행</b><p><code>.cue</code> 를 여세요. Mesen 또는 레트로아크의 <b>Beetle PCE</b> 코어를 권합니다 — 다른 PCE 코어는 이 형식을 제대로 못 읽는 경우가 있습니다.</p></div></li>
+      </ol>
+
+      <h3 class="board-listhead">부팅하면 이 화면이 먼저 나옵니다</h3>
+      <p class="boot-lead">시스템 카드를 제대로 넣었는지는 <b>게임을 시작하기 전에</b> 알 수 있습니다.
+        디스크가 부팅하면서 화면을 하나 띄우는데, <b>카드에 따라 다른 화면이 나옵니다.</b></p>
+
+      <div class="boot-compare">
+        <figure class="boot-screen boot-ok">
+          <figcaption class="boot-cap">
+            <b>한국어 시스템 카드</b>
+            <span>6초쯤 지나면 게임으로 넘어갑니다. 버튼을 누르면 바로 넘어갑니다.</span>
+          </figcaption>
+          <div class="boot-view">
+            <pre>      Emerald Dragon
+
+
+ 1989 원작 Glodia
+
+ 1994 PCE Alfa System
+
+ 2025 영문 Supper/cccmar/Oddoai
+
+ 2026 한글 TopperJI/Mars-Drive</pre>
+          </div>
+          <p class="boot-verdict boot-verdict-ok">한글이 보이면 카드가 맞습니다</p>
+        </figure>
+
+        <figure class="boot-screen boot-bad">
+          <figcaption class="boot-cap">
+            <b>순정 시스템 카드</b>
+            <span>여기서 멈춥니다. 아무 버튼도 듣지 않습니다.</span>
+          </figcaption>
+          <div class="boot-view">
+            <pre> KOREAN SYSTEM CARD REQUIRED
+
+
+ PLEASE INSERT IT AND RESET.
+
+
+       MARS-DRIVE 2026</pre>
+          </div>
+          <p class="boot-verdict boot-verdict-bad">전부 영문이면 카드가 순정입니다</p>
+        </figure>
+      </div>
+
+      <div class="board-callout">
+        <span class="lab">왜 멈추게 해 뒀나</span>
+        <p>순정 카드로도 게임은 <b>돌아갑니다.</b> 다만 한글 글꼴이 카드 안에 있어서
+          <b>글자가 전부 깨진 채로</b> 진행됩니다. 그 상태로 몇 시간을 하다가 원인을 찾는 것보다,
+          시작하기 전에 멈추고 알려 드리는 편이 낫다고 보아 일부러 넣은 장치입니다.</p>
+        <p style="margin-top:10px">그러니 <b>이 화면이 나온 것 자체는 고장이 아닙니다.</b>
+          카드를 바꿔 넣고 다시 시작하시면 됩니다.</p>
+      </div>
+
+      <h3 class="board-listhead">잘 안 될 때</h3>
+      <div class="trouble-grid">
+        <div class="trouble-item"><b>글자가 깨진다</b><span>시스템 카드가 순정입니다. 웹 패처 2단계에서 한글 카드를 만들어 <code>syscard3.pce</code> 이름으로 넣으세요.</span></div>
+        <div class="trouble-item"><b>안내 화면에서 멈춘다</b><span>같은 원인입니다. 글자가 깨진 채로 진행되는 것보다 낫다고 보아 일부러 넣은 장치입니다.</span></div>
+        <div class="trouble-item"><b>소리가 안 난다</b><span><code>.cue</code> 를 열었는지 확인하세요. 오디오 트랙 정보가 거기 있습니다.</span></div>
+        <div class="trouble-item"><b>xdelta3 가 거부한다</b><span>원본이 다릅니다. 웹 패처를 쓰시면 판별부터 해 드립니다.</span></div>
+        <div class="trouble-item"><b>패처가 원본을 못 알아본다</b><span>모르는 덤프입니다. 화면의 해시를 <a href="#" data-tab="board">신고 탭</a>으로 알려 주세요.</span></div>
+      </div>
+    </div>
+  </main>
+
+  <main class="release-page" id="release-panel" data-panel="release" hidden>
+    <div class="library-hero">
+      <p class="section-index">RELEASE NOTES</p>
+      <h1>v0.6</h1>
+      <p>첫 공개입니다. 본편을 처음부터 끝까지 한국어로 진행할 수 있습니다. 아직 다듬을 곳이 남았지만, 여기서부터는 같이 보는 편이 빠르겠다 싶었습니다.</p>
+    </div>
+
+    <div class="rel-body">
+      <ul class="tick rel-summary">
+        <li><b>대사·메뉴·아이템·지명</b> 12,600여 항목, <b>화자 이름표</b> 9,500여 행</li>
+        <li><b>자막 없이 음성만 나오던 컷신</b> — 한국어 자막 35개 장면 505줄을 스프라이트로 구현했습니다</li>
+        <li><b>음성패치 툴 · 번역/감수 툴</b> — 335개 컷신 음성과 12,600여 텍스트를 추적하고 검수했습니다</li>
+        <li><b>한글 타이틀 화면</b>과 <b>엔딩 크레딧</b></li>
+        <li><b>초판·Rev 1 둘 다 지원</b> — 어느 쪽에서 시작해도 결과물이 같습니다</li>
+        <li><b>부팅 안내 화면</b> — 카드를 안 넣으면 깨진 글자 대신 여기서 멈춥니다</li>
+      </ul>
+
+      <h2 class="rel-h">아직 남은 것</h2>
+      <ul class="tick">
+        <li><b>일부 장면의 검은 띠</b> — 31곳 중 21곳을 고쳤습니다</li>
+        <li><b>전투 중 일부 글자 깨짐</b> — 8×8 이름과 좁은 표시 방식이 부딪히는 것으로 보입니다</li>
+        <li><b>전투 상태이상 약어</b> — 영문 패치가 만든 것이라 뜻을 확정하지 못했습니다</li>
+        <li><b>스태프롤 · 슬롯 · 사격 게임 · 오류 화면</b> — 별도 모듈이라 한글 렌더러가 안 닿습니다</li>
+      </ul>
+
+      <h2 class="rel-h">이전 판</h2>
+      <p class="rel-lead">v0.6 이 첫 공개입니다. 그 앞은 내부 빌드였습니다.</p>
+      <p class="rel-foot" style="margin:0 0 20px">이 패치는 <b>Supper · cccmar · Oddoai-sama</b> 의 영문 번역 패치(2025) 위에서 만들었습니다. 원작은 <b>Glodia</b>(1989), PC Engine 이식은 <b>Alfa System</b>(1994) 입니다.</p>
+      <div class="rel-past">
+        <div><b>v0.5.2</b><span>한글 타이틀 · 음성 컷신 스프라이트 자막 복구 · 레트로아크 패키지</span></div>
+        <div><b>v0.5</b><span>화자 이름표 9,539행 · 부팅 안내 · 상점과 상태창</span></div>
+        <div><b>v0.4.1</b><span>빌드 안전망 — 실패가 원본을 덮어쓰던 사고</span></div>
+        <div><b>v0.4</b><span>용량 벽 돌파 · 검수 도구 수리</span></div>
+        <div><b>v0.3</b><span>젤메스 숲 일대 649건 · 용량 한계 실측</span></div>
+        <div><b>v0.2.3</b><span>검사 도구가 한글 컷신을 오탐하던 것</span></div>
+        <div><b>v0.2.1</b><span>압축 사전 버그 — <code>Text</code> 가 <code>Texe</code> 로</span></div>
+        <div class="rel-past-mark"><b>v0.2</b><span>한글이 게임 화면에 처음 떴습니다</span></div>
+        <div><b>v0.1</b><span>영문 패치 빌드 완주 · 원본 판별</span></div>
+      </div>
+      <p class="rel-foot">번호가 띄엄띄엄한 자리는 그날 빌드가 죽었거나 고친 걸 되돌린 자리입니다.</p>
+    </div>
+  </main>
+
+  <main class="release-page" id="devlog-panel" data-panel="devlog" hidden>
+    <div class="library-hero">
+      <p class="section-index">DEVELOPMENT LOG</p>
+      <h1>제작일지</h1>
+      <p>7월 31일에 시작해 나흘 만에 화면이 한국어가 됐습니다. 그 사이에 막힌 곳, 헛짚은 곳, 만들다 만 것을 그대로 적었습니다.</p>
+    </div>
+
+    <div class="rel-body">
+      <h2 class="rel-h">단축 메뉴에 넣은 것</h2>
+      <p class="rel-lead">셋 다 <b>원래 없던 것을 저희가 넣었습니다.</b> 번역을 확인하려면 게임 곳곳을
+        빠르게 돌아다녀야 해서 만든 것인데, 다 끝나고 뺄까 하다 그냥 뒀습니다.
+        쓰지 않으면 없는 것과 같습니다.</p>
+
+      <ol class="rel-num">
+        <li>
+          <span class="rel-n">01</span>
+          <div>
+            <h3>디버그 메뉴</h3>
+            <p>원판에 개발자용 화면이 잠들어 있었습니다. 부를 방법이 없던 걸 메뉴에서 열 수 있게 했습니다.
+              이동·레벨·아이템이 다 됩니다.</p>
+            <p class="rel-sub">화면이 원판 그대로라 <b>표시는 영문</b>입니다. 만든 게 아니라 깨운 것뿐입니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">02</span>
+          <div>
+            <h3>적 출현 끄기</h3>
+            <p>돌아다니면 알아서 전투가 붙는 게임입니다. <b>켜 두면 걸리지 않습니다.</b>
+              지역을 훑으며 대사만 확인할 때 쓰던 것인데, 레벨 안 올리고 이야기만 보고 싶을 때도 쓸 만합니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">03</span>
+          <div>
+            <h3>텔레포트</h3>
+            <p>가 본 곳으로 바로 갑니다.</p>
+          </div>
+        </li>
+      </ol>
+
+      <h2 class="rel-h">막혔던 곳</h2>
+      <p class="rel-lead">7월 31일에 시작해 나흘 만에 화면이 한국어가 됐습니다. 그 사이 벽이 몇 번 있었습니다.</p>
+
+      <ol class="rel-num">
+        <li>
+          <span class="rel-n">01</span>
+          <div>
+            <h3>원본부터 온전하지 않았다</h3>
+            <p>갖고 있던 파일에서 <b>오디오 42.5분</b>이 통째로 빠져 있었습니다. 후반부 음악이 안 나오던 이유입니다.
+              목록엔 트랙이 다 있다고 적혀 있었는데 파일은 중간에서 끝나 있었습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">02</span>
+          <div>
+            <h3>한국어가 짧으니 용량이 줄 거라 생각했다</h3>
+            <p>반대였습니다. 원본은 같은 문장을 사전으로 거의 공짜 처리하는데 한글은 그 이득을 못 받습니다.
+              <b>번역할수록 커졌습니다.</b></p>
+            <p class="rel-sub">사전이 게임 전체에서 공유되는 것도 몰랐습니다. 숲 하나 번역했더니 다른 지역이 전부 커졌습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">03</span>
+          <div>
+            <h3>압축 사전이 한글을 아예 거르고 있었다</h3>
+            <p>자주 나오는 글자 짝을 사전에 넣는 구조인데, 그 판정이 한글을 통째로 걸러냈습니다.
+              <b>한국어 압축률이 정확히 0</b>이었습니다.</p>
+            <p class="rel-sub">영문 시절 넣어 둔 "특정 지역 40배 우대" 설정도 남아 있어서, 쓰지도 못할 사전 자리를 축내고 있었습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">04</span>
+          <div>
+            <h3>빌드가 실패하면 일본어판이 남는다</h3>
+            <p>일본어판을 복사한 뒤 덮어쓰는 순서라, 중간에 죽으면 <b>멀쩡한 일본어판</b>이 남습니다.
+              실패한 줄 모르고 열면 게임은 잘 돌아가는데 한국어도 영어도 없습니다.</p>
+            <p class="rel-sub">파일 크기와 해시가 바뀐 걸 "반영됐다"로 읽은 게 화근이었습니다. 그 위에 틀린 진단을 둘 더 쌓았습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">05</span>
+          <div>
+            <h3><code>Text</code> 가 <code>Texe</code> 로 나왔다</h3>
+            <p><code>Not</code>은 <code>Noe</code>, <code>carrying</code>은 <code>carryang</code>.
+              CPU 명령 앞에 붙인 한 줄이 사전에서 <b>한 칸 앞</b>을 읽게 만들고 있었습니다.</p>
+            <p class="rel-sub">높은 번호는 우연히 맞아떨어져 더 늦게 드러났습니다. 실기 화면을 보고 짚어 주신 덕에 잡았습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">06</span>
+          <div>
+            <h3>이름이 영어로 남은 건 기술 문제가 아니었다</h3>
+            <p>렌더러를 의심했는데, 그 이름이 <b>다른 칸에 따로</b> 들어 있는 걸 못 본 것이었습니다.
+              찾고 나니 <b>9,539행</b>이 한 번에 바뀌었습니다.</p>
+            <p class="rel-sub">영어를 열쇠로 쓰면 안 됐습니다. <code>Girl</code> 하나가 일본어로는 <b>少女·娘·女の子</b> 셋입니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">07</span>
+          <div>
+            <h3>ROM 에 빈자리가 없었다</h3>
+            <p>영문 패치를 그대로 구운 상태에서 이미 <b>뱅크 217개 중 119개가 여유 0바이트</b>였습니다.
+              글꼴과 렌더러를 어디 넣을지가 계속 문제였습니다.</p>
+          </div>
+        </li>
+      </ol>
+
+      <h2 class="rel-h">음성만 있던 컷신에 스프라이트 자막</h2>
+      <p class="rel-lead">이번 릴리스의 핵심 작업입니다. 원작 컷신은 <b>자막 없이 일본어 음성만</b> 나옵니다. 그 장면들 위에 <b>스프라이트 한국어 자막 35개 장면 505줄</b>을 구현했습니다. 한 화면의 한계는 <b>2줄 × 240픽셀</b>입니다.</p>
+
+      <ol class="rel-num">
+        <li>
+          <span class="rel-n">01</span>
+          <div>
+            <h3>자막 없는 음성 장면 위에 새로 띄웠다</h3>
+            <p>일본어판 컷신은 <b>음성만 나오고 자막이 전혀 없습니다.</b> 영문 패치가 나중에 마련한 출력 구조를 이어받아,
+              한국어판에서는 일본어 원문을 직접 옮긴 문장을 화면 위에 띄웠습니다.</p>
+            <p class="rel-sub">방식은 <b>스프라이트</b>입니다. 배경에 박아 넣은 그림이 아니라 캐릭터처럼 매 프레임 화면 위에 그리는 자막입니다.
+              그래서 글자를 바꾸는 것만으로 끝나지 않고 색·개수·메모리·프레임 처리까지 함께 맞춰야 했습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">02</span>
+          <div>
+            <h3>스프라이트라서 엔딩 3줄이 안 보였다</h3>
+            <p>화면이 서서히 밝아지는 동안에는 <b>스프라이트 색이 같이 어두워집니다.</b> 자막도 스프라이트니
+              같이 묻힙니다. 영문 패치가 그 세 줄만 <b>배경 타일로</b> 따로 깔아 둔 이유입니다.</p>
+            <p class="rel-sub">화면을 그리는 도중에 색을 바꿔치기 해서 자막만 밝게 남깁니다. 왜 그랬는지 알고 나니 건드릴 수 없어 그대로 뒀습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">03</span>
+          <div>
+            <h3>자막이 길어지면 세이브 자리를 먹는다</h3>
+            <p>게임은 컷신 동안 세이브 데이터를 안전한 곳에 대피시키는데, 그 자리가
+              <b>자막 스크립트가 쓰는 곳과 같았습니다.</b> 장면이 커진 만큼 자막 자리가 줄어듭니다.</p>
+            <p class="rel-sub">어떤 장면은 영문판 기준으로 이미 <b>0바이트</b> 남아 있었습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">04</span>
+          <div>
+            <h3>512바이트를 옮겨 자리를 만들었다</h3>
+            <p>캐릭터를 그리는 데 쓰는 목록 512바이트를 다른 뱅크로 옮겼더니
+              장면마다 <b>360바이트씩</b> 늘었습니다. 한 장면은 448에서 808이 됐습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">05</span>
+          <div>
+            <h3>타이밍은 CD 재생 위치를 안 본다</h3>
+            <p>"몇 초 지점"을 읽는 게 아니라 <b>소리가 시작된 순간을 세고</b> 사이를 프레임으로 채웁니다.
+              덕분에 한글이 좀 느려도 어긋남이 흡수됩니다.</p>
+            <p class="rel-sub">흡수할 양이 계속 늘면 그땐 멈출 수 있어서, 아직 지켜보는 항목입니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">06</span>
+          <div>
+            <h3>영문 패치가 글자 자리를 96칸으로 줄여놨다</h3>
+            <p>원작은 두 바이트로 6,886자를 쓰던 구조인데 영문 패치가 걷어내고 <b>한 바이트 96칸</b>으로 좁혔습니다.
+              알파벳엔 넉넉하지만 한글은 어림도 없습니다.</p>
+            <p class="rel-sub">되돌리면 영문 패치의 다른 기능이 깨집니다. 대신 같은 규약으로 <b>새 출력 경로를 빈 공간에 써넣었습니다.</b></p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">07</span>
+          <div>
+            <h3>검사 도구가 멀쩡한 자막을 틀렸다고 했다</h3>
+            <p>컷신 <b>30건</b>이 실패로 나왔는데, 게임은 정상이고 검사 도구가 낡은 것이었습니다.
+              한글 바이트를 압축 코드로 착각하고 있었습니다.</p>
+            <p class="rel-sub">고친 뒤 일부러 망가뜨려 봤습니다. 통과가 "무시해서 얻은 통과"가 아닌지 확인하려면 그 방법뿐입니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">08</span>
+          <div>
+            <h3>장면 하나가 거의 안 보였다</h3>
+            <p>화면 대부분이 검게 나오고 <b>초당 60프레임이 7까지</b> 떨어졌습니다.
+              자막 처리와 화면 갱신 순서가 <b>21개 장면 중 그 하나에서만</b> 겹쳐 있었습니다.</p>
+            <p class="rel-sub">여기서 한 번 헛짚었습니다. 자막 번호를 안 세고 배경 색으로 짐작해 엉뚱한 줄을 끄고 고쳤다고 했는데, 같은 화면을 다시 찍어 보내 주셔서 알았습니다.</p>
+          </div>
+        </li>
+      </ol>
+
+      <h2 class="rel-h">음성 더빙은 보류했습니다</h2>
+      <p class="rel-lead">되는지 확인까지는 갔는데, 하는 게 맞는지에서 멈췄습니다. 만들어 둔 두 도구와 335개 전체 데이터는 그대로 보존했습니다.</p>
+
+      <ol class="rel-num">
+        <li>
+          <span class="rel-n">01</span>
+          <div>
+            <h3>클립 335개를 다 뽑았습니다</h3>
+            <p>음성은 CD 오디오 트랙이 아니라 <b>데이터 트랙 안에</b> 압축돼 들어 있고, 어디서부터
+              어디까지가 한 대사인지 알려 주는 목록도 없습니다. 소리 크기 변화로 경계를 찾아 잘라냈습니다.</p>
+            <p class="rel-sub">전부 <b>335개 · 13.8분</b>, 한 대사가 평균 2.5초입니다. 짧은 대신 개수가 많습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">02</span>
+          <div>
+            <h3>넣는 방법도 확인했습니다</h3>
+            <p>대사 위치가 스크립트에 박혀 있어 까다로울 줄 알았는데, <b>같은 자리에 같은 길이로 덮어쓰면</b>
+              게임이 원래 값을 그대로 씁니다. 스크립트를 안 건드려도 됩니다.</p>
+            <p class="rel-sub">한국어가 길어지면 말 속도를 올리거나 앞뒤 무음을 줄여 맞추면 됩니다. 압축기도 원본 도구에 이미 있습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">03</span>
+          <div>
+            <h3>음성패치 툴과 번역·감수 툴까지 만들었습니다</h3>
+            <p>음성패치 툴에는 <b>부모 음성 335개 전체</b>를 불러와 원문, 한국어 번역, 화자, 연기 메모와 검수 상태를 정리했습니다.
+              별도의 번역·감수 툴에서는 화면 폭과 스프라이트 한계를 실시간으로 확인하며 문장을 다듬었습니다.</p>
+
+            <figure class="tool-shot">
+              <a href="img/tool-voice-patch.png" target="_blank" rel="noreferrer">
+                <img src="img/tool-voice-patch.png" alt="음성패치 툴 — 클립 목록과 번역·연기 메모" loading="lazy">
+              </a>
+              <figcaption><b>음성패치 툴.</b> 원본 음성과 생성한 음성을 나란히 놓고 듣습니다.
+                335개 중 <b>154개가 검토 필요</b>로 잡혀 있습니다.</figcaption>
+            </figure>
+
+            <p class="rel-sub">여기서 알게 된 것 하나 — <b>한 클립에 여러 사람 대사가 같이 들어 있습니다.</b>
+              소리가 끊기는 지점으로 잘랐더니 화자가 바뀌어도 안 끊깁니다. 위 화면의 첫 클립도
+              <b>남작·아톨산·바르솜 셋</b>이 한 파일에 있어서 "화자 혼합 의심"이 붙었습니다.
+              더빙을 하려면 이것부터 갈라야 합니다.</p>
+
+            <figure class="tool-shot">
+              <a href="img/tool-translation-review.png" target="_blank" rel="noreferrer">
+                <img src="img/tool-translation-review.png" alt="번역·감수 툴 — 문장 목록과 게임 화면 미리보기" loading="lazy">
+              </a>
+              <figcaption><b>번역·감수 툴.</b> 고친 문장을 실제 크기(1x)와 2배로 그려 줍니다.
+                아래는 영문·한국어·일본어 3단 편집기.</figcaption>
+            </figure>
+
+            <p class="rel-sub">이쪽이 실제로 시간을 가장 많이 먹었습니다. 같은 문장이라도
+              <b>어디에 나오느냐에 따라 넘치고 안 넘치고가 갈립니다</b> — 이름표 딸린 대사는 144px,
+              대화창은 224px, 컷신 자막은 240px 입니다. 픽셀로 재서 <b>한도를 넘는 것만</b> 걸러 보고,
+              지역별로 <b>몇 바이트를 더 줄여야 빌드가 통과하는지</b>도 같이 띄웁니다.
+              저 화면은 1,321 B 를 줄여 목표보다 174 B 남은 상태입니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="rel-n">04</span>
+          <div>
+            <h3>여기서 멈춰 섰습니다</h3>
+            <p><b>자막이 이미 나오고 있습니다.</b> 그 위에 목소리를 새로 입히는 게 정말 나은지 확신이 안 섰습니다.
+              이스 IV 때도 더빙을 두고 의견이 갈렸습니다 — 원래 목소리가 좋다는 쪽이 적지 않았습니다.</p>
+            <p class="rel-sub">335개를 사람 목소리로 채우는 건 번역과는 아예 다른 종류의 일이기도 합니다.
+              뽑아 둔 자료와 도구는 그대로 남겨 뒀으니, 하기로 하면 여기서 이어가면 됩니다.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </main>
+
+  <main class="board-page" id="board-panel" data-panel="board" hidden>
+    <div class="library-hero">
+      <p class="section-index">BUG REPORT</p>
+      <h1>버그 신고</h1>
+      <p>글자가 깨지거나, 상자 밖으로 넘치거나, 게임이 멈추는 곳을 알려 주세요. <b>화면 사진</b>을 함께 올려 주시면 원인을 찾는 시간이 크게 줄어듭니다.</p>
+    </div>
+
+    <div class="board-callout">
+      <span class="lab">패처와는 별개입니다</span>
+      <p>여기에 올리시는 <b>사진과 글만</b> 서버에 저장됩니다. 패처는 여전히 아무것도 전송하지 않습니다 — 게임 이미지는 이 페이지 근처에도 오지 않습니다.</p>
+    </div>
+
+    <form id="bf" class="board-form" autocomplete="off">
+      <div class="bf-row">
+        <label>이름 <input name="nick" maxlength="24" required placeholder="닉네임"></label>
+        <label>삭제 번호 <input name="pin" inputmode="numeric" pattern="\d{4,8}" required
+          placeholder="숫자 4~8자리" title="나중에 글을 지울 때 씁니다"></label>
+      </div>
+      <div class="bf-row">
+        <label>분류 <select name="category" id="bf-cat"><option>번역/오타</option><option>글자 깨짐</option><option>창 넘침</option><option>멈춤/크래시</option><option>시스템카드</option><option>기타</option></select></label>
+        <label>환경 <select name="environment" id="bf-env"><option>에뮬레이터</option><option>실기</option><option>모름</option></select></label>
+        <label>패치 <select name="mode" id="bf-mode"><option>웹 패처</option><option>xdelta</option><option>모름</option></select></label>
+      </div>
+      <label class="bf-full">제목 <input name="title" maxlength="120" required
+        placeholder="예) 이슈반 성 안에서 대사가 상자 밖으로 나감"></label>
+      <label class="bf-full">내용 <textarea name="body" rows="6" maxlength="4000" required
+        placeholder="어느 장면인지, 어떻게 하면 다시 나타나는지 적어 주시면 큰 도움이 됩니다."></textarea></label>
+      <label class="bf-full">화면 사진 <span class="bf-hint" id="bf-imghint">PNG · JPEG · GIF · WebP, 최대 3장, 장당 5MB</span>
+        <input type="file" name="images[]" id="bf-files" accept="image/png,image/jpeg,image/gif,image/webp" multiple></label>
+      <label class="bf-full">세이브 파일 <span class="bf-hint" id="bf-savehint">선택 — 있으면 훨씬 빨리 고칩니다</span>
+        <input type="file" name="save" id="bf-save"></label>
+      <p class="bf-savenote">
+        <b>그 자리로 바로 갈 수 있으면 원인 찾는 시간이 완전히 달라집니다.</b>
+        글만 있으면 그 장면까지 직접 플레이해서 가야 하는데, 세이브가 있으면 <b>바로 그 지점부터</b>
+        확인할 수 있습니다. 가능하면 <b>문제가 나기 직전에 저장한 것</b>으로 올려 주세요.<br>
+        <span class="dim">Mesen 은 <code>Saves</code> 폴더의 <code>.sav</code>,
+          레트로아크는 <code>saves</code> 폴더의 백업램 파일입니다. 보통 몇 KB 밖에 안 됩니다.
+          세이브에는 게임 진행 정보만 들어 있고 개인 정보는 없습니다.</span></p>
+      <!-- 봇 함정: 사람에게는 보이지 않는다 -->
+      <div class="bf-hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1"></label></div>
+      <div class="bf-actions">
+        <button type="submit" class="button button-primary" id="bf-submit">신고 올리기</button>
+        <span class="status" id="bf-status" hidden></span>
+      </div>
+    </form>
+
+    <h3 class="board-listhead">올라온 신고</h3>
+    <p class="bf-tally" id="bf-tally" hidden></p>
+    <div id="bf-list" class="posts"><p class="dim">불러오는 중 …</p></div>
+    <div id="bf-pager" class="pager" hidden></div>
+    <p class="bf-adminbar"><button type="button" id="bf-adminbtn" class="bf-adminlink">관리자</button></p>
+  </main>
+
+  <main class="stats-page" id="stats-panel" data-panel="stats" hidden>
+    <div class="library-hero">
+      <p class="section-index">USAGE</p>
+      <h1>얼마나 쓰이고 있나</h1>
+      <p>방문 수와 패치 횟수만 익명으로 셉니다. <b>게임 파일은 어떤 경우에도 서버로 가지 않습니다</b> — 이름도, 내용도, 해시도, 쿠키도요.</p>
+    </div>
+
+    <div id="stats-kpis" class="stats-kpis"></div>
+    <div id="stats-body"></div>
+    <p class="dim" id="stats-msg">집계를 불러오는 중 …</p>
+
+    <div class="board-callout">
+      <span class="lab">이 숫자에 대해</span>
+      <p>공개된 주소라 누구나 요청을 보낼 수 있어서 <b>정확한 값이 아닙니다.</b> 반대로 광고 차단기가 집계를 막는 경우도 있어 <b>실제보다 적게 잡히기도</b> 합니다. 직접 받아 오프라인에서 적용하신 분은 아예 잡히지 않습니다. "대략 이 정도" 로만 봐 주세요.</p>
+    </div>
+  </main>
+
+  <main class="library-page" id="patches-panel" data-panel="patches" hidden>
+    <div class="library-hero">
+      <p class="section-index">MARS–DRIVE / PATCH ARCHIVE</p>
+      <h1>한글패치 목록</h1>
+      <p>오래된 게임의 인상은 그대로, 이야기는 우리말로. TopperJI의 PC Engine 한국어화 프로젝트를 모았습니다.</p>
+    </div>
+    <div class="library-grid">
+      <article class="game-card game-card-current">
+        <div class="game-visual emerald-visual"><img src="img/shot-title.png" alt="에메랄드 드래곤 한국어 타이틀"><span>V0.6 AVAILABLE</span></div>
+        <div class="game-copy"><p>PC ENGINE · SUPER CD-ROM²</p><h2>에메랄드 드래곤</h2><span>한국어 패치 · v0.6</span><p>대사·메뉴와 함께, 원작에서 음성만 나오던 컷신에 스프라이트 한국어 자막을 구현했습니다. 초판·Rev 1 자동 판별 웹 패처를 제공합니다.</p><button class="text-link" type="button" data-tab="project">현재 페이지 보기 <span aria-hidden="true">→</span></button></div>
+      </article>
+      <article class="game-card">
+        <div class="game-visual ys-visual"><span>RELEASED · V0.9.5</span><div class="ys-mark"><b>YS IV</b><small>THE DAWN OF YS</small></div></div>
+        <div class="game-copy"><p>PC ENGINE · SUPER CD-ROM²</p><h2>이스 IV</h2><span>한국어 패치 · v0.9.5</span><p>TopperJI의 이전 PC Engine 한국어화 프로젝트와 웹 패처를 확인할 수 있습니다.</p><a class="text-link" href="https://jiseo79.github.io/ys4pce-kr/" target="_blank" rel="noreferrer">이스 IV 페이지 열기 <span aria-hidden="true">↗</span></a></div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand"><span class="brand-mark">ED</span><div><b>EMERALD DRAGON</b><small>KOREAN FAN PATCH · TOPPERJI / MARS–DRIVE</small></div></div>
+    <div class="footer-links"><a href="patcher.html" target="_blank" rel="noopener">웹 패처</a><a href="https://blog.naver.com/hyper1234/224366574643" target="_blank" rel="noreferrer">제작 블로그</a><a href="https://youtu.be/TGvVaI1FcRA?si=ClScmMAbfK8t_jIm" target="_blank" rel="noreferrer">YouTube</a></div>
+    <p class="credits"><b>만든 사람들</b><br>
+      <span>1989</span> 원작 <b>Glodia</b><br>
+      <span>1994</span> PC Engine 이식 <b>Alfa System</b><br>
+      <span>2025</span> 영문화 <b>Supper</b>, <b>cccmar</b>, <b>Oddoai-sama</b><br>
+      <span>2026</span> 한국어화 <b>TopperJI</b> (Mars-Drive)</p>
+    <p class="legal">본 패치는 원본 게임과 BIOS를 포함하지 않습니다. 적용에는 정품에서 직접 덤프한 원본이 필요합니다. 원작 및 시각 자료의 권리는 각 원저작자와 권리자에게 있으며, 본 프로젝트는 비상업 팬 한국어화입니다.<br>배경에 쓰인 저해상도 패키지·지도 이미지는 보존 자료 소개 목적으로 사용했습니다. 원본은 <a href="https://archive.org/details/emerald-dragon-manual-scan-jp-pc-engine" target="_blank" rel="noreferrer">Internet Archive</a>에 있습니다.</p>
+  </footer>
+
+  <script>
+    /* ══════════════ 스크롤 · 탭 ══════════════ */
+    (() => {
+      const root = document.documentElement;
+      let scheduled = false;
+      const setScroll = () => { root.style.setProperty('--scroll-y', `${window.scrollY}px`); scheduled = false; };
+      window.addEventListener('scroll', () => { if (!scheduled) { scheduled = true; requestAnimationFrame(setScroll); } }, { passive: true });
+      setScroll();
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+
+      const panels = document.querySelectorAll('[data-panel]');
+      const tabButtons = document.querySelectorAll('[data-tab]');
+      const paint = name => {
+        panels.forEach(panel => { panel.hidden = panel.dataset.panel !== name; });
+        tabButtons.forEach(button => {
+          if (button.getAttribute('role') === 'tab') button.setAttribute('aria-selected', String(button.dataset.tab === name));
+        });
+      };
+      // 신고·집계는 그 탭을 열 때만 서버를 부른다 — 소개만 보고 갈 사람에게 요청을 만들지 않는다.
+      const showTab = (name, scroll = true) => {
+        paint(name);
+        if (name === 'board' && window.__boardStart) window.__boardStart();
+        if (name === 'stats' && window.__statsStart) window.__statsStart();
+        if (name !== 'project') history.replaceState(null, '', '#' + name);
+        else history.replaceState(null, '', location.pathname);
+        if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+      window.__showTab = showTab;
+      // [data-tab] 은 상단 탭 단추만이 아니다 — 본문 안의 유도 링크·단추도 같은 속성을 쓴다.
+      // <a href="#"> 로 된 것들이 있어 기본 이동을 막아야 주소창에 #  가 남지 않는다.
+      tabButtons.forEach(button => button.addEventListener('click', event => {
+        if (button.tagName === 'A') event.preventDefault();
+        showTab(button.dataset.tab);
+      }));
+      document.querySelectorAll('[data-project-link]').forEach(link => link.addEventListener('click', () => paint('project')));
+
+      // 패치 탭 안의 하위 탭 (웹 패처 / xdelta)
+      const subTabs = document.querySelectorAll('[data-subtab]');
+      subTabs.forEach(button => button.addEventListener('click', () => {
+        const name = button.dataset.subtab;
+        document.querySelectorAll('[data-subpanel]').forEach(panel => { panel.hidden = panel.dataset.subpanel !== name; });
+        subTabs.forEach(other => other.setAttribute('aria-selected', String(other.dataset.subtab === name)));
+      }));
+
+      // 주소창의 #board 로 바로 들어오는 경우. 앵커(#film 등)와 겹치지 않게 패널 이름만 받는다.
+      const hash = location.hash.slice(1);
+      if (hash && document.querySelector(`[data-panel="${CSS.escape(hash)}"]`)) showTab(hash, false);
+    })();
+
+    /* ══════════════ 버그 신고 게시판 ══════════════
+       이스 IV 게시판에서 그대로 가져왔다. 서버는 JSON 만 돌려주고 여기서 textContent 로
+       넣는다. innerHTML 을 쓰지 않으므로 남이 올린 글이 스크립트가 될 방법이 없다. */
+    (function(){
+      "use strict";
+      var API = null;
+      var form = document.getElementById("bf");
+      if (!form) return;
+      var $ = function(id){ return document.getElementById(id); };
+      var listEl = $("bf-list"), pagerEl = $("bf-pager"), statusEl = $("bf-status");
+      var page = 1, meta = null;
+      var ADMKEY = "emdr-board-admin";
+      function adminKey(){ try { return localStorage.getItem(ADMKEY) || ""; } catch(_) { return ""; } }
+      function setAdminKey(v){ try { v ? localStorage.setItem(ADMKEY, v) : localStorage.removeItem(ADMKEY); } catch(_) {} }
+      function isAdmin(){ return !!adminKey() && !!(meta && meta.admin_enabled); }
+
+      function paintBadge(open, total){
+        var b = $("board-badge");
+        if (!b) return;
+        if (!total){ b.hidden = true; return; }
+        b.hidden = false;
+        b.textContent = open + "/" + total;
+        b.classList.toggle("zero", open === 0);
+        b.title = open === 0
+          ? "올라온 신고 " + total + "건 — 미해결 없음"
+          : "미해결 " + open + "건 / 전체 " + total + "건";
+      }
+      window.__boardBadge = function(url){
+        fetch(url + "?action=counts", {cache:"no-cache"})
+          .then(function(r){ return r.json(); })
+          .then(function(j){ if (j && j.ok) paintBadge(j.open, j.total); })
+          .catch(function(){ /* 서버가 없으면 배지도 없다 */ });
+      };
+
+      function say(msg, kind){
+        statusEl.hidden = false;
+        statusEl.textContent = msg;
+        statusEl.className = "status" + (kind ? " " + kind : "");
+      }
+      function fillSelect(el, items){
+        el.innerHTML = "";
+        items.forEach(function(v){
+          var o = document.createElement("option");
+          o.value = v; o.textContent = v;
+          el.appendChild(o);
+        });
+      }
+      function when(ts){
+        var d = new Date(ts * 1000), p = function(n){ return String(n).padStart(2, "0"); };
+        return d.getFullYear() + "-" + p(d.getMonth()+1) + "-" + p(d.getDate()) +
+               " " + p(d.getHours()) + ":" + p(d.getMinutes());
+      }
+
+      // 선택지는 HTML 에 정적으로도 있다 — 서버가 죽어도 폼은 보여야 한다.
+      // meta 가 오면 서버 쪽으로 덮어쓴다 (어긋나면 서버가 정답).
+      function loadMeta(){
+        fetch(API + "?action=meta").then(function(r){ return r.json(); }).then(function(m){
+          if (!m || !m.ok) return;
+          meta = m;
+          fillSelect($("bf-cat"), m.categories);
+          fillSelect($("bf-env"), m.environments);
+          fillSelect($("bf-mode"), m.modes);
+          $("bf-imghint").textContent =
+            "PNG · JPEG · GIF · WebP, 최대 " + m.max_images + "장, 장당 " + m.max_image_mb + "MB";
+          if (m.max_save_kb){
+            $("bf-savehint").textContent =
+              "선택 — " + (m.save_ext || []).join(" · ") + ", " + m.max_save_kb + "KB 이하";
+            var si = $("bf-save");
+            if (si && m.save_ext) si.accept = m.save_ext.map(function(e){ return "." + e; }).join(",");
+          }
+          if (isAdmin()) load(page);
+        }).catch(function(){ /* 목록 쪽에서 한 번만 알린다 */ });
+      }
+
+      function render(data){
+        listEl.textContent = "";
+        if (!data.posts || !data.posts.length){
+          var e = document.createElement("p");
+          e.className = "dim";
+          e.textContent = "아직 올라온 신고가 없습니다. 첫 번째로 알려 주세요.";
+          listEl.appendChild(e);
+          pagerEl.hidden = true;
+          return;
+        }
+        data.posts.forEach(function(p){
+          var art = document.createElement("article");
+          art.className = p.resolved ? "post done" : "post";
+
+          var head = document.createElement("div"); head.className = "post-head";
+          var ti = document.createElement("div"); ti.className = "post-title"; ti.textContent = p.title;
+          var rs = document.createElement("span");
+          rs.className = "rstate " + (p.resolved ? "done" : "open");
+          rs.textContent = p.resolved
+            ? "해결됨" + (p.resolved_ver ? " · " + p.resolved_ver : "")
+            : "미해결";
+          ti.appendChild(rs);
+          var me = document.createElement("div"); me.className = "post-meta";
+          me.textContent = p.nick + " · " + when(p.created_at) + " · #" + p.id;
+          head.appendChild(ti); head.appendChild(me); art.appendChild(head);
+
+          var tags = document.createElement("div"); tags.className = "tagrow";
+          [p.category, p.environment, p.mode].forEach(function(v){
+            if (!v) return;
+            var s = document.createElement("span"); s.className = "tag"; s.textContent = v;
+            tags.appendChild(s);
+          });
+          art.appendChild(tags);
+
+          var body = document.createElement("p"); body.className = "post-body";
+          body.textContent = p.body; art.appendChild(body);
+
+          if (p.images && p.images.length){
+            var box = document.createElement("div"); box.className = "shots-in-post";
+            p.images.forEach(function(im){
+              var a = document.createElement("a");
+              a.href = im.src; a.target = "_blank"; a.rel = "noopener noreferrer";
+              var img = document.createElement("img");
+              img.src = im.src; img.loading = "lazy";
+              img.width = im.w; img.height = im.h;
+              img.alt = p.title + " 첨부 화면";
+              a.appendChild(img); box.appendChild(a);
+            });
+            art.appendChild(box);
+          }
+
+          if (p.saves && p.saves.length){
+            var sbox = document.createElement("div"); sbox.className = "bf-saves";
+            p.saves.forEach(function(sv){
+              var a = document.createElement("a");
+              a.href = sv.url; a.rel = "noopener noreferrer"; a.download = sv.name;
+              a.appendChild(document.createTextNode("⤓  " + sv.name));
+              var sz = document.createElement("span"); sz.className = "sz";
+              sz.textContent = sv.bytes < 1024
+                ? sv.bytes + " B"
+                : (sv.bytes / 1024).toFixed(sv.bytes < 10240 ? 1 : 0) + " KB";
+              a.appendChild(sz);
+              sbox.appendChild(a);
+            });
+            art.appendChild(sbox);
+          }
+
+          if (isAdmin()){
+            var adm = document.createElement("div"); adm.className = "bf-admin";
+            var sel = document.createElement("select");
+            (meta.versions || []).forEach(function(v){
+              var o = document.createElement("option");
+              o.value = v; o.textContent = v;
+              if (p.resolved_ver === v) o.selected = true;
+              sel.appendChild(o);
+            });
+            var mark = document.createElement("button");
+            mark.type = "button";
+            mark.textContent = p.resolved ? "해결 버전 바꾸기" : "이 버전에서 해결됨으로";
+            mark.addEventListener("click", function(){ resolve(p.id, true, sel.value); });
+            adm.appendChild(sel); adm.appendChild(mark);
+            if (p.resolved){
+              var undo = document.createElement("button");
+              undo.type = "button"; undo.textContent = "미해결로 되돌리기";
+              undo.addEventListener("click", function(){ resolve(p.id, false, ""); });
+              adm.appendChild(undo);
+            }
+            art.appendChild(adm);
+          }
+
+          var del = document.createElement("button");
+          del.type = "button"; del.className = "post-del"; del.textContent = "이 글 지우기";
+          del.addEventListener("click", function(){
+            var pin = prompt("글을 올릴 때 입력한 삭제 번호를 넣어 주세요.");
+            if (!pin) return;
+            var fd = new FormData();
+            fd.append("action", "delete"); fd.append("id", p.id); fd.append("pin", pin);
+            fetch(API, { method: "POST", body: fd })
+              .then(function(r){ return r.json(); })
+              .then(function(j){
+                if (j.ok) load(page);
+                else alert(j.error || "지우지 못했습니다.");
+              })
+              .catch(function(){ alert("서버에 연결하지 못했습니다."); });
+          });
+          art.appendChild(del);
+          listEl.appendChild(art);
+        });
+
+        pagerEl.textContent = "";
+        pagerEl.hidden = data.pages <= 1;
+        for (var i = 1; i <= data.pages; i++){
+          (function(n){
+            var b = document.createElement("button");
+            b.type = "button"; b.textContent = n;
+            if (n === data.page) b.setAttribute("aria-current", "true");
+            b.addEventListener("click", function(){ load(n); });
+            pagerEl.appendChild(b);
+          })(i);
+        }
+      }
+
+      function resolve(id, on, version){
+        var key = adminKey();
+        if (!key) return;
+        var fd = new FormData();
+        fd.append("action", "resolve");
+        fd.append("id", id);
+        fd.append("resolved", on ? "1" : "0");
+        fd.append("version", version || "");
+        fd.append("key", key);
+        fetch(API, { method: "POST", body: fd })
+          .then(function(r){ return r.json(); })
+          .then(function(j){
+            if (!j.ok) throw new Error(j.error || "처리하지 못했습니다.");
+            load(page);
+          })
+          .catch(function(e){ alert(e.message || "처리하지 못했습니다."); });
+      }
+
+      function load(n){
+        page = n;
+        fetch(API + "?action=list&page=" + n)
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            if (!d.ok) throw new Error(d.error || "목록을 불러오지 못했습니다.");
+            render(d);
+            var t = $("bf-tally");
+            if (t && typeof d.total === "number"){
+              t.hidden = d.total === 0;
+              t.textContent = "";
+              t.appendChild(document.createTextNode("미해결 "));
+              var b1 = document.createElement("b"); b1.textContent = d.open + "건";
+              t.appendChild(b1);
+              t.appendChild(document.createTextNode("  ·  전체 "));
+              var b2 = document.createElement("b"); b2.textContent = d.total + "건";
+              t.appendChild(b2);
+            }
+            paintBadge(d.open, d.total);
+          })
+          .catch(function(){
+            listEl.textContent = "";
+            var e = document.createElement("p");
+            e.className = "dim";
+            e.textContent = "게시판에 연결하지 못했습니다. 잠시 뒤 다시 시도해 주세요.";
+            listEl.appendChild(e);
+            pagerEl.hidden = true;
+          });
+      }
+
+      form.addEventListener("submit", function(ev){
+        ev.preventDefault();
+        var files = $("bf-files").files;
+        if (meta && files.length > meta.max_images){
+          say("이미지는 최대 " + meta.max_images + "장까지 올릴 수 있습니다.", "err");
+          return;
+        }
+        // 세이브는 원래 몇 KB 다. 큰 파일이면 십중팔구 CD 이미지를 잘못 고른 것이라
+        // 서버까지 보내기 전에 여기서 잡는다.
+        var sf = $("bf-save").files[0];
+        if (sf && meta && meta.max_save_kb && sf.size > meta.max_save_kb * 1024){
+          say("세이브 파일은 " + meta.max_save_kb + "KB 이하만 올릴 수 있습니다. " +
+              "(고르신 파일은 " + Math.round(sf.size / 1048576) + "MB 입니다 — CD 이미지를 고르신 건 아닌가요?)", "err");
+          return;
+        }
+        var btn = $("bf-submit");
+        btn.disabled = true;
+        say("올리는 중 …", "busy");
+        var fd = new FormData(form);
+        fd.append("action", "create");
+        fetch(API, { method: "POST", body: fd })
+          .then(function(r){ return r.json(); })
+          .then(function(j){
+            if (!j.ok) throw new Error(j.error || "올리지 못했습니다.");
+            form.reset();
+            say("신고를 올렸습니다. 감사합니다.", "ok");
+            load(1);
+          })
+          .catch(function(e){ say(e.message || "올리지 못했습니다.", "err"); })
+          .finally(function(){ btn.disabled = false; });
+      });
+
+      var loaded = false;
+      window.__boardStart = function(){
+        if (loaded) return;
+        loaded = true;
+        fetch("links.json", {cache:"no-cache"})
+          .then(function(r){ return r.json(); })
+          .then(function(cfg){
+            if (!cfg.board || !cfg.board.url){
+              listEl.textContent = "";
+              var e = document.createElement("p");
+              e.className = "dim";
+              e.textContent = "게시판이 아직 열리지 않았습니다.";
+              listEl.appendChild(e);
+              form.querySelectorAll("input,select,textarea,button")
+                  .forEach(function(x){ x.disabled = true; });
+              return;
+            }
+            API = cfg.board.url;
+            loadMeta();
+            load(1);
+          })
+          .catch(function(){ loaded = false; });
+      };
+
+      var admBtn = $("bf-adminbtn");
+      if (admBtn) admBtn.addEventListener("click", function(){
+        if (!meta || !meta.admin_enabled){
+          alert("서버에서 해결 처리 기능이 꺼져 있습니다.\n" +
+                "board/lib.php 의 ADMIN_KEY 를 채우고 그 파일만 다시 올리시면 켜집니다.");
+          return;
+        }
+        if (adminKey()){
+          if (confirm("관리자 모드를 끌까요?")){ setAdminKey(""); load(page); }
+          return;
+        }
+        var k = prompt("관리자 키를 넣어 주세요.");
+        if (!k) return;
+        setAdminKey(k);
+        load(page);   // 키가 틀리면 해결 처리할 때 서버가 거절한다
+      });
+    })();
+
+    /* ══════════════ 집계 ══════════════ */
+    (function(){
+      "use strict";
+      var loaded = false;
+      window.__statsStart = function(){
+        if (loaded) return;
+        loaded = true;
+        var msg = document.getElementById('stats-msg');
+        var kpis = document.getElementById('stats-kpis');
+        var body = document.getElementById('stats-body');
+        var LABEL = {
+          'dl_xdelta-rev1':'xdelta · Rev 1', 'dl_xdelta-rev0':'xdelta · 초판',
+          dl_syscard:'시스템 카드', dl_checksums:'체크섬', dl_unknown:'기타',
+          patch_rev1_ok:'Rev 1', patch_rev0_ok:'초판',
+          patch_rev1_fail:'Rev 1 (실패)', patch_rev0_fail:'초판 (실패)',
+          patch_unknown_ok:'모르는 판', patch_unknown_fail:'모르는 판 (실패)',
+          detect_rev1:'Rev 1', detect_rev0:'초판', detect_unknown:'모르는 덤프'
+        };
+        function el(tag, cls, txt){
+          var e = document.createElement(tag);
+          if (cls) e.className = cls;
+          if (txt != null) e.textContent = txt;
+          return e;
+        }
+        function bars(title, rows, note){
+          if (!rows.length) return;
+          body.appendChild(el('h3', null, title));
+          if (note) body.appendChild(el('p', 'stats-note', note));
+          var max = Math.max.apply(null, rows.map(function(r){ return r[1]; })) || 1;
+          var tb = el('tbody');
+          rows.forEach(function(r){
+            var tr = el('tr');
+            tr.appendChild(el('td', null, r[0]));
+            tr.appendChild(el('td', 'n', r[1].toLocaleString()));
+            var bar = el('td', 'bar'), i = el('i');
+            i.style.width = (100 * r[1] / max) + '%';
+            bar.appendChild(i); tr.appendChild(bar); tb.appendChild(tr);
+          });
+          var tbl = el('table'); tbl.appendChild(tb); body.appendChild(tbl);
+        }
+        fetch('links.json', {cache:'no-cache'}).then(function(r){ return r.json(); })
+          .then(function(cfg){
+            if (!cfg.stats_api) { msg.textContent = '집계를 켜 두지 않았습니다.'; return null; }
+            return fetch(cfg.stats_api + '?action=stats').then(function(r){ return r.json(); });
+          })
+          .then(function(d){
+            if (!d) return;
+            if (!d.ok) throw new Error(d.error || '집계를 불러오지 못했습니다.');
+            msg.hidden = true;
+            var T = d.totals || {}, g = function(k){ return T[k] || 0; };
+            [['순 방문자', d.unique_visitors || 0, false],
+             ['전체 방문', g('visit'), true],
+             ['패처 열기', g('open_patcher'), true],
+             ['원본 판별', g('detect_total'), true],
+             ['패치 완료', g('patch_total'), false]
+            ].forEach(function(c){
+              var k = el('div', 'kpi' + (c[2] ? ' q' : ''));
+              k.appendChild(el('b', null, c[1].toLocaleString()));
+              k.appendChild(el('span', null, c[0]));
+              kpis.appendChild(k);
+            });
+            var dl = [], pa = [], de = [];
+            Object.keys(T).forEach(function(k){
+              if (k.indexOf('dl_') === 0 && k !== 'dl_total') dl.push([LABEL[k] || k, T[k]]);
+              if (k.indexOf('patch_') === 0 && k !== 'patch_total') pa.push([LABEL[k] || k, T[k]]);
+              if (k.indexOf('detect_') === 0 && k !== 'detect_total') de.push([LABEL[k] || k, T[k]]);
+            });
+            var byCount = function(a, b){ return b[1] - a[1]; };
+            bars('어느 판을 갖고 계신가', de.sort(byCount),
+                 '"모르는 덤프" 가 쌓이면 저희가 아직 모르는 판이 돌고 있다는 뜻입니다.');
+            bars('웹 패처로 패치한 횟수', pa.sort(byCount));
+            bars('파일 내려받기', dl.sort(byCount));
+          })
+          .catch(function(e){ msg.textContent = '집계 서버에 연결하지 못했습니다. (' + (e.message || e) + ')'; });
+      };
+    })();
+
+    /* ══════════════ links.json — 외부 주소와 익명 집계 ══════════════
+       주소를 비워 두면 아무 요청도 나가지 않는다. 끄고 싶으면 그 값을 비우면 끝이다. */
+    (function(){
+      "use strict";
+      fetch("links.json", {cache: "no-cache"})
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(cfg){
+          if (!cfg) return;
+
+          // 큰 파일은 GitHub Releases 에 있다 — 주소를 여기서 채운다.
+          // 비어 있으면 링크가 '준비 중'(aria-disabled) 으로 남는다. 깨진 링크보다 낫다.
+          const dl = cfg.downloads || {};
+          document.querySelectorAll('[data-dl]').forEach(a => {
+            const e = dl[a.dataset.dl];
+            if (!e || !e.url) return;
+            a.href = e.url;
+            a.removeAttribute('aria-disabled');
+            a.setAttribute('rel', 'noopener noreferrer');
+            if (e.size) a.title = e.size;
+          });
+
+          // 탭 배지는 신고 탭을 열기 전에도 보여야 하므로 여기서 한 번 부른다.
+          if (cfg.board && cfg.board.url && window.__boardBadge) window.__boardBadge(cfg.board.url);
+
+          if (!cfg.stats_api) return;
+          var API = cfg.stats_api, VER = cfg.version || "v0.6";
+          var beacon = function(params){
+            try {
+              navigator.sendBeacon(API, new Blob(
+                [new URLSearchParams(Object.assign({ver:VER}, params)).toString()],
+                {type:"application/x-www-form-urlencoded"}));
+            } catch (e) { /* 집계 실패가 페이지를 방해해서는 안 된다 */ }
+          };
+          beacon({type:"visit"});
+
+          // 내려받기는 눌린 순간만 잡을 수 있다 — 파일은 그대로 브라우저가 가져간다.
+          document.querySelectorAll("[data-dl]").forEach(function(a){
+            a.addEventListener("click", function(){ beacon({type:"download", mode:a.dataset.dl}); });
+          });
+          document.querySelectorAll('a[href="patcher.html"]').forEach(function(a){
+            a.addEventListener("click", function(){ beacon({type:"open", mode:"webpatcher"}); });
+          });
+        })
+        .catch(function(){ /* 없으면 아무 일도 일어나지 않는다 */ });
+    })();
+  </script>
+</body>
+</html>

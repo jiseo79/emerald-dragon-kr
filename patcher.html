@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>웹 패처 — 에메랄드 드래곤 한국어판</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="patcher-page">
+
+<!-- 단독 페이지다. 배포 페이지의 탭·네비를 들고 오지 않는다 —
+     여기 온 사람은 파일을 패치하러 온 것이고, 그 일만 방해 없이 끝나야 한다. -->
+<header class="topbar">
+  <div class="wrap">
+    <a href="index.html#patch">← 배포 페이지로 돌아가기</a>
+    <span class="catalog">에메랄드 드래곤 한국어판 <b>v0.6</b></span>
+  </div>
+</header>
+
+<header>
+  <div class="wrap">
+    <h1><span class="em">웹 패처</span></h1>
+    <p class="sub">원본을 넣으면 어느 판인지 알아서 판별합니다</p>
+  </div>
+</header>
+
+<section id="identify">
+  <div class="wrap">
+    <h2>1 — 원본 넣기</h2>
+    <p class="lead">
+      <code>.bin</code> 파일을 넣으세요 (보통 774 MB). 파일은 <b>브라우저 안에서만</b>
+      처리되고 어디로도 올라가지 않습니다.
+    </p>
+
+    <div class="drop" id="drop">
+      <div class="big">여기로 파일을 끌어다 놓으세요</div>
+      <div>또는 눌러서 고르기</div>
+      <input type="file" id="file" accept=".bin,.img,.iso" class="hide">
+    </div>
+
+    <div id="progress" class="hide" style="margin-top:18px">
+      <div class="bar"><i id="bar"></i></div>
+      <div class="step" id="step">읽는 중…</div>
+    </div>
+
+    <div id="result" class="hide" style="margin-top:18px"></div>
+  </div>
+</section>
+
+<section id="syscard">
+  <div class="wrap">
+    <h2>2 — 한글 시스템 카드 만들기 <span style="color:var(--warn)">(필수)</span></h2>
+    <div class="panel">
+      <p style="color:var(--warn); font-weight:600; margin:0 0 10px">
+        ⚠ 이 단계를 건너뛰면 게임에서 한글이 보이지 않습니다.</p>
+      <p>한글 글꼴은 CD 가 아니라 <b>시스템 카드 쪽</b>에 들어갑니다.
+        이미지만 패치하고 순정 카드로 실행하면 부팅할 때 안내 화면에서 멈춥니다.</p>
+      <p style="margin-top:10px">순정 <code>syscard3.pce</code>(256 KB)를 고르시면
+        한글 글꼴이 든 카드를 만들어 드립니다.
+        <b>이 파일 자체는 배포하지 않으며, 여러분이 고른 파일로부터만 만듭니다.</b></p>
+
+      <div style="margin-top:16px">
+        <input type="file" id="syscard-input" accept=".pce">
+        <button class="btn" id="btn-syscard" disabled style="margin-left:8px">한글 카드 만들기</button>
+      </div>
+      <div id="syscard-log" class="step" style="margin-top:12px; white-space:pre-wrap" hidden></div>
+      <div id="syscard-result" class="hide" style="margin-top:14px"></div>
+
+      <div class="note" style="margin-top:16px">
+        만든 뒤 <b>에뮬레이터 설정에서 시스템 카드를 이 파일로 바꾸는 것</b>까지 하셔야 합니다.
+        레트로아크는 <code>system/</code> 에 <code>syscard3.pce</code> 라는 이름으로 넣으세요.
+      </div>
+      <p style="margin:12px 0 0; font-size:13px; color:var(--dim)">
+        이 카드에는 <b>이스 IV 한국어판 글꼴도 함께</b> 들어갑니다 — 두 게임이 카드 하나를 나눠 씁니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>이 패처가 하는 일</h2>
+    <div class="panel">
+      <table>
+        <tr><td style="width:26%"><b>판별</b></td>
+            <td>넣으신 파일의 크기와 CRC32 를 계산해 어느 판인지 알아냅니다.</td></tr>
+        <tr><td><b>적용</b></td>
+            <td>아는 판이면 바뀐 섹터만 갈아 끼우고 EDC·ECC 를 다시 계산합니다.
+                오디오 트랙은 손대지 않습니다.</td></tr>
+        <tr><td><b>안내</b></td>
+            <td>xdelta 로 직접 하실 분께는 <b>어느 파일을 받아야 하는지</b> 알려 드립니다.</td></tr>
+      </table>
+    </div>
+    <div class="note">
+      모르는 판이면 해시를 보여 드립니다. 그걸 알려주시면
+      그 판에 맞는 패치를 만들어 추가할 수 있습니다.
+    </div>
+
+    <h3>무엇이 나가고 무엇이 안 나가나</h3>
+    <div class="panel">
+      <table>
+        <tr><td style="width:26%"><b>나가지 않는 것</b></td>
+            <td>파일 · 파일 이름 · 파일 내용 · <b>계산한 CRC32</b> · 쿠키 · 식별자.
+                패치는 전부 이 브라우저 안에서 끝납니다.</td></tr>
+        <tr><td><b>나가는 것</b></td>
+            <td>얼마나 쓰이는지 세려고 <b>"초판인지 Rev 1인지"</b> 와 성공 여부만 보냅니다.
+                어느 판인지 세는 것이지 <b>누구인지 세는 것이 아닙니다.</b>
+                <a href="index.html#stats">집계 보기</a></td></tr>
+      </table>
+      <p style="margin:12px 0 0; font-size:13px; color:var(--dim)">
+        해시를 보내면 그 자체가 파일을 특정하는 값이라 보내지 않습니다.
+        모르는 덤프는 위 복사 단추로 <b>직접 골라서</b> 알려 주시는 방식만 있습니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>원작 Glodia (1989) · PC Engine 이식 Alfa System (1994)<br>영문화 Supper · cccmar · Oddoai-sama (2025) · 한국어화 TopperJI (2026)</p>
+    <p style="margin-top:14px; font-size:12px">
+      이 패치는 원본 게임을 포함하지 않습니다.
+    </p>
+    <p style="margin-top:14px"><a href="index.html#patch">← 배포 페이지로 돌아가기</a></p>
+  </div>
+</footer>
+
+<script>
+'use strict';
+
+// ───────────────────────────────────────────────────────────
+//  CD-ROM Mode 1 섹터 구조 (ECMA-130)
+//    sync(12) + header(4) + user(2048) + EDC(4) + 여백(8) + ECC(276)
+// ───────────────────────────────────────────────────────────
+const RAW = 2352, USER = 2048, EDC_OFS = 2064, ECC_OFS = 2076;
+
+// ── CRC32 (판별용) ─────────────────────────────────────────
+const CRC_TAB = (() => {
+  const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let j = 0; j < 8; j++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[i] = c >>> 0;
+  }
+  return t;
+})();
+function crc32(buf, crc) {
+  crc = ((crc === undefined ? 0 : crc) ^ 0xFFFFFFFF) >>> 0;
+  for (let i = 0; i < buf.length; i++)
+    crc = (CRC_TAB[(crc ^ buf[i]) & 0xFF] ^ (crc >>> 8)) >>> 0;
+  return (crc ^ 0xFFFFFFFF) >>> 0;
+}
+
+// ── EDC — 다항식 0x8001801B, 하위비트 우선 ──────────────────
+const EDC_TAB = (() => {
+  const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let e = i;
+    for (let j = 0; j < 8; j++) e = ((e >>> 1) ^ ((e & 1) ? 0xD8018001 : 0)) >>> 0;
+    t[i] = e;
+  }
+  return t;
+})();
+function edc(buf, len) {
+  let v = 0;
+  for (let i = 0; i < len; i++) v = (EDC_TAB[(v ^ buf[i]) & 0xFF] ^ (v >>> 8)) >>> 0;
+  return v >>> 0;
+}
+
+// ── ECC — GF(2^8), 생성다항식 x^8+x^4+x^3+x^2+1 ────────────
+//   f = x2, b 는 그 역방향. `b[i ^ f[i]] = i`
+const ECC_F = new Uint8Array(256), ECC_B = new Uint8Array(256);
+for (let i = 0; i < 256; i++) {
+  const j = ((i << 1) ^ ((i & 0x80) ? 0x11D : 0)) & 0xFF;
+  ECC_F[i] = j;
+  ECC_B[i ^ j] = i;
+}
+function eccBlock(src, majorCount, minorCount, majorMult, minorInc, dest, base) {
+  const size = majorCount * minorCount;
+  for (let major = 0; major < majorCount; major++) {
+    let idx = (major >> 1) * majorMult + (major & 1);
+    let a = 0, b = 0;
+    for (let minor = 0; minor < minorCount; minor++) {
+      const t = src[idx];
+      idx += minorInc;
+      if (idx >= size) idx -= size;
+      a ^= t; b ^= t;
+      a = ECC_F[a];
+    }
+    a = ECC_B[ECC_F[a] ^ b];
+    dest[base + major] = a;
+    dest[base + major + majorCount] = a ^ b;
+  }
+}
+// ⚠ Mode 1 은 header(4B)를 **포함해** 계산한다. 0 으로 보는 것은 Mode 2 Form 1 규칙.
+// ⚠ Q 는 P 를 포함해 계산하므로 P 를 먼저 섹터에 써넣어야 한다.
+function fixSector(sec) {
+  const e = edc(sec, EDC_OFS);
+  sec[EDC_OFS]     =  e         & 0xFF;
+  sec[EDC_OFS + 1] = (e >>>  8) & 0xFF;
+  sec[EDC_OFS + 2] = (e >>> 16) & 0xFF;
+  sec[EDC_OFS + 3] = (e >>> 24) & 0xFF;
+  for (let i = 2068; i < 2076; i++) sec[i] = 0;
+  const out = new Uint8Array(276);
+  eccBlock(sec.subarray(12), 86, 24, 2, 86, out, 0);
+  sec.set(out.subarray(0, 172), ECC_OFS);
+  eccBlock(sec.subarray(12), 52, 43, 86, 88, out, 172);
+  sec.set(out, ECC_OFS);
+}
+
+// ───────────────────────────────────────────────────────────
+const $ = s => document.querySelector(s);
+const fmt = n => n.toLocaleString('ko-KR');
+const mb  = n => (n / 1048576).toFixed(1) + ' MB';
+
+let MANIFEST = null;
+let picked = null;
+
+fetch('patch/manifest.json')
+  .then(r => r.json())
+  .then(m => { MANIFEST = m; })
+  .catch(() => {
+    show(`<div class="note bad"><b>매니페스트를 못 읽었습니다.</b>
+      <code>patch/manifest.json</code> 이 같은 폴더에 있어야 합니다.</div>`);
+  });
+
+/* ── 익명 집계 ──────────────────────────────────────────────
+   links.json 의 stats_api 가 비어 있으면 **아무 요청도 나가지 않는다.**
+
+   ⚠ 보내는 것은 판별 결과(rev0/rev1/unknown)와 성공 여부뿐이다.
+     CRC32 는 보내지 않는다 — 그건 파일 해시고, 이 페이지가 "파일이 서버로
+     가지 않는다" 고 말할 수 있는 근거를 스스로 깎는 짓이다. 모르는 덤프를
+     알려 주시는 경로는 아래 unknown() 의 복사 단추다(사람이 직접 고른다). */
+let BEACON = null;
+fetch('links.json', {cache: 'no-cache'})
+  .then(r => r.ok ? r.json() : null)
+  .then(cfg => {
+    if (!cfg || !cfg.stats_api) return;
+    const API = cfg.stats_api, VER = cfg.version || 'v0.6';
+    BEACON = (params) => {
+      try {
+        navigator.sendBeacon(API, new Blob(
+          [new URLSearchParams(Object.assign({ver: VER}, params)).toString()],
+          {type: 'application/x-www-form-urlencoded'}));
+      } catch (e) { /* 집계 실패가 패치를 방해해서는 안 된다 */ }
+    };
+  })
+  .catch(() => { /* 없으면 집계 없이 그냥 돈다 */ });
+
+function show(html) { const r = $('#result'); r.innerHTML = html; r.classList.remove('hide'); }
+function prog(pct, msg) {
+  $('#progress').classList.remove('hide');
+  $('#bar').style.width = pct + '%';
+  $('#step').textContent = msg;
+}
+
+// ── 파일 고르기 ────────────────────────────────────────────
+const drop = $('#drop'), fileInput = $('#file');
+drop.onclick = () => fileInput.click();
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+drop.ondragleave = () => drop.classList.remove('over');
+drop.ondrop = e => {
+  e.preventDefault(); drop.classList.remove('over');
+  if (e.dataTransfer.files[0]) handle(e.dataTransfer.files[0]);
+};
+fileInput.onchange = e => { if (e.target.files[0]) handle(e.target.files[0]); };
+
+// ── 1단계: 판별 ────────────────────────────────────────────
+async function handle(file) {
+  picked = file;
+  $('#result').classList.add('hide');
+  if (!MANIFEST) { show('<div class="note bad">매니페스트를 아직 못 읽었습니다.</div>'); return; }
+
+  const CH = 1 << 22;
+  let crc = 0, done = 0;
+  for (let off = 0; off < file.size; off += CH) {
+    const buf = new Uint8Array(await file.slice(off, Math.min(off + CH, file.size)).arrayBuffer());
+    crc = crc32(buf, crc);
+    done += buf.length;
+    prog(done / file.size * 100, `살펴보는 중… ${mb(done)} / ${mb(file.size)}`);
+  }
+  const hex = crc.toString(16).padStart(8, '0');
+  prog(100, '판별 완료');
+
+  const hit = MANIFEST.sources.find(s =>
+    s.input.crc32 === hex && s.input.size === file.size);
+
+  if (BEACON) BEACON({type: 'detect', mode: hit ? hit.id : 'unknown'});
+
+  if (!hit) { unknown(file, hex); return; }
+  known(file, hit);
+}
+
+// ── 아는 판 ────────────────────────────────────────────────
+function known(file, src) {
+  show(`
+    <div class="panel">
+      <h3 style="margin-top:0">알아봤습니다 — ${src.label}</h3>
+      <dl class="kv">
+        <dt>파일</dt><dd>${file.name}</dd>
+        <dt>크기</dt><dd>${fmt(file.size)} B</dd>
+        <dt>CRC32</dt><dd class="mono">${src.input.crc32}</dd>
+        <dt>바뀌는 섹터</dt><dd>${fmt(src.patch.sectors)} 개</dd>
+      </dl>
+      <p style="margin:18px 0 0">
+        <button class="btn primary" id="go">패치 적용하기</button>
+        <a class="btn" href="${src.xdelta.file}">xdelta 로 직접 하기</a>
+      </p>
+      <p style="margin-top:12px; font-size:13px; color:var(--dim)">
+        xdelta 를 쓰신다면 <code>${src.xdelta.file.split('/').pop()}</code> 를 받으세요.
+      </p>
+    </div>`);
+  $('#go').onclick = () => apply(file, src);
+}
+
+// ── 모르는 판 ──────────────────────────────────────────────
+function unknown(file, hex) {
+  const info = `파일명: ${file.name}\n크기: ${file.size}\nCRC32: ${hex}`;
+  show(`
+    <div class="panel">
+      <h3 style="margin-top:0; color:var(--warn)">모르는 판입니다</h3>
+      <p>가지고 계신 이미지가 아직 목록에 없습니다. 아래 정보를 알려주시면
+      그 판에 맞는 패치를 만들 수 있습니다.</p>
+      <pre><code id="info">${info}</code></pre>
+      <p><button class="btn" id="copy">정보 복사</button></p>
+      <h3>아는 판 목록</h3>
+      <table>
+        <tr><th>판</th><th>CRC32</th><th class="num">크기</th></tr>
+        ${MANIFEST.sources.map(s => `<tr>
+          <td>${s.label}</td>
+          <td class="mono">${s.input.crc32}</td>
+          <td class="num">${fmt(s.input.size)}</td></tr>`).join('')}
+      </table>
+      <div class="note warn" style="margin-top:16px">
+        <b>흔한 원인:</b> <code>.cue</code> 나 트랙별로 나뉜 파일을 넣으셨을 수 있습니다.
+        트랙이 하나로 합쳐진 <code>.bin</code> 을 넣어 주세요.
+      </div>
+    </div>`);
+  $('#copy').onclick = e => {
+    navigator.clipboard.writeText(info);
+    e.target.textContent = '복사했습니다';
+  };
+}
+
+// ── 2단계: 적용 ────────────────────────────────────────────
+async function apply(file, src) {
+  const g = MANIFEST.geometry;
+  prog(0, '패치를 내려받는 중…');
+
+  const res = await fetch(src.patch.file);
+  if (!res.ok) { show('<div class="note bad">패치 파일을 못 받았습니다.</div>'); return; }
+  let raw;
+  if (typeof DecompressionStream === 'function') {
+    raw = new Uint8Array(await new Response(
+      res.body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer());
+  } else {
+    show(`<div class="note bad"><b>이 브라우저는 gzip 해제를 지원하지 않습니다.</b>
+      최신 Chrome·Edge·Safari 를 쓰시거나, xdelta 를 이용해 주세요.</div>`);
+    return;
+  }
+
+  // [4B 섹터번호][2048B 데이터] 목록 -> Map
+  const REC = 4 + USER;
+  const patch = new Map();
+  for (let p = 0; p + REC <= raw.length; p += REC) {
+    const n = raw[p] | (raw[p+1] << 8) | (raw[p+2] << 16) | (raw[p+3] << 24);
+    patch.set(n >>> 0, raw.subarray(p + 4, p + 4 + USER));
+  }
+  prog(5, `${fmt(patch.size)} 섹터를 갈아 끼웁니다…`);
+
+  const dataStart = g.data_track_lba * RAW;
+  const dataEnd   = (g.data_track_lba + g.data_track_sectors) * RAW;
+  const parts = [];
+  const CH = 1 << 22;
+
+  // 데이터 트랙 앞 — 그대로
+  parts.push(file.slice(0, dataStart));
+
+  // 데이터 트랙 — 섹터 단위로 보며 바꿀 것만 바꾼다
+  const PER = 512;                       // 512섹터(1.2MB)씩 처리
+  for (let i = 0; i < g.data_track_sectors; i += PER) {
+    const cnt = Math.min(PER, g.data_track_sectors - i);
+    const from = dataStart + i * RAW;
+    const chunk = new Uint8Array(await file.slice(from, from + cnt * RAW).arrayBuffer());
+    let touched = false;
+    for (let k = 0; k < cnt; k++) {
+      const data = patch.get(i + k);
+      if (!data) continue;
+      const sec = chunk.subarray(k * RAW, (k + 1) * RAW);
+      sec.set(data, 16);
+      fixSector(sec);
+      touched = true;
+    }
+    parts.push(touched ? new Blob([chunk]) : file.slice(from, from + cnt * RAW));
+    prog(5 + (i / g.data_track_sectors) * 90,
+         `섹터 ${fmt(i)} / ${fmt(g.data_track_sectors)}`);
+    await new Promise(r => setTimeout(r, 0));   // 화면이 멈추지 않게
+  }
+
+  // 데이터 트랙 뒤 — 그대로 (오디오)
+  if (dataEnd < file.size) parts.push(file.slice(dataEnd));
+
+  prog(98, '파일을 만드는 중…');
+  const out = new Blob(parts, { type: 'application/octet-stream' });
+  const url = URL.createObjectURL(out);
+  prog(100, '완료');
+  if (BEACON) BEACON({type: 'patch', mode: src.id, ok: '1'});
+
+  show(`
+    <div class="panel">
+      <h3 style="margin-top:0; color:var(--em)">패치를 마쳤습니다</h3>
+      <dl class="kv">
+        <dt>결과 크기</dt><dd>${fmt(out.size)} B</dd>
+        <dt>바꾼 섹터</dt><dd>${fmt(patch.size)} 개</dd>
+      </dl>
+      <p style="margin:18px 0 0">
+        <a class="btn primary" href="${url}" download="EmeraldDragon_KO.img">
+          EmeraldDragon_KO.img 저장</a>
+        <a class="btn" href="EmeraldDragon_KO.cue" download="EmeraldDragon_KO.cue">.cue 받기</a>
+        <a class="btn" href="#syscard">한글 카드 만들기 ↓</a>
+      </p>
+      <div class="note warn" style="margin-top:18px">
+        <b>아래 2단계에서 한글 카드를 만드세요.</b> 한글 글꼴이 카드 ROM 안에 있어서,
+        순정 카드로 실행하면 부팅할 때 안내 화면에서 멈춥니다.
+        <a href="index.html#patch">설치 방법</a>
+      </div>
+      <div class="note" style="margin-top:10px">
+        <b>.cue 도 같이 받으세요.</b> 위 단추로 바로 받으시면 됩니다 — 고치실 것 없습니다.
+        <b>두 파일을 같은 폴더에</b> 두고 에뮬레이터에서는 <code>.cue</code> 를 여세요.
+        <code>.img</code> 를 직접 열면 트랙 배치를 몰라 소리가 안 납니다.
+        <br><span style="color:var(--dim)">이미지 파일 이름을 바꾸시려면
+        <code>.cue</code> 첫 줄의 이름도 같이 바꿔 주세요.</span>
+      </div>
+    </div>`);
+}
+
+/* ══════════════ 한글 시스템 카드 만들기 ══════════════
+   카드는 '글리프를 렌더'하는 게 아니라 '레시피를 적용'해서 만든다.
+
+   에메랄드 카드에도 순정 BIOS 에서 옮겨 심은 바이트가 6,589 B 들어 있다 [측정].
+   그 바이트는 허드슨 것이라 배포하면 안 된다. 그래서 레시피는 두 종류만 담는다:
+     COPY    — 사용자 '본인' 순정 카드에서 옮겨온다
+     LITERAL — 우리가 만든 데이터만 (한글 글리프 등)
+   card.recipe.gz 에는 순정 BIOS 바이트가 한 개도 없다
+   (build/tools/make_card_recipe.py 가 16B 슬라이딩 윈도로 감사한다 — 유출 0 확인).
+
+   이스 IV 패처의 디코더를 그대로 가져왔다. MAGIC 만 다르다. */
+(() => {
+  const RECIPE_MAGIC = "EDCARD01";
+  const RECIPE_HEAD  = 84;              // 8 + 4 + 32 + 4 + 32 + 4
+
+  const scIn  = $('#syscard-input');
+  const scBtn = $('#btn-syscard');
+  const scLogEl = $('#syscard-log');
+  const scRes = $('#syscard-result');
+  if (!scIn) return;
+
+  const hex = (buf) => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
+  const scLog = (m) => { scLogEl.hidden = false; scLogEl.textContent += m + '\n'; };
+
+  let recipePromise = null;
+  function getRecipe() {
+    if (!recipePromise) {
+      recipePromise = fetch('assets/card.recipe.gz')
+        .then(r => { if (!r.ok) throw new Error('레시피를 못 받았습니다'); return r.body; })
+        .then(body => new Response(body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer())
+        .then(b => new Uint8Array(b));
+    }
+    return recipePromise;
+  }
+
+  function header(recipe) {
+    const dv = new DataView(recipe.buffer, recipe.byteOffset, recipe.byteLength);
+    if (new TextDecoder().decode(recipe.subarray(0, 8)) !== RECIPE_MAGIC)
+      throw new Error('카드 레시피 파일이 아닙니다');
+    return { dv,
+      srcLen: dv.getUint32(8, true),  srcSha: hex(recipe.subarray(12, 44)),
+      dstLen: dv.getUint32(44, true), dstSha: hex(recipe.subarray(48, 80)),
+      nOps:   dv.getUint32(80, true) };
+  }
+
+  async function buildCard(recipe, stock) {
+    const { dv, srcLen, srcSha, dstLen, dstSha, nOps } = header(recipe);
+    if (stock.length !== srcLen)
+      throw new Error(`${fmt(stock.length)} 바이트입니다 — 순정 syscard3.pce 는 ${fmt(srcLen)} 바이트(256 KB)여야 합니다`);
+    const gotSrc = hex(await crypto.subtle.digest('SHA-256', stock));
+    if (gotSrc !== srcSha)
+      throw new Error('순정 Super System Card 3.0 이 아닙니다. 다른 판이거나 이미 개조된 카드로 보입니다.\n'
+        + `이 파일: ${gotSrc.slice(0,16)}…  /  필요한 파일: ${srcSha.slice(0,16)}…`);
+
+    // COPY 를 먼저 전부 적용한 뒤 LITERAL 을 이어 붙인다 (생성기와 같은 순서)
+    const card = stock.slice();
+    let p = RECIPE_HEAD;
+    const lits = [];
+    for (let i = 0; i < nOps; i++) {
+      const kind = recipe[p]; p += 1;
+      const dst = dv.getUint32(p, true); p += 4;
+      const ln  = dv.getUint32(p, true); p += 4;
+      if (kind === 0) { const src = dv.getUint32(p, true); p += 4; card.set(stock.subarray(src, src + ln), dst); }
+      else { lits.push([dst, ln]); }
+    }
+    for (const [dst, ln] of lits) { card.set(recipe.subarray(p, p + ln), dst); p += ln; }
+
+    if (card.length !== dstLen) throw new Error('결과 크기가 맞지 않습니다 (내부 오류)');
+    const gotDst = hex(await crypto.subtle.digest('SHA-256', card));
+    if (gotDst !== dstSha) throw new Error('만든 결과가 기대 해시와 다릅니다 — 이 카드는 쓰지 마세요 (내부 오류)');
+    return { card, sha: gotDst };
+  }
+
+  // 고른 파일이 정말 순정인지는 '만들기 전에' 알려 준다. 256 KB 라 해시는 즉시 끝난다.
+  // 검증했다는 사실이 화면에 보여야 한다 — 조용히 통과시키면 확인이 됐는지 알 길이 없다.
+  let stockBuf = null;
+  scIn.addEventListener('change', async () => {
+    scBtn.disabled = true; scLogEl.textContent = ''; scLogEl.hidden = true;
+    scRes.classList.add('hide');
+    const f = scIn.files[0];
+    if (!f) return;
+    try {
+      const buf = new Uint8Array(await f.arrayBuffer());
+      const rec = await getRecipe();
+      const h = header(rec);
+      scLog(`크기   ${fmt(buf.length)} B`);
+      if (buf.length !== h.srcLen) throw new Error(`순정 카드는 ${fmt(h.srcLen)} 바이트여야 합니다`);
+      const got = hex(await crypto.subtle.digest('SHA-256', buf));
+      scLog(`sha256 ${got.slice(0,32)}…`);
+      if (got !== h.srcSha) throw new Error('순정 Super System Card 3.0 이 아닙니다');
+      scLog('✅ 순정 카드가 맞습니다. 아래 단추를 누르세요.');
+      stockBuf = buf; scBtn.disabled = false;
+    } catch (e) { scLog('❌ ' + e.message); stockBuf = null; }
+  });
+
+  scBtn.addEventListener('click', async () => {
+    scBtn.disabled = true;
+    try {
+      scLog('만드는 중…');
+      const { card, sha } = await buildCard(await getRecipe(), stockBuf);
+      const url = URL.createObjectURL(new Blob([card], {type:'application/octet-stream'}));
+      scRes.innerHTML = `<div class="note"><b>카드를 만들었습니다.</b>
+        <div class="kv" style="margin-top:10px">
+          <dt>크기</dt><dd>${fmt(card.length)} B</dd>
+          <dt>sha256</dt><dd class="mono">${sha}</dd>
+        </div>
+        <p style="margin:14px 0 0">
+          <a class="btn primary" href="${url}" download="syscard3_KO.pce">syscard3_KO.pce 저장</a>
+        </p></div>`;
+      scRes.classList.remove('hide');
+      scLog('✅ 완료 — 해시까지 확인했습니다.');
+      if (BEACON) BEACON({type:'download', mode:'syscard'});
+    } catch (e) { scLog('❌ ' + e.message); scBtn.disabled = false; }
+  });
+})();
+</script>
+</body>
+</html>

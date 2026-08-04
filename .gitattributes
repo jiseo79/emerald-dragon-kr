@@ -1,0 +1,6 @@
+# .cue 는 줄바꿈을 건드리지 않는다 — 원본 그대로 나가야 한다
+*.cue -text
+# 압축·이미지는 바이너리
+*.gz  binary
+*.png binary
+*.jpg binary

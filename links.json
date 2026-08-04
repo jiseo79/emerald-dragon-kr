@@ -1,0 +1,43 @@
+{
+  "_읽어주세요": [
+    "외부 서버 주소와 큰 파일 주소를 여기서 관리합니다. HTML 은 건드리지 마세요.",
+    "url 을 비워두면 그 링크가 '준비 중' 으로 남고 눌리지 않습니다.",
+    "",
+    "⚠ .pce(시스템 카드)와 CD 이미지는 저장소에 올리지 않습니다 — 원저작자 데이터입니다.",
+    "   xdelta 패치만 Releases 에 올리고 여기서 주소를 겁니다.",
+    "   한글 카드는 웹 패처가 assets/card.recipe.gz 로 사용자 순정 카드에서 만들어 냅니다.",
+    "",
+    "GitHub Pages 는 PHP 를 못 돌립니다. 그래서 신고·집계는 별도 서버에 둡니다.",
+    "서버에 올릴 파일은 저장소의 dist/server/ 에 있습니다.",
+    "",
+    "웹 패처가 쓰는 patch/ 와 assets/ 는 사이트와 같은 곳에 있어야 합니다 (CORS).",
+    "",
+    "version 값이 페이지 표시 버전과 집계 버전을 정합니다 — 여기만 고치면 됩니다."
+  ],
+  "version": "v0.6",
+  "board": {
+    "url": ""
+  },
+  "stats_api": "",
+  "video": {
+    "youtube_id": "TGvVaI1FcRA"
+  },
+  "blog": {
+    "url": "https://blog.naver.com/hyper1234/224366574643"
+  },
+  "voice": null,
+  "downloads": {
+    "xdelta-rev1": {
+      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6/emdr-ko-v0.6-rev1.xdelta",
+      "size": "495 KB"
+    },
+    "xdelta-rev0": {
+      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6/emdr-ko-v0.6-rev0.xdelta",
+      "size": "712 KB"
+    },
+    "syscard": {
+      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6/emdr-ko-v0.6-syscard.xdelta",
+      "size": "30 KB"
+    }
+  }
+}
