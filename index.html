@@ -875,6 +875,14 @@
       if (hash && document.querySelector(`[data-panel="${CSS.escape(hash)}"]`)) showTab(hash, false);
     })();
 
+    /* 이 페이지를 로컬(file:// · 127.0.0.1 · localhost)에서 열면 신고·집계 서버가
+       요청을 거부한다 — 서버가 배포 주소만 허용하기 때문이다(CORS). 그때 브라우저는
+       "Failed to fetch" 만 던져서 원인을 알 길이 없다. 그 상황을 알아보고 말해 준다. */
+    const LOCAL_VIEW = location.protocol === 'file:' ||
+      /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(location.hostname);
+    const localNote = '이 페이지를 로컬에서 열어 두셔서 그렇습니다 — 신고·집계 서버는 '
+      + '배포 주소에서 오는 요청만 받습니다. 실제 사이트에서 열면 정상 동작합니다.';
+
     /* ══════════════ 버그 신고 게시판 ══════════════
        이스 IV 게시판에서 그대로 가져왔다. 서버는 JSON 만 돌려주고 여기서 textContent 로
        넣는다. innerHTML 을 쓰지 않으므로 남이 올린 글이 스크립트가 될 방법이 없다. */
@@ -1113,7 +1121,8 @@
             listEl.textContent = "";
             var e = document.createElement("p");
             e.className = "dim";
-            e.textContent = "게시판에 연결하지 못했습니다. 잠시 뒤 다시 시도해 주세요.";
+            e.textContent = LOCAL_VIEW ? localNote
+              : "게시판에 연결하지 못했습니다. 잠시 뒤 다시 시도해 주세요.";
             listEl.appendChild(e);
             pagerEl.hidden = true;
           });
@@ -1147,7 +1156,10 @@
             say("신고를 올렸습니다. 감사합니다.", "ok");
             load(1);
           })
-          .catch(function(e){ say(e.message || "올리지 못했습니다.", "err"); })
+          .catch(function(e){
+            var m = e && /fetch/i.test(e.message || "") ? null : (e && e.message);
+            say(m || (LOCAL_VIEW ? localNote : "서버에 닿지 못했습니다. 잠시 뒤 다시 시도해 주세요."), "err");
+          })
           .finally(function(){ btn.disabled = false; });
       });
 
@@ -1243,7 +1255,10 @@
             if (!d.ok) throw new Error(d.error || '집계를 불러오지 못했습니다.');
             msg.hidden = true;
             var T = d.totals || {}, g = function(k){ return T[k] || 0; };
-            [['순 방문자', d.unique_visitors || 0, false],
+            // ⚠ unique_visitors 는 '오늘' 값이다 — 서버가 uniq 표에서 어제 것을 지운다.
+            //   누적과 나란히 두면 오해하므로 라벨에 기간을 밝힌다.
+            [['오늘 방문자', d.unique_visitors || 0, false],
+             ['누적 방문자', g('visit_unique'), false],
              ['전체 방문', g('visit'), true],
              ['패처 열기', g('open_patcher'), true],
              ['원본 판별', g('detect_total'), true],
@@ -1266,7 +1281,11 @@
             bars('웹 패처로 패치한 횟수', pa.sort(byCount));
             bars('파일 내려받기', dl.sort(byCount));
           })
-          .catch(function(e){ msg.textContent = '집계 서버에 연결하지 못했습니다. (' + (e.message || e) + ')'; });
+          .catch(function(e){
+            msg.hidden = false;
+            msg.textContent = LOCAL_VIEW ? localNote
+              : '집계 서버에 연결하지 못했습니다. (' + (e.message || e) + ')';
+          });
       };
     })();
 
