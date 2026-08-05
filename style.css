@@ -3660,3 +3660,14 @@ body::after {
   .fbrand { grid-template-columns: 56px auto; column-gap: 14px; }
   .fbrand img { width: 56px; height: 56px; }
 }
+
+/* 주의를 끌어야 하는 콜아웃. --warn 은 .patcher-page 안에만 있어서 값을 직접 쓴다. */
+.board-callout.warn { border-left-color: #e8b64c; }
+.board-callout.warn .lab { color: #e8b64c; }
+.board-callout .sm {
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--muted);
+  opacity: 0.82;
+}
