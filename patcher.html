@@ -271,24 +271,96 @@ async function handle(file) {
   $('#result').classList.add('hide');
   if (!MANIFEST) { show('<div class="note bad">매니페스트를 아직 못 읽었습니다.</div>'); return; }
 
+  const g = MANIFEST.geometry;
+  // 데이터 트랙 raw 구간. 전체 파일 해시는 오디오가 조금만 달라도 바뀌어서
+  // 판별에 못 쓴다 — 립 방식만 다른 덤프를 가려내려고 이 구간을 따로 센다.
+  const T0 = g.data_track_lba * RAW;
+  const T1 = (g.data_track_lba + g.data_track_sectors) * RAW;
+
   const CH = 1 << 22;
-  let crc = 0, done = 0;
+  let crc = 0, tcrc = 0, done = 0;
   for (let off = 0; off < file.size; off += CH) {
-    const buf = new Uint8Array(await file.slice(off, Math.min(off + CH, file.size)).arrayBuffer());
+    const end = Math.min(off + CH, file.size);
+    const buf = new Uint8Array(await file.slice(off, end).arrayBuffer());
     crc = crc32(buf, crc);
+    // 이 청크가 데이터 트랙과 겹치는 부분만 따로 누적한다 (추가 읽기 없음)
+    const a = Math.max(off, T0), b = Math.min(end, T1);
+    if (a < b) tcrc = crc32(buf.subarray(a - off, b - off), tcrc);
     done += buf.length;
     prog(done / file.size * 100, `살펴보는 중… ${mb(done)} / ${mb(file.size)}`);
   }
   const hex = crc.toString(16).padStart(8, '0');
+  const thex = file.size >= T1 ? tcrc.toString(16).padStart(8, '0') : null;
   prog(100, '판별 완료');
 
+  // 1) 전체가 일치 — 제작 때 확인한 판이다
   const hit = MANIFEST.sources.find(s =>
     s.input.crc32 === hex && s.input.size === file.size);
+  if (hit) {
+    if (BEACON) BEACON({type: 'detect', mode: hit.id});
+    known(file, hit);
+    return;
+  }
 
-  if (BEACON) BEACON({type: 'detect', mode: hit ? hit.id : 'unknown'});
+  // 2) 전체는 다른데 데이터 트랙이 같다 — 립이 다를 뿐 게임 데이터는 같은 판.
+  //    패치는 듣지만 이 판으로 실제 확인한 적은 없으므로 그렇다고 밝히고 물어본다.
+  const near = thex && MANIFEST.sources.find(s => s.input.track_crc32 === thex);
+  if (near) {
+    if (BEACON) BEACON({type: 'detect', mode: 'near'});
+    nearMatch(file, near, hex, thex);
+    return;
+  }
 
-  if (!hit) { unknown(file, hex); return; }
-  known(file, hit);
+  // 3) 둘 다 모른다
+  if (BEACON) BEACON({type: 'detect', mode: 'unknown'});
+  unknown(file, hex, thex);
+}
+
+/* 데이터 트랙만 일치하는 경우.
+   여기서 바로 패치하지 않고 한 번 묻는다 — 제작 때 확인하지 않은 판이라
+   "된다" 고 말할 수 없다. 사용자가 알고 고르게 한다. */
+function nearMatch(file, src, hex, thex) {
+  show(`
+    <div class="panel">
+      <h3 style="margin-top:0; color:var(--warn)">아마 될 것 같습니다 — 다만 확인된 판은 아닙니다</h3>
+      <p>넣으신 파일은 제작 때 확인한 판과 <b>크기나 전체 해시가 다릅니다.</b>
+        그런데 <b>게임 데이터가 든 부분은 ${src.label} 과 똑같습니다.</b>
+        립 방식이 달라 오디오 트랙 배치만 다른 경우로 보입니다.</p>
+      <dl class="kv">
+        <dt>파일</dt><dd>${file.name}</dd>
+        <dt>크기</dt><dd>${fmt(file.size)} B <span style="color:var(--dim)">(확인된 판 ${fmt(src.input.size)} B)</span></dd>
+        <dt>전체 CRC32</dt><dd class="mono">${hex} <span style="color:var(--dim)">≠ ${src.input.crc32}</span></dd>
+        <dt>데이터 트랙</dt><dd class="mono" style="color:var(--em)">${thex} = 일치</dd>
+      </dl>
+
+      <div class="note warn" style="margin-top:16px">
+        <b>이 판으로는 검증하지 않았습니다.</b>
+        패치 자체는 적용되지만, 실제로 게임이 끝까지 정상 동작하는지는 확인된 바 없습니다.
+      </div>
+
+      <p style="margin:18px 0 0">
+        <button class="btn primary" id="go">그래도 진행하기</button>
+        <a class="btn" href="index.html#board" target="_blank" rel="noopener">먼저 알려주기</a>
+      </p>
+
+      <h3>이래도 안 될 수 있습니다</h3>
+      <div class="panel" style="background:#0a1310">
+        <table>
+          <tr><td style="width:34%"><b>소리가 어긋난다</b></td>
+              <td>오디오 트랙 수나 순서가 원본과 다르면 음악이 다른 곡으로 나오거나 끊길 수 있습니다.</td></tr>
+          <tr><td><b>실행이 안 된다</b></td>
+              <td>가지고 계신 <code>.cue</code> 의 트랙 배치가 이 이미지와 맞아야 합니다.
+                  저희가 드리는 <code>.cue</code> 는 확인된 판 기준이라 맞지 않을 수 있습니다.</td></tr>
+          <tr><td><b>중간에 멈춘다</b></td>
+              <td>데이터 트랙은 같아도 트랙 시작 위치가 다르면 그럴 수 있습니다.</td></tr>
+        </table>
+        <p style="margin:12px 0 0; font-size:13px; color:var(--dim)">
+          그럴 때는 <b>확인된 판</b>(초판 또는 Rev 1)을 구하시는 편이 확실합니다.
+          위 정보를 알려 주시면 이 판도 목록에 추가하겠습니다.
+        </p>
+      </div>
+    </div>`);
+  $('#go').onclick = () => apply(file, src);
 }
 
 // ── 아는 판 ────────────────────────────────────────────────
@@ -352,8 +424,8 @@ function reportNote(extra) {
 }
 
 // ── 모르는 판 ──────────────────────────────────────────────
-function unknown(file, hex) {
-  const info = `파일명: ${file.name}\n크기: ${file.size}\nCRC32: ${hex}`;
+function unknown(file, hex, thex) {
+  const info = `파일명: ${file.name}\n크기: ${file.size}\nCRC32: ${hex}\n데이터트랙: ${thex || '(계산 못함 — 파일이 잘렸을 수 있음)'}`;
   show(`
     <div class="panel">
       <h3 style="margin-top:0; color:var(--warn)">모르는 판입니다</h3>

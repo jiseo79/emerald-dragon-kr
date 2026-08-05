@@ -11,7 +11,7 @@
  "result": {
   "cooked_sha256": "1a8931113be780c8b5c24eb9680523829f127e509a39914ed74376937bef5f57",
   "raw_size": 774506544,
-  "raw_sha256": "640e45ebab1806e8091f0e33100762830005a82e2ba31fbae7177d6bb5064e3b"
+  "raw_sha256": null
  },
  "sources": [
   {
@@ -22,7 +22,8 @@
     "crc32": "e623b691",
     "md5": "bacc4b20e23921686b320cce35c70af3",
     "sha1": "4911ae9da102aaab15f696ae19e30b07a154752b",
-    "sha256": "b8da49dd4a695dc8282330a55efd7b56146c21bf350d61f9e94c778c07271df9"
+    "sha256": "b8da49dd4a695dc8282330a55efd7b56146c21bf350d61f9e94c778c07271df9",
+    "track_crc32": "b1647f3b"
    },
    "patch": {
     "file": "patch/emdr-ko-v0.6-rev1.bin.gz",
@@ -32,8 +33,7 @@
    },
    "xdelta": {
     "file": "xdelta/emdr-ko-v0.6-rev1.xdelta"
-   },
-   "chain": "A · Rev 1"
+   }
   },
   {
    "id": "rev0",
@@ -43,7 +43,8 @@
     "crc32": "d21402df",
     "md5": "f29b3d85ca2c1771fb2477a743714483",
     "sha1": "16efb994053fc00dc9fd0727c160fdc9f445915e",
-    "sha256": "0c7edf216fe9bede1714a0ba065054c8f405db24e709317fa9b26d7202f83954"
+    "sha256": "0c7edf216fe9bede1714a0ba065054c8f405db24e709317fa9b26d7202f83954",
+    "track_crc32": "d3a065b1"
    },
    "patch": {
     "file": "patch/emdr-ko-v0.6-rev0.bin.gz",
@@ -53,8 +54,7 @@
    },
    "xdelta": {
     "file": "xdelta/emdr-ko-v0.6-rev0.xdelta"
-   },
-   "chain": "B · 초판"
+   }
   }
  ],
  "voice": null,
