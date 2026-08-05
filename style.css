@@ -3671,3 +3671,6 @@ body::after {
   color: var(--muted);
   opacity: 0.82;
 }
+
+/* 콜아웃 안에서 한 번 더 눈에 걸려야 하는 문장 (카드 호환 경고 등) */
+.board-callout .hl { color: #e8b64c; }
