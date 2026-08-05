@@ -34,7 +34,7 @@
 
   EmeraldDragon_KO.img
     크기   774,506,544 B
-    sha256 640e45ebab1806e8091f0e33100762830005a82e2ba31fbae7177d6bb5064e3b
+    sha256 dc72d280c30ea336a2116aa447ac541d3ff46f4175fcdc7a67f6498ba01c415d
 
 [시스템 카드]
 

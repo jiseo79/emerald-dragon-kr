@@ -28,15 +28,15 @@
   "voice": null,
   "downloads": {
     "xdelta-rev1": {
-      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6/emdr-ko-v0.6-rev1.xdelta",
+      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6.1/emdr-ko-v0.6.1-rev1.xdelta",
       "size": "495 KB"
     },
     "xdelta-rev0": {
-      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6/emdr-ko-v0.6-rev0.xdelta",
+      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6.1/emdr-ko-v0.6.1-rev0.xdelta",
       "size": "712 KB"
     },
     "syscard": {
-      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6/emdr-ko-v0.6-syscard.xdelta",
+      "url": "https://github.com/jiseo79/emerald-dragon-kr/releases/download/v0.6.1/emdr-ko-v0.6.1-syscard.xdelta",
       "size": "30 KB"
     }
   }
