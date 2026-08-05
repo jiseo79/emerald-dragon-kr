@@ -3335,8 +3335,26 @@ body::after {
   .edition-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .edition-fact:nth-child(3) { border-left: 0; }
   .edition-fact:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
-  .page-tabs { top: 64px; }
-  .page-tabs .tab { font-size: 12.5px; margin-right: 18px; padding: 14px 3px; }
+  /* 가로 스크롤은 뒤에 탭이 더 있다는 걸 모르면 영영 못 본다.
+     좁은 화면에서는 줄바꿈으로 전부 펼친다 (이스 IV 와 같은 방식). */
+  .page-tabs-inner {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    gap: 0 6px;
+    padding: 5px 5vw 7px;
+  }
+  .page-tabs .tab {
+    font-size: 12.5px;
+    margin-right: 0;
+    padding: 9px 8px;
+  }
+}
+
+/* 탭이 붙는 자리는 헤더 높이를 그대로 따라가야 한다.
+   전에는 900px 이하에서 top:64px 로 바꿔 놨는데, 헤더는 760px 이하에서만
+   66px 로 줄어든다 — 그 사이 구간에서 탭이 헤더에 겹쳐 있었다. */
+@media (max-width: 760px) {
+  .page-tabs { top: 66px; }
 }
 
 /* ── 탭을 첫 화면에 들이고, 누를 것처럼 보이게 ──────────────────────
