@@ -47,7 +47,7 @@
       <div class="hero-grid">
         <div class="hero-copy reveal">
           <div class="eyebrow"><span>PC ENGINE</span><i></i><span>SUPER CD-ROM²</span></div>
-          <p class="status-line"><span class="status-dot"></span> 한국어 패치 v0.6</p>
+          <p class="status-line"><span class="status-dot"></span> 한국어 패치 <span data-ver>v0.6</span></p>
           <h1>에메랄드 드래곤<span>한글화</span></h1>
           <p class="hero-description">1994년 PC Engine 판입니다. 대사·메뉴와 함께, <b>원작에서 음성만 나오던 컷신에 스프라이트 한국어 자막을 새로 구현했습니다.</b></p>
           <div class="hero-actions">
@@ -457,11 +457,63 @@
   <main class="release-page" id="release-panel" data-panel="release" hidden>
     <div class="library-hero">
       <p class="section-index">RELEASE NOTES</p>
-      <h1>v0.6</h1>
-      <p>첫 공개입니다. 본편을 처음부터 끝까지 한국어로 진행할 수 있습니다. 아직 다듬을 곳이 남았지만, 여기서부터는 같이 보는 편이 빠르겠다 싶었습니다.</p>
+      <h1>v0.6.1</h1>
+      <p>공개 뒤 들어온 신고를 반영했습니다. 자막이 깨지던 두 곳을 고쳤고, 여태 못 알아보던 판들을 알아보게 했습니다.</p>
     </div>
 
     <div class="rel-body">
+      <div class="rel-thanks">
+        <p class="rel-thanks-h">알려주신 분들</p>
+        <p><b class="tk">SSGG</b> 님 · <b class="tk">원썬파파</b> 님 · <b class="tk">아돌크리스틴</b> 님 ·
+          <b class="tk">닉네임</b> 님</p>
+        <p class="rel-thanks-n">화면 사진과 파일 정보까지 붙여 주셔서 원인을 바로 찾을 수 있었습니다.
+          아래 고친 것들이 전부 그 신고에서 나왔습니다. 고맙습니다.</p>
+      </div>
+
+      <h2 class="rel-h">고친 것</h2>
+      <ul class="tick rel-summary">
+        <li><b>인게임 자막이 깨지던 문제</b> — 필드에서 백룡이 말할 때처럼, 대화창이 아닌 자막이
+          흰 네모로 나오던 것. 컷신 자막과 인게임 자막은 렌더러가 따로인데 한글 경로가 인게임 쪽에
+          연결돼 있지 않았습니다 <span class="rel-by">SSGG 님</span></li>
+        <li><b>컷신 배경에 글자 조각이 남던 문제</b> — 석양 장면 등. 자막이 쓰던 스프라이트 자리가
+          원래 배경 그림의 일부였고, 영문판은 그 위를 검은 띠로 덮어 가리고 있었습니다.
+          저희가 띠를 걷으면서 드러났습니다 <span class="rel-by">SSGG 님</span></li>
+        <li><b>못 알아보던 판</b> — 데이터 트랙 위치가 다른 이미지도 이제 알아봅니다.
+          아래 <b>다른 판을 넣으셨을 때</b> 참고 <span class="rel-by">원썬파파 님 · 아돌크리스틴 님</span></li>
+        <li><b>신고할 때 사진·세이브를 끌어다 놓을 수 있습니다</b></li>
+      </ul>
+
+      <h2 class="rel-h">에뮬레이터마다 시스템 카드 위치가 다릅니다</h2>
+      <p class="rel-lead"><b>한자가 나온다면 카드가 잘못 물린 것입니다.</b>
+        게임은 도는데 글자만 한자로 보인다면, <b>이스 IV 한국어판 카드</b>가 물려 있을 가능성이 큽니다.
+        두 카드 모두 부팅 검사는 통과하지만, 이스 IV 카드에는 이 게임이 쓰는 글꼴이 없습니다.</p>
+      <ul class="tick">
+        <li><b>순정 카드였다면 아예 진행되지 않습니다</b> — 부팅 안내 화면에서 멈춥니다.
+          게임이 돌아가고 있다면 순정은 아닙니다</li>
+        <li><b>에뮬레이터마다 카드를 읽는 자리가 다릅니다.</b> 한쪽에서 정상인데 다른 쪽에서 한자가
+          나온다면, 그 에뮬레이터에 옛 카드가 남아 있는 것입니다</li>
+        <li><b>레트로아크는 버전과 기기에 따라 경로가 다릅니다</b> — 보통 <code>system/</code> 이지만,
+          기기나 프론트엔드에 따라 다른 곳을 볼 수 있습니다. 설정에서 실제 경로를 확인하세요</li>
+        <li>두 게임을 오가실 때는 <b>카드를 바꿔 끼우셔야 합니다</b>. 파일 이름이 같아서
+          덮어쓰기 쉬우니 따로 보관해 두시는 편이 안전합니다</li>
+      </ul>
+
+      <h2 class="rel-h">다른 판을 넣으셨을 때</h2>
+      <p class="rel-lead">웹 패처가 <b>파일 안에서 데이터 트랙 위치를 직접 찾아냅니다.</b>
+        pregap 을 빼고 뜬 립처럼 트랙이 다른 자리에서 시작하는 이미지도 이제 알아봅니다.
+        게임 데이터가 같으면 패치는 그대로 적용됩니다.</p>
+      <ul class="tick">
+        <li><b>저희가 드리는 <code>.cue</code> 를 쓰지 마세요.</b> 트랙 배치가 확인된 판 기준이라
+          맞지 않습니다. <b>원래 함께 있던 <code>.cue</code>·<code>.ccd</code></b> 를 그대로 쓰고
+          파일 이름만 결과물에 맞춰 바꾸세요</li>
+        <li><b>소리가 어긋나거나 중간에 멈출 수 있습니다.</b> 게임 데이터가 같아도 오디오 트랙 수나
+          순서가 다르면 음악이 다른 곡으로 나오거나 끊길 수 있습니다</li>
+        <li><b>확인된 판으로 만든 세이브와 섞어 쓰지 마세요.</b></li>
+        <li>이런 판은 <b>저희가 실제로 확인한 적이 없습니다.</b> 패처가 그렇다고 밝히고 한 번 물어봅니다.
+          진행하셨다가 문제가 생기면 알려 주세요 — 그 판을 목록에 추가하겠습니다</li>
+      </ul>
+
+      <h2 class="rel-h">v0.6 — 첫 공개</h2>
       <ul class="tick rel-summary">
         <li><b>대사·메뉴·아이템·지명</b> 12,600여 항목, <b>화자 이름표</b> 9,500여 행</li>
         <li><b>자막 없이 음성만 나오던 컷신</b> — 한국어 자막 35개 장면 505줄을 스프라이트로 구현했습니다</li>
@@ -479,8 +531,8 @@
         <li><b>스태프롤 · 슬롯 · 사격 게임 · 오류 화면</b> — 별도 모듈이라 한글 렌더러가 안 닿습니다</li>
       </ul>
 
-      <h2 class="rel-h">이전 판</h2>
-      <p class="rel-lead">v0.6 이 첫 공개입니다. 그 앞은 내부 빌드였습니다.</p>
+      <h2 class="rel-h">더 이전</h2>
+      <p class="rel-lead">v0.6 이 첫 공개였습니다. 그 앞은 내부 빌드였습니다.</p>
       <p class="rel-foot" style="margin:0 0 20px">이 패치는 <b>Supper · cccmar · Oddoai-sama</b> 의 영문 번역 패치(2025) 위에서 만들었습니다. 원작은 <b>Glodia</b>(1989), PC Engine 이식은 <b>Alfa System</b>(1994) 입니다.</p>
       <div class="rel-past">
         <div><b>v0.5.2</b><span>한글 타이틀 · 음성 컷신 스프라이트 자막 복구 · 레트로아크 패키지</span></div>
@@ -857,7 +909,7 @@
     <div class="library-grid">
       <article class="game-card game-card-current">
         <div class="game-visual emerald-visual"><img src="img/shot-title.png" alt="에메랄드 드래곤 한국어 타이틀"><span>V0.6 AVAILABLE</span></div>
-        <div class="game-copy"><p>PC ENGINE · SUPER CD-ROM²</p><h2>에메랄드 드래곤</h2><span>한국어 패치 · v0.6</span><p>대사·메뉴와 함께, 원작에서 음성만 나오던 컷신에 스프라이트 한국어 자막을 구현했습니다. 초판·Rev 1 자동 판별 웹 패처를 제공합니다.</p><button class="text-link" type="button" data-tab="project">현재 페이지 보기 <span aria-hidden="true">→</span></button></div>
+        <div class="game-copy"><p>PC ENGINE · SUPER CD-ROM²</p><h2>에메랄드 드래곤</h2><span>한국어 패치 · <span data-ver>v0.6</span></span><p>대사·메뉴와 함께, 원작에서 음성만 나오던 컷신에 스프라이트 한국어 자막을 구현했습니다. 초판·Rev 1 자동 판별 웹 패처를 제공합니다.</p><button class="text-link" type="button" data-tab="project">현재 페이지 보기 <span aria-hidden="true">→</span></button></div>
       </article>
       <article class="game-card">
         <div class="game-visual ys-visual"><img src="https://jiseo79.github.io/ys4pce-kr/img/ys4-title-screen.jpg" alt="이스 IV 한국어판 타이틀 화면" loading="lazy" referrerpolicy="no-referrer"><span>RELEASED · V0.9.5</span></div>
@@ -872,7 +924,7 @@
         <div class="fbrand">
           <img src="img/mars-drive-logo.png" alt="Mars-Drive 로고" width="72" height="72">
           <div class="mark">MARS<i>–</i>DRIVE</div>
-          <small>TopperJI · 에메랄드 드래곤 한국어 패치 · v0.6 · 2026</small>
+          <small>TopperJI · 에메랄드 드래곤 한국어 패치 · <span data-ver>v0.6</span> · 2026</small>
           <small class="contact"><a href="https://blog.naver.com/hyper1234/224366574643" target="_blank" rel="noopener noreferrer">블로그 — 한글화 이야기 ↗</a></small>
         </div>
 
@@ -1539,7 +1591,18 @@
             a.removeAttribute('aria-disabled');
             a.setAttribute('rel', 'noopener noreferrer');
             if (e.size) a.title = e.size;
+            // 파일명 표시도 여기서 채운다. HTML 에 박아 두면 판올림마다 손으로 고쳐야 하고,
+            // 실제로 v0.6 -> v0.6.1 때 화면 곳곳에 옛 버전이 남았다.
+            if (a.classList.contains('dlname')) {
+              var nm = e.url.split('/').pop();
+              if (nm) a.textContent = nm;
+            }
           });
+
+          // 화면 곳곳의 버전 라벨. links.json 의 version 하나만 고치면 따라온다.
+          if (cfg.version) {
+            document.querySelectorAll('[data-ver]').forEach(el => { el.textContent = cfg.version; });
+          }
 
           // 탭 배지는 신고 탭을 열기 전에도 보여야 하므로 여기서 한 번 부른다.
           if (cfg.board && cfg.board.url && window.__boardBadge) window.__boardBadge(cfg.board.url);

@@ -3722,3 +3722,39 @@ body::after {
   font-size: 10.5px;
   letter-spacing: 0.08em;
 }
+
+/* 릴리스 노트 — 신고해 주신 분들 */
+.rel-thanks {
+  width: 100%;
+  padding: 20px 22px;
+  margin-bottom: 34px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--emerald);
+  background: rgba(84, 245, 139, 0.04);
+}
+.rel-thanks-h {
+  margin: 0 0 10px;
+  color: var(--emerald);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rel-thanks p { margin: 0; color: var(--cream); font-size: 15px; line-height: 1.9; }
+.rel-thanks .tk { color: var(--emerald); font-weight: 700; }
+.rel-thanks-n {
+  margin-top: 10px !important;
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  word-break: keep-all;
+}
+/* 어느 신고에서 나온 항목인지 */
+.rel-by {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border: 1px solid rgba(84, 245, 139, 0.32);
+  color: var(--emerald);
+  font-size: 11px;
+  white-space: nowrap;
+}

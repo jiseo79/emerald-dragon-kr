@@ -13,7 +13,7 @@
 <header class="topbar">
   <div class="wrap">
     <a href="index.html#patch">← 배포 페이지로 돌아가기</a>
-    <span class="catalog">에메랄드 드래곤 한국어판 <b>v0.6</b></span>
+    <span class="catalog">에메랄드 드래곤 한국어판 <b data-ver>v0.6</b></span>
   </div>
 </header>
 
@@ -263,7 +263,12 @@ let BEACON = null;
 fetch('links.json', {cache: 'no-cache'})
   .then(r => r.ok ? r.json() : null)
   .then(cfg => {
-    if (!cfg || !cfg.stats_api) return;
+    if (!cfg) return;
+    // 화면의 버전 라벨. links.json 하나만 고치면 따라온다.
+    if (cfg.version) {
+      document.querySelectorAll('[data-ver]').forEach(el => { el.textContent = cfg.version; });
+    }
+    if (!cfg.stats_api) return;
     const API = cfg.stats_api, VER = cfg.version || 'v0.6';
     BEACON = (params) => {
       try {
