@@ -146,6 +146,22 @@
 // ───────────────────────────────────────────────────────────
 const RAW = 2352, USER = 2048, EDC_OFS = 2064, ECC_OFS = 2076;
 
+// 데이터 섹터의 sync 패턴. 오디오 트랙에는 이 12바이트가 나오지 않는다.
+// 앞 24 MB 만 훑는다 — 이 게임의 데이터 트랙은 립이 어떻든 그 안에서 시작한다
+// (원본 기준 8.4 MB, pregap 을 뺀 립도 그보다 앞이다).
+const SYNC = [0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00];
+const SCAN_LIMIT = 24 << 20;
+function findSync(buf) {
+  const n = buf.length - 12;
+  for (let i = 0; i <= n; i++) {
+    if (buf[i] !== 0x00 || buf[i + 11] !== 0x00 || buf[i + 1] !== 0xFF) continue;
+    let ok = true;
+    for (let k = 2; k < 11; k++) if (buf[i + k] !== 0xFF) { ok = false; break; }
+    if (ok) return i;
+  }
+  return -1;
+}
+
 // ── CRC32 (판별용) ─────────────────────────────────────────
 const CRC_TAB = (() => {
   const t = new Uint32Array(256);
@@ -290,7 +306,7 @@ async function handle(file) {
   const T1 = (g.data_track_lba + g.data_track_sectors) * RAW;
 
   const CH = 1 << 22;
-  let crc = 0, tcrc = 0, done = 0;
+  let crc = 0, tcrc = 0, done = 0, syncAt = -1, tail = null;
   for (let off = 0; off < file.size; off += CH) {
     const end = Math.min(off + CH, file.size);
     const buf = new Uint8Array(await file.slice(off, end).arrayBuffer());
@@ -298,6 +314,23 @@ async function handle(file) {
     // 이 청크가 데이터 트랙과 겹치는 부분만 따로 누적한다 (추가 읽기 없음)
     const a = Math.max(off, T0), b = Math.min(end, T1);
     if (a < b) tcrc = crc32(buf.subarray(a - off, b - off), tcrc);
+    // 첫 데이터 섹터의 sync 를 같은 패스에서 찾아 둔다. 립마다 pregap 처리가
+    // 달라 데이터 트랙이 3596 이 아닌 곳에서 시작하는데, 그러면 위 tcrc 는
+    // 엉뚱한 구간을 읽은 값이 된다. 여기서 찾아 두면 4) 에서 다시 잰다.
+    if (syncAt < 0 && off < SCAN_LIMIT) {
+      // 청크 경계에 걸친 sync 도 놓치지 않게 앞 청크의 꼬리 11바이트를 이어 본다
+      if (tail) {
+        const j = new Uint8Array(22);
+        j.set(tail); j.set(buf.subarray(0, 11), 11);
+        const k = findSync(j);
+        if (k >= 0) syncAt = off - 11 + k;
+      }
+      if (syncAt < 0) {
+        const i = findSync(buf);
+        if (i >= 0) syncAt = off + i;
+      }
+      tail = buf.slice(Math.max(0, buf.length - 11));
+    }
     done += buf.length;
     prog(done / file.size * 100, `살펴보는 중… ${mb(done)} / ${mb(file.size)}`);
   }
@@ -338,9 +371,62 @@ async function handle(file) {
     return;
   }
 
-  // 4) 아무것도 안 맞는다
+  // 4) 데이터 트랙이 3596 이 아닌 곳에서 시작하는 립.
+  //    3) 이 실패한 뒤에만 돈다 — 데이터 트랙을 한 번 더 읽어야 해서다.
+  if (syncAt >= 0) {
+    const at = await trackStartFromSync(file, syncAt);
+    if (at >= 0 && at !== T0 && at + T1 - T0 <= file.size) {
+      prog(0, '데이터 트랙 위치를 다시 잡는 중…');
+      const ohex = await trackCrc(file, at, T1 - T0);
+      const off = MANIFEST.sources.find(s => s.input.track_crc32 === ohex);
+      if (off) {
+        if (BEACON) BEACON({type: 'detect', mode: 'offset'});
+        nearMatch(file, off, hex, ohex, at);
+        return;
+      }
+    }
+  }
+
+  // 5) 아무것도 안 맞는다
   if (BEACON) BEACON({type: 'detect', mode: 'unknown'});
   unknown(file, hex, thex);
+}
+
+/* 첫 데이터 섹터의 sync 를 기준으로 데이터 트랙 시작 오프셋을 구한다.
+
+   섹터 헤더에는 그 섹터의 **절대 MSF** 가 BCD 로 박혀 있다. 그러니 파일 어디서
+   시작하든 헤더만 읽으면 "이 섹터가 절대 LBA 몇 번인지" 를 알 수 있고,
+   거기서 데이터 트랙 시작(3596)까지의 거리를 계산할 수 있다.
+
+     데이터트랙 오프셋 = sync오프셋 + (3596 - 헤더의절대LBA) × 2352
+
+   측정으로 확인: 원본 Rev 1 의 첫 sync 는 오프셋 7,914,480(= pregap 시작,
+   절대 LBA 3365) 이고, 위 식이 8,457,792 = 3596 × 2352 를 정확히 낸다.
+   pregap 을 빼고 뜬 립은 첫 sync 자체가 3596 이라 (3596-3596)=0 이 된다. */
+async function trackStartFromSync(file, syncAt) {
+  const g = MANIFEST.geometry;
+  const s = new Uint8Array(await file.slice(syncAt, syncAt + 16).arrayBuffer());
+  if (s.length < 16) return -1;
+  const bcd = b => (b >> 4) * 10 + (b & 0x0F);
+  const mode = s[15];
+  if (mode !== 1 && mode !== 2) return -1;          // 헤더가 아니다
+  const m = bcd(s[12]), sec = bcd(s[13]), fr = bcd(s[14]);
+  if (sec > 59 || fr > 74) return -1;               // BCD 가 깨졌다
+  const absLba = (m * 60 + sec) * 75 + fr - 150;
+  const at = syncAt + (g.data_track_lba - absLba) * RAW;
+  return at >= 0 ? at : -1;
+}
+
+/* 주어진 오프셋부터 len 바이트의 CRC32. 4) 에서만 쓴다. */
+async function trackCrc(file, at, len) {
+  const CH = 1 << 22;
+  let c = 0;
+  for (let o = 0; o < len; o += CH) {
+    const n = Math.min(CH, len - o);
+    c = crc32(new Uint8Array(await file.slice(at + o, at + o + n).arrayBuffer()), c);
+    prog(o / len * 100, `데이터 트랙 확인 중… ${mb(o)} / ${mb(len)}`);
+  }
+  return (c >>> 0).toString(16).padStart(8, '0');
 }
 
 /* 데이터 트랙만 담긴 파일.
@@ -413,18 +499,25 @@ function dataOnly(file, who, isCooked, hex) {
 /* 데이터 트랙만 일치하는 경우.
    여기서 바로 패치하지 않고 한 번 묻는다 — 제작 때 확인하지 않은 판이라
    "된다" 고 말할 수 없다. 사용자가 알고 고르게 한다. */
-function nearMatch(file, src, hex, thex) {
+function nearMatch(file, src, hex, thex, at) {
+  const g = MANIFEST.geometry;
+  const shifted = at !== undefined && at !== g.data_track_lba * RAW;
+  const lba = shifted ? Math.round(at / RAW) : g.data_track_lba;
   show(`
     <div class="panel">
       <h3 style="margin-top:0; color:var(--warn)">아마 될 것 같습니다 — 다만 확인된 판은 아닙니다</h3>
       <p>넣으신 파일은 제작 때 확인한 판과 <b>크기나 전체 해시가 다릅니다.</b>
         그런데 <b>게임 데이터가 든 부분은 ${src.label} 과 똑같습니다.</b>
-        립 방식이 달라 오디오 트랙 배치만 다른 경우로 보입니다.</p>
+        ${shifted
+          ? `데이터 트랙이 <b>파일 안 다른 위치에서 시작합니다</b> — pregap 을 빼고 뜬 립으로 보입니다.`
+          : `립 방식이 달라 오디오 트랙 배치만 다른 경우로 보입니다.`}</p>
       <dl class="kv">
         <dt>파일</dt><dd>${file.name}</dd>
         <dt>크기</dt><dd>${fmt(file.size)} B <span style="color:var(--dim)">(확인된 판 ${fmt(src.input.size)} B)</span></dd>
         <dt>전체 CRC32</dt><dd class="mono">${hex} <span style="color:var(--dim)">≠ ${src.input.crc32}</span></dd>
         <dt>데이터 트랙</dt><dd class="mono" style="color:var(--em)">${thex} = 일치</dd>
+        ${shifted ? `<dt>트랙 시작</dt><dd class="mono">파일 LBA ${fmt(lba)}
+          <span style="color:var(--dim)">(확인된 판 ${fmt(g.data_track_lba)})</span></dd>` : ''}
       </dl>
 
       <div class="note warn" style="margin-top:16px">
@@ -440,13 +533,21 @@ function nearMatch(file, src, hex, thex) {
       <h3>이래도 안 될 수 있습니다</h3>
       <div class="panel" style="background:#0a1310">
         <table>
+          ${shifted ? `
+          <tr><td style="width:34%"><b>저희 <code>.cue</code> 를 쓰면 안 됩니다</b></td>
+              <td>이 파일은 트랙 배치가 확인된 판과 다릅니다. <b>원래 함께 있던
+                  <code>.cue</code>/<code>.ccd</code> 를 그대로 쓰세요.</b> 파일 이름만
+                  결과물에 맞춰 바꾸시면 됩니다. 저희 <code>.cue</code> 를 쓰면 트랙 위치가
+                  어긋나 소리가 엉키거나 실행이 안 됩니다.</td></tr>` : ''}
           <tr><td style="width:34%"><b>소리가 어긋난다</b></td>
               <td>오디오 트랙 수나 순서가 원본과 다르면 음악이 다른 곡으로 나오거나 끊길 수 있습니다.</td></tr>
           <tr><td><b>실행이 안 된다</b></td>
               <td>가지고 계신 <code>.cue</code> 의 트랙 배치가 이 이미지와 맞아야 합니다.
                   저희가 드리는 <code>.cue</code> 는 확인된 판 기준이라 맞지 않을 수 있습니다.</td></tr>
           <tr><td><b>중간에 멈춘다</b></td>
-              <td>데이터 트랙은 같아도 트랙 시작 위치가 다르면 그럴 수 있습니다.</td></tr>
+              <td>게임 데이터는 같아도 오디오 트랙이 빠졌거나 잘렸으면 그 지점에서 멈출 수 있습니다.</td></tr>
+          <tr><td><b>세이브가 안 맞는다</b></td>
+              <td>확인된 판에서 만든 세이브와 섞어 쓰지 마세요.</td></tr>
         </table>
         <p style="margin:12px 0 0; font-size:13px; color:var(--dim)">
           그럴 때는 <b>확인된 판</b>(초판 또는 Rev 1)을 구하시는 편이 확실합니다.
@@ -454,7 +555,7 @@ function nearMatch(file, src, hex, thex) {
         </p>
       </div>
     </div>`);
-  $('#go').onclick = () => apply(file, src);
+  $('#go').onclick = () => apply(file, src, at);
 }
 
 // ── 아는 판 ────────────────────────────────────────────────
@@ -556,8 +657,8 @@ function unknown(file, hex, thex) {
 }
 
 // ── 2단계: 적용 ────────────────────────────────────────────
-async function apply(file, src) {
-  try { await applyInner(file, src); }
+async function apply(file, src, at) {
+  try { await applyInner(file, src, at); }
   catch (e) {
     // 여기까지 왔다는 건 판별은 됐는데 적용 중에 깨진 것이다.
     // 진행 바만 멈춘 채 두면 사용자는 무엇이 잘못됐는지 알 수 없다.
@@ -586,7 +687,7 @@ async function apply(file, src) {
   }
 }
 
-async function applyInner(file, src) {
+async function applyInner(file, src, at) {
   const g = MANIFEST.geometry;
   prog(0, '패치를 내려받는 중…');
 
@@ -611,8 +712,10 @@ async function applyInner(file, src) {
   }
   prog(5, `${fmt(patch.size)} 섹터를 갈아 끼웁니다…`);
 
-  const dataStart = g.data_track_lba * RAW;
-  const dataEnd   = (g.data_track_lba + g.data_track_sectors) * RAW;
+  // 데이터 트랙 시작. 립마다 pregap 처리가 달라 3596 이 아닐 수 있어서,
+  // 판별 단계가 찾아낸 값(at)이 있으면 그것을 쓴다.
+  const dataStart = (at !== undefined && at >= 0) ? at : g.data_track_lba * RAW;
+  const dataEnd   = dataStart + g.data_track_sectors * RAW;
   const parts = [];
   const CH = 1 << 22;
 

@@ -3674,3 +3674,51 @@ body::after {
 
 /* 콜아웃 안에서 한 번 더 눈에 걸려야 하는 문장 (카드 호환 경고 등) */
 .board-callout .hl { color: #e8b64c; }
+
+/* 신고 폼 — 사진·세이브 끌어다 놓기.
+   input 을 감싸지 않고 위에 따로 둔다. 감싸면 클릭 판정이 겹친다. */
+.bf-drop {
+  display: block;
+  width: 100%;
+  padding: 20px 18px;
+  margin-bottom: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.02);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.bf-drop:hover, .bf-drop:focus-visible {
+  border-color: var(--emerald);
+  background: rgba(84, 245, 139, 0.05);
+}
+.bf-drop.over {
+  border-color: var(--emerald);
+  border-style: solid;
+  background: rgba(84, 245, 139, 0.11);
+}
+.bf-drop b { display: block; font-size: 14px; }
+.bf-drop small {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.bf-picked {
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  font-size: 12px;
+}
+.bf-picked ul { margin: 0; padding-left: 16px; }
+.bf-picked li { color: var(--muted); line-height: 1.7; }
+.bf-picked li b { color: var(--cream); font-weight: 600; }
+.bf-picked .bf-kind {
+  display: inline-block;
+  min-width: 44px;
+  margin-right: 6px;
+  color: var(--emerald);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+}

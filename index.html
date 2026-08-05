@@ -800,6 +800,11 @@
         placeholder="예) 이슈반 성 안에서 대사가 상자 밖으로 나감"></label>
       <label class="bf-full">내용 <textarea name="body" rows="6" maxlength="4000" required
         placeholder="어느 장면인지, 어떻게 하면 다시 나타나는지 적어 주시면 큰 도움이 됩니다."></textarea></label>
+      <div class="bf-drop" id="bf-drop" tabindex="0">
+        <b>사진과 세이브를 여기로 끌어다 놓으세요</b>
+        <small>이미지인지 세이브인지 알아서 나눕니다 — 아래에서 직접 고르셔도 됩니다</small>
+      </div>
+      <div class="bf-picked" id="bf-picked" hidden></div>
       <label class="bf-full">화면 사진 <span class="bf-hint" id="bf-imghint">PNG · JPEG · GIF · WebP, 최대 3장, 장당 5MB</span>
         <input type="file" name="images[]" id="bf-files" accept="image/png,image/jpeg,image/gif,image/webp" multiple></label>
       <label class="bf-full">세이브 파일 <span class="bf-hint" id="bf-savehint">선택 — 있으면 훨씬 빨리 고칩니다</span>
@@ -1270,6 +1275,83 @@
             pagerEl.hidden = true;
           });
       }
+
+      /* 끌어다 놓기. 이미지인지 아닌지로 갈라 두 input 에 나눠 넣는다.
+         input.files 는 DataTransfer 로만 바꿀 수 있어서 그렇게 한다.
+         FormData(form) 이 input 을 그대로 읽으므로 전송 쪽은 손댈 게 없다. */
+      (function(){
+        var dz = $("bf-drop"), imgIn = $("bf-files"), savIn = $("bf-save"),
+            picked = $("bf-picked");
+        if (!dz || !imgIn || !savIn) return;
+
+        function setFiles(input, list){
+          var dt = new DataTransfer();
+          list.forEach(function(f){ dt.items.add(f); });
+          input.files = dt.files;
+        }
+        function kb(n){
+          return n < 1048576 ? Math.max(1, Math.round(n / 1024)) + " KB"
+                             : (n / 1048576).toFixed(1) + " MB";
+        }
+        function render(){
+          var rows = [];
+          Array.prototype.forEach.call(imgIn.files, function(f){
+            rows.push(['사진', f.name, f.size]);
+          });
+          Array.prototype.forEach.call(savIn.files, function(f){
+            rows.push(['세이브', f.name, f.size]);
+          });
+          if (!rows.length){ picked.hidden = true; picked.innerHTML = ""; return; }
+          var ul = document.createElement("ul");
+          rows.forEach(function(r){
+            var li = document.createElement("li");
+            var k = document.createElement("span");
+            k.className = "bf-kind"; k.textContent = r[0];
+            var b = document.createElement("b"); b.textContent = r[1];
+            li.appendChild(k); li.appendChild(b);
+            li.appendChild(document.createTextNode("  " + kb(r[2])));
+            ul.appendChild(li);
+          });
+          picked.innerHTML = ""; picked.appendChild(ul);
+          picked.hidden = false;
+        }
+
+        function take(fileList){
+          var maxImg = (meta && meta.max_images) || 3;
+          var imgs = Array.prototype.slice.call(imgIn.files);
+          var savs = Array.prototype.slice.call(savIn.files);
+          var over = false;
+          Array.prototype.forEach.call(fileList, function(f){
+            if (/^image\//.test(f.type)) {
+              if (imgs.length < maxImg) imgs.push(f); else over = true;
+            } else {
+              savs = [f];            // 세이브는 서버가 한 개만 받는다
+            }
+          });
+          setFiles(imgIn, imgs);
+          setFiles(savIn, savs);
+          render();
+          if (over) say("이미지는 최대 " + maxImg + "장까지입니다. 넘는 것은 넣지 않았습니다.", "err");
+        }
+
+        dz.addEventListener("click", function(){ imgIn.click(); });
+        dz.addEventListener("keydown", function(e){
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); imgIn.click(); }
+        });
+        ["dragenter","dragover"].forEach(function(t){
+          dz.addEventListener(t, function(e){ e.preventDefault(); dz.classList.add("over"); });
+        });
+        ["dragleave","dragend"].forEach(function(t){
+          dz.addEventListener(t, function(){ dz.classList.remove("over"); });
+        });
+        dz.addEventListener("drop", function(e){
+          e.preventDefault(); dz.classList.remove("over");
+          if (e.dataTransfer && e.dataTransfer.files.length) take(e.dataTransfer.files);
+        });
+        imgIn.addEventListener("change", render);
+        savIn.addEventListener("change", render);
+        form.addEventListener("reset", function(){ setTimeout(render, 0); });
+      })();
 
       form.addEventListener("submit", function(ev){
         ev.preventDefault();
