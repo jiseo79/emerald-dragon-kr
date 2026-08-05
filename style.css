@@ -3922,3 +3922,41 @@ body::after {
   letter-spacing: 0.14em;
 }
 @media (max-width: 560px) { .rel-ver h2 { font-size: 27px; } }
+
+/* 릴리스 노트 — 이번 판에 들어온 문의를 모아 답하는 박스 */
+.rel-ask {
+  margin: 32px 0 0;
+  padding: 24px 26px;
+  border: 1px solid var(--line);
+  border-left: 3px solid #e8b64c;
+  background: rgba(232, 182, 76, 0.045);
+}
+.rel-ask-h {
+  margin: 0 0 6px;
+  color: #e8b64c;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rel-ask h4 {
+  margin: 22px 0 8px;
+  color: var(--cream);
+  font-size: 16px;
+}
+.rel-ask h4:first-of-type { margin-top: 14px; }
+.rel-ask p {
+  margin: 0 0 9px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.85;
+  word-break: keep-all;
+}
+.rel-ask p b { color: var(--cream); }
+.rel-ask .rel-ask-n {
+  margin: 12px 0 0;
+  padding-left: 12px;
+  border-left: 1px solid var(--line);
+  font-size: 13px;
+}
+@media (max-width: 560px) { .rel-ask { padding: 20px 18px; } }
