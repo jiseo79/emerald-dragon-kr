@@ -1361,10 +1361,13 @@
         var LABEL = {
           'dl_xdelta-rev1':'xdelta · Rev 1', 'dl_xdelta-rev0':'xdelta · 초판',
           dl_syscard:'시스템 카드', dl_checksums:'체크섬', dl_unknown:'기타',
-          patch_rev1_ok:'Rev 1', patch_rev0_ok:'초판',
+          patch_rev1_ok:'Rev 1', patch_rev0_ok:'초판', patch_rev1b_ok:'Rev 1 · 다른 립',
           patch_rev1_fail:'Rev 1 (실패)', patch_rev0_fail:'초판 (실패)',
+          patch_rev1b_fail:'Rev 1 · 다른 립 (실패)',
           patch_unknown_ok:'모르는 판', patch_unknown_fail:'모르는 판 (실패)',
-          detect_rev1:'Rev 1', detect_rev0:'초판', detect_unknown:'모르는 덤프'
+          detect_rev1:'Rev 1', detect_rev0:'초판', detect_rev1b:'Rev 1 · 다른 립',
+          detect_near:'근접 (데이터 트랙만 일치)', detect_dataonly:'오디오 빠진 파일',
+          detect_unknown:'모르는 덤프'
         };
         function el(tag, cls, txt){
           var e = document.createElement(tag);

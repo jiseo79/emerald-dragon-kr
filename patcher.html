@@ -470,14 +470,22 @@ function known(file, src) {
       </dl>
       <p style="margin:18px 0 0">
         <button class="btn primary" id="go">패치 적용하기</button>
-        <a class="btn" id="xd" href="index.html#patch">xdelta 로 직접 하기</a>
+        ${src.xdelta ? '<a class="btn" id="xd" href="index.html#patch">xdelta 로 직접 하기</a>' : ''}
       </p>
+      ${src.xdelta ? `
       <p style="margin-top:12px; font-size:13px; color:var(--dim)">
-        xdelta 를 쓰신다면 배포 페이지의 <b>${src.chain}</b> 항목,
+        xdelta 를 쓰신다면 배포 페이지의 <b>${src.label}</b> 항목,
         <code>${src.xdelta.file.split('/').pop()}</code> 입니다.
-      </p>
+      </p>` : `
+      <div class="note" style="margin-top:16px">
+        <b>이 판은 웹 패처로만 됩니다.</b> xdelta 는 원본이 바이트 단위로 똑같아야 하는데,
+        이 판은 게임 데이터는 같고 <b>오디오 트랙이 다릅니다</b> — 그래서 xdelta3 가 원본을
+        거부합니다. 여기서 그냥 진행하시면 됩니다.
+      </div>`}
     </div>`);
   $('#go').onclick = () => apply(file, src);
+  // xdelta 가 없는 판은 아래 링크 보정도 건너뛴다
+  if (!src.xdelta) return;
 
   /* xdelta 는 GitHub Releases 에 있다 — manifest 의 상대 경로로 두면 404 다.
      links.json 의 주소를 받아 '바로 받기' 로 바꾼다. 판별이 끝나 어느 파일인지

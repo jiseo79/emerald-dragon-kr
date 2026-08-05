@@ -57,6 +57,23 @@
       "xdelta": {
         "file": "xdelta/emdr-ko-v0.6-rev0.xdelta"
       }
+    },
+    {
+      "id": "rev1b",
+      "label": "Emerald Dragon (Japan) (Rev 1) — 오디오만 다른 립",
+      "note": "신고 #9 로 확인. 크기와 데이터 트랙이 Rev 1 과 같고 전체 해시만 다르다. md5/sha1/sha256 은 원본 파일이 없어 비워 둔다 — 판별은 crc32+size 로만 한다.",
+      "input": {
+        "size": 774506544,
+        "crc32": "cf0ca987",
+        "track_crc32": "b1647f3b",
+        "track_cooked_crc32": "f9b6749f"
+      },
+      "patch": {
+        "file": "patch/emdr-ko-v0.6-rev1.bin.gz",
+        "sectors": 1775,
+        "gz_size": 1627016,
+        "sha256": "4edd45e992e9923b75df801c38b645055c6421b4b5810336659b3c44c3dc6040"
+      }
     }
   ],
   "voice": null,
