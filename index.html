@@ -1410,7 +1410,7 @@
              ['전체 방문', g('visit'), true],
              ['패처 열기', g('open_patcher'), true],
              ['웹 패처로 패치', g('patch_total'), false],
-             ['파일 받아감', g('dl_total'), false]
+             ['다운로드', g('dl_total'), false]
             ].forEach(function(c){
               var k = el('div', 'kpi' + (c[2] ? ' q' : ''));
               k.appendChild(el('b', null, c[1].toLocaleString()));
@@ -1427,7 +1427,7 @@
             bars('웹 패처가 알아본 원본', de.sort(byCount),
                  '"모르는 덤프" 가 쌓이면 아직 알려지지 않은 판이 돌고 있다는 뜻입니다.');
             bars('웹 패처로 패치 — 어느 판에서', pa.sort(byCount));
-            bars('파일 받아감 — 무엇을', dl.sort(byCount),
+            bars('다운로드 — 무엇을', dl.sort(byCount),
                  'xdelta 로 직접 하시는 분과 시스템 카드만 받아 가시는 분이 여기 잡힙니다.');
           })
           .catch(function(e){
