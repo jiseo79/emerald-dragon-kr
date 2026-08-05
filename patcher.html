@@ -334,6 +334,23 @@ function known(file, src) {
     .catch(() => { /* 못 받으면 배포 페이지 링크가 그대로 남는다 */ });
 }
 
+
+/* 모르는 판·실패를 알려 주실 때 쓰는 안내.
+   ⚠ 게임 이미지(롬)는 받지 않는다. 774 MB 를 넘겨받는 순간
+     "원본을 포함하지 않는다 / 파일이 서버로 가지 않는다" 가 거짓이 된다.
+     새 판을 지원하는 데 필요한 것은 크기·CRC32 뿐이고, 그건 아래 정보에 다 있다. */
+function reportNote(extra) {
+  return `<div class="note" style="margin-top:16px">
+      <b>알려 주시면 반영합니다.</b> 위 정보를 복사해
+      <a href="index.html#board" target="_blank" rel="noopener">버그 신고</a> 에 남겨 주세요.
+      확인해서 다음 판올림에 그 판을 추가하겠습니다.${extra || ''}
+      <p style="margin:10px 0 0; font-size:13px; color:var(--dim)">
+        <b>게임 이미지 파일은 보내지 마세요.</b> 받지 않습니다 —
+        새 판을 지원하는 데 필요한 것은 위의 크기와 CRC32 뿐입니다.
+      </p>
+    </div>`;
+}
+
 // ── 모르는 판 ──────────────────────────────────────────────
 function unknown(file, hex) {
   const info = `파일명: ${file.name}\n크기: ${file.size}\nCRC32: ${hex}`;
@@ -356,6 +373,7 @@ function unknown(file, hex) {
         <b>흔한 원인:</b> <code>.cue</code> 나 트랙별로 나뉜 파일을 넣으셨을 수 있습니다.
         트랙이 하나로 합쳐진 <code>.bin</code> 을 넣어 주세요.
       </div>
+      ${reportNote()}
     </div>`);
   $('#copy').onclick = e => {
     navigator.clipboard.writeText(info);
@@ -365,11 +383,41 @@ function unknown(file, hex) {
 
 // ── 2단계: 적용 ────────────────────────────────────────────
 async function apply(file, src) {
+  try { await applyInner(file, src); }
+  catch (e) {
+    // 여기까지 왔다는 건 판별은 됐는데 적용 중에 깨진 것이다.
+    // 진행 바만 멈춘 채 두면 사용자는 무엇이 잘못됐는지 알 수 없다.
+    if (BEACON) BEACON({type: 'patch', mode: src.id, ok: '0'});
+    show(`<div class="panel">
+      <h3 style="margin-top:0; color:var(--bad)">패치를 마치지 못했습니다</h3>
+      <p>적용 도중 멈췄습니다. 메모리가 모자라거나 파일을 읽는 중 끊겼을 때 이렇게 됩니다.</p>
+      <pre><code id="info">판: ${src.label}
+파일: ${file.name}
+크기: ${file.size}
+오류: ${(e && e.message) || e}</code></pre>
+      <p><button class="btn" id="copy">정보 복사</button>
+         <a class="btn" href="index.html#patch">xdelta 로 해보기</a></p>
+      <div class="note warn" style="margin-top:14px">
+        <b>먼저 해보실 것:</b> 다른 탭을 닫고 다시 시도해 보세요.
+        774 MB 를 다루므로 메모리에 여유가 필요합니다.
+        그래도 안 되면 <b>xdelta</b> 로 적용하시면 됩니다 — 같은 결과가 나옵니다.
+      </div>
+      ${reportNote()}
+    </div>`);
+    var b = $('#copy');
+    if (b) b.onclick = ev => {
+      navigator.clipboard.writeText($('#info').textContent);
+      ev.target.textContent = '복사했습니다';
+    };
+  }
+}
+
+async function applyInner(file, src) {
   const g = MANIFEST.geometry;
   prog(0, '패치를 내려받는 중…');
 
   const res = await fetch(src.patch.file);
-  if (!res.ok) { show('<div class="note bad">패치 파일을 못 받았습니다.</div>'); return; }
+  if (!res.ok) throw new Error('패치 파일을 못 받았습니다 (' + res.status + ')');
   let raw;
   if (typeof DecompressionStream === 'function') {
     raw = new Uint8Array(await new Response(
