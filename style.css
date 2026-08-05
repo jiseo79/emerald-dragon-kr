@@ -3960,3 +3960,34 @@ body::after {
   font-size: 13px;
 }
 @media (max-width: 560px) { .rel-ask { padding: 20px 18px; } }
+
+/* 릴리스 노트 — 고친 것을 보여 주는 화면 사진 */
+.rel-shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin: 26px 0 0;
+}
+.rel-shots figure { margin: 0; }
+.rel-shots img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  background: #000;
+  image-rendering: pixelated;
+}
+.rel-shots figcaption {
+  margin-top: 9px;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.rel-shots figcaption b {
+  display: block;
+  color: var(--emerald);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.rel-shots figcaption span { color: var(--muted); }
