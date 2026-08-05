@@ -14,7 +14,7 @@
     "",
     "version 값이 페이지 표시 버전과 집계 버전을 정합니다 — 여기만 고치면 됩니다."
   ],
-  "version": "v0.6",
+  "version": "v0.6.1",
   "board": {
     "url": "https://topperji.com/koPatch-ED/board/api.php"
   },

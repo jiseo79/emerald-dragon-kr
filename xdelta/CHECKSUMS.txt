@@ -1,4 +1,4 @@
-에메랄드 드래곤 한국어판 v0.6 — 체크섬
+에메랄드 드래곤 한국어판 v0.6.1 — 체크섬
 ====================================================
 
 [원본 이미지]  아래 둘 중 하나가 필요합니다.
@@ -10,7 +10,7 @@
     md5    bacc4b20e23921686b320cce35c70af3
     sha1   4911ae9da102aaab15f696ae19e30b07a154752b
     sha256 b8da49dd4a695dc8282330a55efd7b56146c21bf350d61f9e94c778c07271df9
-    -> emdr-ko-v0.6-rev1.xdelta
+    -> emdr-ko-v0.6.1-rev1.xdelta
 
   Emerald Dragon (Japan)
     크기   774,506,544 B
@@ -18,25 +18,17 @@
     md5    f29b3d85ca2c1771fb2477a743714483
     sha1   16efb994053fc00dc9fd0727c160fdc9f445915e
     sha256 0c7edf216fe9bede1714a0ba065054c8f405db24e709317fa9b26d7202f83954
-    -> emdr-ko-v0.6-rev0.xdelta
+    -> emdr-ko-v0.6.1-rev0.xdelta
 
 [패치 파일]  GitHub Releases 에 있습니다.
 
-  emdr-ko-v0.6-rev1.xdelta
-    크기   506,639 B
-    sha256 9ca743e3e27dc3f71a36010297e662a96dd71909913c3c292f78bff20111d571
+  emdr-ko-v0.6.1-rev1.bin.gz   (웹 패처용, 사이트에 포함)
+    크기   1,627,089 B
+    sha256 bcbfbf263c1e22e3975e6f4dff8bacf55d8a0c3ea8641fb2e40342f05d372a96
 
-  emdr-ko-v0.6-rev1.bin.gz   (웹 패처용, 사이트에 포함)
-    크기   1,627,016 B
-    sha256 4edd45e992e9923b75df801c38b645055c6421b4b5810336659b3c44c3dc6040
-
-  emdr-ko-v0.6-rev0.xdelta
-    크기   729,348 B
-    sha256 a2c1b256b5ff240dbbbbadcf705e2a1eb11d31ccf41ccdb6171e22a806a1d098
-
-  emdr-ko-v0.6-rev0.bin.gz   (웹 패처용, 사이트에 포함)
-    크기   2,076,589 B
-    sha256 fd0984258774f8d34719afc2a3fd3628a4ba3696485cb00ad13ff4668ad3b35a
+  emdr-ko-v0.6.1-rev0.bin.gz   (웹 패처용, 사이트에 포함)
+    크기   2,076,759 B
+    sha256 ee949b8391385af0934b52e8151189377c4847f0241f80ae74ab9b974891ca65
 
 [결과물]
 
@@ -47,10 +39,6 @@
 [시스템 카드]
 
   카드 파일 자체는 배포하지 않습니다 — 순정 카드에 적용하는 패치만 냅니다.
-
-  emdr-ko-v0.6-syscard.xdelta
-    크기   30,238 B
-    sha256 7871c4d00c45159cea02390303c58a32e43185ff0b496b84124949390db0cc45
 
   적용 대상 (순정 Super System Card 3.0)
     크기   262,144 B
@@ -63,4 +51,4 @@
 
 적용 예:
   xdelta3 -d -s "Emerald Dragon (Japan)(Rev 1).bin" \
-          emdr-ko-v0.6-rev1.xdelta EmeraldDragon_KO.img
+          emdr-ko-v0.6.1-rev1.xdelta EmeraldDragon_KO.img
