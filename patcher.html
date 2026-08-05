@@ -20,7 +20,7 @@
 <header>
   <div class="wrap">
     <h1><span class="em">웹 패처</span></h1>
-    <p class="sub">원본을 넣으면 어느 판인지 알아서 판별합니다</p>
+    <p class="sub">원본을 넣으면 어느 덤프인지 알아서 판별합니다</p>
   </div>
 </header>
 
@@ -95,17 +95,17 @@
     <div class="panel">
       <table>
         <tr><td style="width:26%"><b>판별</b></td>
-            <td>넣으신 파일의 크기와 CRC32 를 계산해 어느 판인지 알아냅니다.</td></tr>
+            <td>넣으신 파일의 크기와 CRC32 를 계산해 어느 덤프인지 알아냅니다.</td></tr>
         <tr><td><b>적용</b></td>
-            <td>아는 판이면 바뀐 섹터만 갈아 끼우고 EDC·ECC 를 다시 계산합니다.
+            <td>아는 덤프면 바뀐 섹터만 갈아 끼우고 EDC·ECC 를 다시 계산합니다.
                 오디오 트랙은 손대지 않습니다.</td></tr>
         <tr><td><b>안내</b></td>
             <td>xdelta 로 직접 하실 분께는 <b>어느 파일을 받아야 하는지</b> 알려 드립니다.</td></tr>
       </table>
     </div>
     <div class="note">
-      모르는 판이면 해시를 보여 드립니다. 그걸 알려주시면
-      그 판에 맞는 패치를 만들어 추가할 수 있습니다.
+      모르는 덤프면 해시를 보여 드립니다. 그걸 알려주시면
+      그 덤프에 맞는 패치를 만들어 추가할 수 있습니다.
     </div>
 
     <h3>무엇이 나가고 무엇이 안 나가나</h3>
@@ -116,7 +116,7 @@
                 패치는 전부 이 브라우저 안에서 끝납니다.</td></tr>
         <tr><td><b>나가는 것</b></td>
             <td>얼마나 쓰이는지 세려고 <b>"초판인지 Rev 1인지"</b> 와 성공 여부만 보냅니다.
-                어느 판인지 세는 것이지 <b>누구인지 세는 것이 아닙니다.</b>
+                어느 덤프인지 세는 것이지 <b>누구인지 세는 것이 아닙니다.</b>
                 <a href="index.html#stats">집계 보기</a></td></tr>
       </table>
       <p style="margin:12px 0 0; font-size:13px; color:var(--dim)">
@@ -343,7 +343,7 @@ async function handle(file) {
   const thex = file.size >= T1 ? tcrc.toString(16).padStart(8, '0') : null;
   prog(100, '판별 완료');
 
-  // 1) 전체가 일치 — 제작 때 확인한 판이다
+  // 1) 전체가 일치 — 제작 때 확인한 덤프다
   const hit = MANIFEST.sources.find(s =>
     s.input.crc32 === hex && s.input.size === file.size);
   if (hit) {
@@ -367,8 +367,8 @@ async function handle(file) {
     return;
   }
 
-  // 3) 전체는 다른데 데이터 트랙이 같다 — 립이 다를 뿐 게임 데이터는 같은 판.
-  //    패치는 듣지만 이 판으로 실제 확인한 적은 없으므로 그렇다고 밝히고 물어본다.
+  // 3) 전체는 다른데 데이터 트랙이 같다 — 립이 다를 뿐 게임 데이터는 같은 덤프.
+  //    패치는 듣지만 이 덤프로 실제 확인한 적은 없으므로 그렇다고 밝히고 물어본다.
   const near = thex && MANIFEST.sources.find(s => s.input.track_crc32 === thex);
   if (near) {
     if (BEACON) BEACON({type: 'detect', mode: 'near'});
@@ -438,7 +438,7 @@ async function trackCrc(file, at, len) {
    패치는 기술적으로 넣을 수 있지만 넣어 드리지 않는다 — 음악이 통째로 없는
    결과물을 만들어 주는 셈이고, 빠진 오디오를 우리가 채우면 그건 원본 재배포다.
    대신 **무엇이 빠졌고 어떻게 만들면 되는지**를 정확히 알려 준다.
-   지금까지 이런 파일은 전부 "모르는 판" 으로 떨어져서, 받은 사람은 자기 파일이
+   지금까지 이런 파일은 전부 "모르는 덤프" 로 떨어져서, 받은 사람은 자기 파일이
    왜 안 되는지 알 길이 없었다. */
 function dataOnly(file, who, isCooked, hex) {
   const g = MANIFEST.geometry;
@@ -496,13 +496,13 @@ function dataOnly(file, who, isCooked, hex) {
         <button class="btn primary" id="again">다른 파일 넣기</button>
       </p>
     </div>`);
-  // 여기서는 reportNote() 를 쓰지 않는다 — 이건 모르는 판이 아니라 잘린 파일이라,
+  // 여기서는 reportNote() 를 쓰지 않는다 — 이건 모르는 덤프가 아니라 잘린 파일이라,
   // "다음 판올림에 추가하겠습니다" 가 지킬 수 없는 약속이 된다.
   $('#again').onclick = () => fileInput.click();
 }
 
 /* 데이터 트랙만 일치하는 경우.
-   여기서 바로 패치하지 않고 한 번 묻는다 — 제작 때 확인하지 않은 판이라
+   여기서 바로 패치하지 않고 한 번 묻는다 — 제작 때 확인하지 않은 덤프가라
    "된다" 고 말할 수 없다. 사용자가 알고 고르게 한다. */
 function nearMatch(file, src, hex, thex, at) {
   const g = MANIFEST.geometry;
@@ -510,23 +510,23 @@ function nearMatch(file, src, hex, thex, at) {
   const lba = shifted ? Math.round(at / RAW) : g.data_track_lba;
   show(`
     <div class="panel">
-      <h3 style="margin-top:0; color:var(--warn)">아마 될 것 같습니다 — 다만 확인된 판은 아닙니다</h3>
-      <p>넣으신 파일은 제작 때 확인한 판과 <b>크기나 전체 해시가 다릅니다.</b>
+      <h3 style="margin-top:0; color:var(--warn)">아마 될 것 같습니다 — 다만 확인된 덤프는 아닙니다</h3>
+      <p>넣으신 파일은 제작 때 확인한 덤프와 <b>크기나 전체 해시가 다릅니다.</b>
         그런데 <b>게임 데이터가 든 부분은 ${src.label} 과 똑같습니다.</b>
         ${shifted
           ? `데이터 트랙이 <b>파일 안 다른 위치에서 시작합니다</b> — pregap 을 빼고 뜬 립으로 보입니다.`
           : `립 방식이 달라 오디오 트랙 배치만 다른 경우로 보입니다.`}</p>
       <dl class="kv">
         <dt>파일</dt><dd>${file.name}</dd>
-        <dt>크기</dt><dd>${fmt(file.size)} B <span style="color:var(--dim)">(확인된 판 ${fmt(src.input.size)} B)</span></dd>
+        <dt>크기</dt><dd>${fmt(file.size)} B <span style="color:var(--dim)">(확인된 덤프 ${fmt(src.input.size)} B)</span></dd>
         <dt>전체 CRC32</dt><dd class="mono">${hex} <span style="color:var(--dim)">≠ ${src.input.crc32}</span></dd>
         <dt>데이터 트랙</dt><dd class="mono" style="color:var(--em)">${thex} = 일치</dd>
         ${shifted ? `<dt>트랙 시작</dt><dd class="mono">파일 LBA ${fmt(lba)}
-          <span style="color:var(--dim)">(확인된 판 ${fmt(g.data_track_lba)})</span></dd>` : ''}
+          <span style="color:var(--dim)">(확인된 덤프 ${fmt(g.data_track_lba)})</span></dd>` : ''}
       </dl>
 
       <div class="note warn" style="margin-top:16px">
-        <b>이 판으로는 검증하지 않았습니다.</b>
+        <b>이 덤프로는 검증하지 않았습니다.</b>
         패치 자체는 적용되지만, 실제로 게임이 끝까지 정상 동작하는지는 확인된 바 없습니다.
       </div>
 
@@ -539,31 +539,31 @@ function nearMatch(file, src, hex, thex, at) {
       <div class="panel" style="background:#0a1310">
         <table>
           ${shifted ? `
-          <tr><td style="width:34%"><b>저희 <code>.cue</code> 를 쓰면 안 됩니다</b></td>
-              <td>이 파일은 트랙 배치가 확인된 판과 다릅니다. <b>원래 함께 있던
+          <tr><td style="width:34%"><b>이 페이지의 <code>.cue</code> 를 쓰면 안 됩니다</b></td>
+              <td>이 파일은 트랙 배치가 확인된 덤프와 다릅니다. <b>원래 함께 있던
                   <code>.cue</code>/<code>.ccd</code> 를 그대로 쓰세요.</b> 파일 이름만
-                  결과물에 맞춰 바꾸시면 됩니다. 저희 <code>.cue</code> 를 쓰면 트랙 위치가
+                  결과물에 맞춰 바꾸시면 됩니다. 이 페이지의 <code>.cue</code> 를 쓰면 트랙 위치가
                   어긋나 소리가 엉키거나 실행이 안 됩니다.</td></tr>` : ''}
           <tr><td style="width:34%"><b>소리가 어긋난다</b></td>
               <td>오디오 트랙 수나 순서가 원본과 다르면 음악이 다른 곡으로 나오거나 끊길 수 있습니다.</td></tr>
           <tr><td><b>실행이 안 된다</b></td>
               <td>가지고 계신 <code>.cue</code> 의 트랙 배치가 이 이미지와 맞아야 합니다.
-                  저희가 드리는 <code>.cue</code> 는 확인된 판 기준이라 맞지 않을 수 있습니다.</td></tr>
+                  여기서 받으시는 <code>.cue</code> 는 확인된 덤프 기준이라 맞지 않을 수 있습니다.</td></tr>
           <tr><td><b>중간에 멈춘다</b></td>
               <td>게임 데이터는 같아도 오디오 트랙이 빠졌거나 잘렸으면 그 지점에서 멈출 수 있습니다.</td></tr>
           <tr><td><b>세이브가 안 맞는다</b></td>
-              <td>확인된 판에서 만든 세이브와 섞어 쓰지 마세요.</td></tr>
+              <td>확인된 덤프에서 만든 세이브와 섞어 쓰지 마세요.</td></tr>
         </table>
         <p style="margin:12px 0 0; font-size:13px; color:var(--dim)">
-          그럴 때는 <b>확인된 판</b>(초판 또는 Rev 1)을 구하시는 편이 확실합니다.
-          위 정보를 알려 주시면 이 판도 목록에 추가하겠습니다.
+          그럴 때는 <b>확인된 덤프</b>(초판 또는 Rev 1)을 구하시는 편이 확실합니다.
+          위 정보를 알려 주시면 이 덤프도 목록에 추가하겠습니다.
         </p>
       </div>
     </div>`);
   $('#go').onclick = () => apply(file, src, at);
 }
 
-// ── 아는 판 ────────────────────────────────────────────────
+// ── 아는 덤프 ────────────────────────────────────────────────
 function known(file, src) {
   show(`
     <div class="panel">
@@ -584,13 +584,13 @@ function known(file, src) {
         <code>${src.xdelta.file.split('/').pop()}</code> 입니다.
       </p>` : `
       <div class="note" style="margin-top:16px">
-        <b>이 판은 웹 패처로만 됩니다.</b> xdelta 는 원본이 바이트 단위로 똑같아야 하는데,
-        이 판은 게임 데이터는 같고 <b>오디오 트랙이 다릅니다</b> — 그래서 xdelta3 가 원본을
+        <b>이 덤프는 웹 패처로만 됩니다.</b> xdelta 는 원본이 바이트 단위로 똑같아야 하는데,
+        이 덤프는 게임 데이터는 같고 <b>오디오 트랙이 다릅니다</b> — 그래서 xdelta3 가 원본을
         거부합니다. 여기서 그냥 진행하시면 됩니다.
       </div>`}
     </div>`);
   $('#go').onclick = () => apply(file, src);
-  // xdelta 가 없는 판은 아래 링크 보정도 건너뛴다
+  // xdelta 가 없는 덤프는 아래 링크 보정도 건너뛴다
   if (!src.xdelta) return;
 
   /* xdelta 는 GitHub Releases 에 있다 — manifest 의 상대 경로로 두면 404 다.
@@ -615,35 +615,35 @@ function known(file, src) {
 }
 
 
-/* 모르는 판·실패를 알려 주실 때 쓰는 안내.
+/* 모르는 덤프·실패를 알려 주실 때 쓰는 안내.
    ⚠ 게임 이미지(롬)는 받지 않는다. 774 MB 를 넘겨받는 순간
      "원본을 포함하지 않는다 / 파일이 서버로 가지 않는다" 가 거짓이 된다.
-     새 판을 지원하는 데 필요한 것은 크기·CRC32 뿐이고, 그건 아래 정보에 다 있다. */
+     새 덤프를 지원하는 데 필요한 것은 크기·CRC32 뿐이고, 그건 아래 정보에 다 있다. */
 function reportNote(extra) {
   return `<div class="note" style="margin-top:16px">
       <b>알려 주시면 반영합니다.</b> 위 정보를 복사해
       <a href="index.html#board" target="_blank" rel="noopener">버그 신고</a> 에 남겨 주세요.
-      확인해서 다음 판올림에 그 판을 추가하겠습니다.${extra || ''}
+      확인해서 다음 판올림에 그 덤프를 추가하겠습니다.${extra || ''}
       <p style="margin:10px 0 0; font-size:13px; color:var(--dim)">
         <b>게임 이미지 파일은 보내지 마세요.</b> 받지 않습니다 —
-        새 판을 지원하는 데 필요한 것은 위의 크기와 CRC32 뿐입니다.
+        새 덤프를 지원하는 데 필요한 것은 위의 크기와 CRC32 뿐입니다.
       </p>
     </div>`;
 }
 
-// ── 모르는 판 ──────────────────────────────────────────────
+// ── 모르는 덤프 ──────────────────────────────────────────────
 function unknown(file, hex, thex) {
   const info = `파일명: ${file.name}\n크기: ${file.size}\nCRC32: ${hex}\n데이터트랙: ${thex || '(계산 못함 — 파일이 잘렸을 수 있음)'}`;
   show(`
     <div class="panel">
-      <h3 style="margin-top:0; color:var(--warn)">모르는 판입니다</h3>
+      <h3 style="margin-top:0; color:var(--warn)">모르는 덤프입니다</h3>
       <p>가지고 계신 이미지가 아직 목록에 없습니다. 아래 정보를 알려주시면
-      그 판에 맞는 패치를 만들 수 있습니다.</p>
+      그 덤프에 맞는 패치를 만들 수 있습니다.</p>
       <pre><code id="info">${info}</code></pre>
       <p><button class="btn" id="copy">정보 복사</button></p>
-      <h3>아는 판 목록</h3>
+      <h3>아는 덤프 목록</h3>
       <table>
-        <tr><th>판</th><th>CRC32</th><th class="num">크기</th></tr>
+        <tr><th>덤프</th><th>CRC32</th><th class="num">크기</th></tr>
         ${MANIFEST.sources.map(s => `<tr>
           <td>${s.label}</td>
           <td class="mono">${s.input.crc32}</td>
@@ -671,7 +671,7 @@ async function apply(file, src, at) {
     show(`<div class="panel">
       <h3 style="margin-top:0; color:var(--bad)">패치를 마치지 못했습니다</h3>
       <p>적용 도중 멈췄습니다. 메모리가 모자라거나 파일을 읽는 중 끊겼을 때 이렇게 됩니다.</p>
-      <pre><code id="info">판: ${src.label}
+      <pre><code id="info">덤프: ${src.label}
 파일: ${file.name}
 크기: ${file.size}
 오류: ${(e && e.message) || e}</code></pre>
@@ -836,7 +836,7 @@ async function applyInner(file, src, at) {
       throw new Error(`${fmt(stock.length)} 바이트입니다 — 순정 syscard3.pce 는 ${fmt(srcLen)} 바이트(256 KB)여야 합니다`);
     const gotSrc = hex(await crypto.subtle.digest('SHA-256', stock));
     if (gotSrc !== srcSha)
-      throw new Error('순정 Super System Card 3.0 이 아닙니다. 다른 판이거나 이미 개조된 카드로 보입니다.\n'
+      throw new Error('순정 Super System Card 3.0 이 아닙니다. 다른 덤프거나 이미 개조된 카드로 보입니다.\n'
         + `이 파일: ${gotSrc.slice(0,16)}…  /  필요한 파일: ${srcSha.slice(0,16)}…`);
 
     // COPY 를 먼저 전부 적용한 뒤 LITERAL 을 이어 붙인다 (생성기와 같은 순서)
