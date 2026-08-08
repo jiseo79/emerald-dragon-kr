@@ -809,15 +809,32 @@ async function applyInner(file, src, at) {
   const hex = (buf) => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2,'0')).join('');
   const scLog = (m) => { scLogEl.hidden = false; scLogEl.textContent += m + '\n'; };
 
-  let recipePromise = null;
-  function getRecipe() {
-    if (!recipePromise) {
-      recipePromise = fetch('assets/card.recipe.gz')
+  /* 순정 카드가 한 종이 아니다.
+     BIOS 코드는 같은데 한자 폰트 일부(3,414 글리프 중 877개)가 다른 덤프가 돈다.
+     레시피는 COPY 로 순정 한자 획을 오려다 한글 글리프를 조립하므로, 그 획이 다르면
+     결과가 어긋난다 — 그래서 덤프마다 레시피가 따로 필요하다.
+     결과 카드는 어느 쪽이든 같다 (sha256 3417e86f…). */
+  const RECIPES = ['assets/card.recipe.gz', 'assets/card.recipe.b.gz'];
+  const recipeCache = new Map();
+  function loadRecipe(url) {
+    if (!recipeCache.has(url)) {
+      recipeCache.set(url, fetch(url)
         .then(r => { if (!r.ok) throw new Error('레시피를 못 받았습니다'); return r.body; })
         .then(body => new Response(body.pipeThrough(new DecompressionStream('gzip'))).arrayBuffer())
-        .then(b => new Uint8Array(b));
+        .then(b => new Uint8Array(b)));
     }
-    return recipePromise;
+    return recipeCache.get(url);
+  }
+  /* 넣은 카드의 sha256 에 맞는 레시피를 고른다. 없으면 첫 번째를 돌려줘서
+     기존 오류 메시지(어느 파일이 필요한지 알려 준다)가 그대로 나오게 한다. */
+  async function pickRecipe(stockSha) {
+    for (const url of RECIPES) {
+      try {
+        const rec = await loadRecipe(url);
+        if (header(rec).srcSha === stockSha) return rec;
+      } catch (e) { /* 하나가 없어도 나머지로 계속 */ }
+    }
+    return loadRecipe(RECIPES[0]);
   }
 
   function header(recipe) {
@@ -860,7 +877,7 @@ async function applyInner(file, src, at) {
 
   // 고른 파일이 정말 순정인지는 '만들기 전에' 알려 준다. 256 KB 라 해시는 즉시 끝난다.
   // 검증했다는 사실이 화면에 보여야 한다 — 조용히 통과시키면 확인이 됐는지 알 길이 없다.
-  let stockBuf = null;
+  let stockBuf = null, stockRec = null;
   scIn.addEventListener('change', async () => {
     scBtn.disabled = true; scLogEl.textContent = ''; scLogEl.hidden = true;
     scRes.classList.add('hide');
@@ -868,23 +885,23 @@ async function applyInner(file, src, at) {
     if (!f) return;
     try {
       const buf = new Uint8Array(await f.arrayBuffer());
-      const rec = await getRecipe();
-      const h = header(rec);
       scLog(`크기   ${fmt(buf.length)} B`);
-      if (buf.length !== h.srcLen) throw new Error(`순정 카드는 ${fmt(h.srcLen)} 바이트여야 합니다`);
       const got = hex(await crypto.subtle.digest('SHA-256', buf));
       scLog(`sha256 ${got.slice(0,32)}…`);
+      const rec = await pickRecipe(got);        // 이 카드에 맞는 레시피
+      const h = header(rec);
+      if (buf.length !== h.srcLen) throw new Error(`순정 카드는 ${fmt(h.srcLen)} 바이트여야 합니다`);
       if (got !== h.srcSha) throw new Error('순정 Super System Card 3.0 이 아닙니다');
       scLog('✅ 순정 카드가 맞습니다. 아래 단추를 누르세요.');
-      stockBuf = buf; scBtn.disabled = false;
-    } catch (e) { scLog('❌ ' + e.message); stockBuf = null; }
+      stockBuf = buf; stockRec = rec; scBtn.disabled = false;
+    } catch (e) { scLog('❌ ' + e.message); stockBuf = null; stockRec = null; }
   });
 
   scBtn.addEventListener('click', async () => {
     scBtn.disabled = true;
     try {
       scLog('만드는 중…');
-      const { card, sha } = await buildCard(await getRecipe(), stockBuf);
+      const { card, sha } = await buildCard(stockRec, stockBuf);
       const url = URL.createObjectURL(new Blob([card], {type:'application/octet-stream'}));
       scRes.innerHTML = `<div class="note"><b>카드를 만들었습니다.</b>
         <div class="kv" style="margin-top:10px">
